@@ -791,6 +791,69 @@ body {  }
   transform: scale(1.04) translateY(-6px);
   filter: drop-shadow(0 28px 56px rgba(0,0,0,0.65)) drop-shadow(0 0 28px rgba(168,255,0,0.09));
 }</style>
+
+<style>
+
+/* Overlay oscuro */
+.gc-search-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.7); z-index: 999;
+  opacity: 0; visibility: hidden; transition: 0.3s ease;
+}
+.gc-search-overlay.active { opacity: 1; visibility: visible; }
+
+/* Panel Lateral */
+.gc-search-panel {
+  position: fixed; top: 0; right: -400px; width: 100%; max-width: 350px; height: 100vh;
+  background: var(--bk, #0E0E0E); border-left: 1px solid var(--gr, #5A5A5A);
+  z-index: 1000; transition: right 0.3s ease;
+  display: flex; flex-direction: column; padding: 20px;
+}
+.gc-search-panel.active { right: 0; }
+
+/* Cabecera del Panel */
+.gc-search-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.gc-search-header h3 { color: var(--wh, #FFF); font-family: var(--fh); margin: 0; }
+.gc-search-close-btn { background: none; border: none; color: var(--wh); font-size: 32px; cursor: pointer; transition: color 0.3s;}
+.gc-search-close-btn:hover { color: var(--lm, #A8FF00); }
+
+/* Input de Búsqueda */
+.gc-search-input-box input {
+  width: 100%; padding: 12px; background: var(--c2, #161616); border: 1px solid var(--gr);
+  color: var(--wh); font-family: var(--fb); border-radius: 4px; font-size: 16px;
+}
+.gc-search-input-box input:focus { outline: none; border-color: var(--lm); }
+
+/* Resultados */
+.gc-search-results { flex-grow: 1; overflow-y: auto; margin-top: 20px; display: flex; flex-direction: column; gap: 15px; }
+.gc-search-item { display: flex; align-items: center; gap: 15px; text-decoration: none; border-bottom: 1px solid var(--c2); padding-bottom: 10px; }
+.gc-search-item:hover h4 { color: var(--lm); }
+.gc-search-item img { width: 60px; height: 60px; object-fit: contain; background: var(--c2); border-radius: 4px; padding: 5px; }
+.gc-search-item h4 { color: var(--wh); font-size: 14px; margin: 0 0 5px 0; font-family: var(--fb); }
+.gc-search-item p { color: var(--lm); font-size: 14px; margin: 0; font-weight: bold; }
+.gc-search-empty { color: var(--gr); font-size: 14px; text-align: center; margin-top: 20px; }
+
+/* Botones de Favoritos en buscador y panel */
+.gc-wish-btn {
+  background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.gc-wish-btn svg path {
+  fill: transparent;
+  stroke: var(--wh, #FFF);
+  stroke-width: 2;
+  transition: fill 0.3s, stroke 0.3s;
+}
+/* Corazón activo (Rojo) */
+.gc-wish-btn.active svg path,
+.card-wish.active svg path {
+  fill: #FF004D !important;
+  stroke: #FF004D !important;
+}
+
+</style>
+
+
 </head>
 <body>
 <div id="toast">✓ AÑADIDO AL CARRITO</div>
@@ -1645,6 +1708,33 @@ function gcUfSubscribe(){
 }
 </script>
 
+<!-- Overlay oscuro de fondo -->
+<div id="gc-search-overlay" class="gc-search-overlay"></div>
+
+<!-- Panel lateral de búsqueda -->
+<div id="gc-search-panel" class="gc-search-panel">
+  <div class="gc-search-header">
+    <h3>Buscador</h3>
+    <button id="gc-search-close" class="gc-search-close-btn">&times;</button>
+  </div>
+  
+  <div class="gc-search-input-box">
+    <input type="text" id="gc-search-live-input" placeholder="Busca proteína, creatina..." autocomplete="off">
+  </div>
+  
+  <div id="gc-search-results" class="gc-search-results"></div>
+</div>
+
+<!-- Panel Lateral de Favoritos -->
+<div id="gc-wish-panel" class="gc-search-panel">
+  <div class="gc-search-header">
+    <h3>Mis Favoritos</h3>
+    <button id="gc-wish-close" class="gc-search-close-btn">&times;</button>
+  </div>
+  <div id="gc-wish-results" class="gc-search-results"></div>
+</div>
+
+<script src="gc-utils.js"></script>
 
 </body>
 </html>
