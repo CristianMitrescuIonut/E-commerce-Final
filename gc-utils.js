@@ -661,3 +661,178 @@
   }
 
 })();
+
+document.addEventListener('DOMContentLoaded', () => {
+  const searchBtn = document.getElementById('gc-search-btn');
+  const searchPanel = document.getElementById('gc-search-panel');
+  const searchOverlay = document.getElementById('gc-search-overlay');
+  const searchClose = document.getElementById('gc-search-close');
+  const searchInput = document.getElementById('gc-search-live-input');
+  const searchResults = document.getElementById('gc-search-results');
+
+    // Base de datos completa generada a partir de tu tienda
+  const dbProductos = [
+    {
+      "id": "proteina-iso-tech",
+      "nombre": "Proteína Iso-Tech",
+      "precio": "45.99€",
+      "img": "img/producto-proteina-iso-tech.png",
+      "url": "pdp_proteina_iso_tech.html"
+    },
+    {
+      "id": "creatina-mono",
+      "nombre": "Creatina Monohidrato 500g",
+      "precio": "24.99€",
+      "img": "img/producto-creatina-monohidrato.png",
+      "url": "pdp_creatina_monohidrato.html"
+    },
+    {
+      "id": "creatina-hcl",
+      "nombre": "Creatina HCL Pro",
+      "precio": "29.99€",
+      "img": "img/producto-creatina-hcl.png",
+      "url": "#"
+    },
+    {
+      "id": "stack-creatina-beta",
+      "nombre": "Stack Creatina + Beta-Alanina",
+      "precio": "39.99€",
+      "img": "img/producto-extra-1.png",
+      "url": "#"
+    },
+    {
+      "id": "glitch-fuel",
+      "nombre": "Glitch Fuel Pre-Workout",
+      "precio": "29.99€",
+      "img": "img/producto-preworkout.png",
+      "url": "#"
+    },
+    {
+      "id": "vitamina-d3-k2",
+      "nombre": "Vitamina D3 + K2",
+      "precio": "12.99€",
+      "img": "img/producto-vitamina-d3-k2.png",
+      "url": "#"
+    },
+    {
+      "id": "complejo-b",
+      "nombre": "Complejo B6 & B12",
+      "precio": "9.99€",
+      "img": "img/producto-complejo-b.png",
+      "url": "#"
+    },
+    {
+      "id": "zma",
+      "nombre": "Zinc & Magnesio ZMA",
+      "precio": "14.99€",
+      "img": "img/producto-zma.png",
+      "url": "#"
+    },
+    {
+      "id": "multivitaminico",
+      "nombre": "Multivitamínico Sport",
+      "precio": "19.99€",
+      "img": "img/producto-multivitaminico.png",
+      "url": "#"
+    },
+    {
+      "id": "omega3",
+      "nombre": "Omega 3 2000mg",
+      "precio": "14.99€",
+      "img": "img/producto-omega3.png",
+      "url": "#"
+    },
+    {
+      "id": "munequeras-glitch",
+      "nombre": "Muñequeras Glitch Code",
+      "precio": "22.99€",
+      "img": "img/producto-extra-4.png",
+      "url": "#"
+    },
+    {
+      "id": "straps-glitch",
+      "nombre": "Straps Glitch Code",
+      "precio": "24.99€",
+      "img": "img/producto-extra-5.png",
+      "url": "#"
+    },
+    {
+      "id": "barrita-crunch",
+      "nombre": "Barrita Glitch Crunch",
+      "precio": "2.99€",
+      "img": "img/producto-barrita-crunch.png",
+      "url": "#"
+    },
+    {
+      "id": "protein-cookie",
+      "nombre": "Galletas Protein Cookie",
+      "precio": "8.99€",
+      "img": "img/producto-galletas-cookie.png",
+      "url": "#"
+    },
+    {
+      "id": "protein-chips",
+      "nombre": "Protein Chips BBQ",
+      "precio": "1.99€",
+      "img": "img/producto-extra-2.png",
+      "url": "#"
+    },
+    {
+      "id": "glitch-shake",
+      "nombre": "Glitch Shake RTD",
+      "precio": "3.49€",
+      "img": "img/producto-extra-3.png",
+      "url": "#"
+    }
+  ];
+
+  // Función para abrir/cerrar el panel
+  const toggleSearchPanel = (e) => {
+    if(e) e.preventDefault();
+    searchPanel.classList.toggle('active');
+    searchOverlay.classList.toggle('active');
+    
+    // Si se abre, enfocar el input y mostrar todos por defecto
+    if(searchPanel.classList.contains('active')) {
+      searchInput.value = '';
+      renderResults(dbProductos);
+      searchInput.focus();
+    }
+  };
+
+  // Eventos de abrir y cerrar
+  if(searchBtn) searchBtn.addEventListener('click', toggleSearchPanel);
+  if(searchClose) searchClose.addEventListener('click', toggleSearchPanel);
+  if(searchOverlay) searchOverlay.addEventListener('click', toggleSearchPanel);
+
+  // Función que dibuja los productos en el panel
+  const renderResults = (productos) => {
+    searchResults.innerHTML = '';
+    if(productos.length === 0) {
+      searchResults.innerHTML = '<p class="gc-search-empty">No hemos encontrado ningún suplemento.</p>';
+      return;
+    }
+    productos.forEach(prod => {
+      const item = document.createElement('a');
+      item.href = prod.url;
+      item.className = 'gc-search-item';
+      item.innerHTML = `
+        <img src="${prod.img}" alt="${prod.nombre}">
+        <div>
+          <h4>${prod.nombre}</h4>
+          <p>${prod.precio}</p>
+        </div>
+      `;
+      searchResults.appendChild(item);
+    });
+  };
+
+  // Evento que se dispara cada vez que tecleas
+  if(searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const termino = e.target.value.toLowerCase().trim();
+      const filtrados = dbProductos.filter(p => p.nombre.toLowerCase().includes(termino));
+      renderResults(filtrados);
+    });
+  }
+});
