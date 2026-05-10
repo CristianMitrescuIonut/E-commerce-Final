@@ -1284,32 +1284,38 @@ body {  }
 <script>
 const FC={chocolate:{l:'CHOCOLATE OSCURO',c0:'#2a1a0a',c1:'#1a0d04'},vanilla:{l:'VAINILLA PREMIUM',c0:'#2a2210',c1:'#1a1608'},strawberry:{l:'FRESA SILVESTRE',c0:'#2a0810',c1:'#1a0508'},unflavored:{l:'SIN SABOR',c0:'#1e1e1e',c1:'#141414'}};
 // REEMPLAZO: Función para cambiar sabor y foto de la Proteína Iso-Tech
+// REEMPLAZO: Función para cambiar la foto grande al pulsar el sabor
 function setF(el){
   const f = el.dataset.f, n = el.dataset.n;
+  
+  // 1. Cambiar clase activa en los botones y texto del sabor
   document.querySelectorAll('[data-f]').forEach(e => e.classList.toggle('active', e.dataset.f === f));
   document.getElementById('fn').textContent = n;
-  document.getElementById('flbl').textContent = FC[f].l;
+  if (document.getElementById('flbl')) document.getElementById('flbl').textContent = FC[f].l;
   
-  // Cambiar la imagen del producto según el sabor seleccionado
+  // 2. NUEVO: CAMBIAR LA IMAGEN GRANDE
   const imgElement = document.querySelector('.gc-pdp-img');
   if (imgElement) {
-    // Nombres exactos de tus fotos en la carpeta img
     const images = {
       'chocolate': 'img/producto-proteina-iso-tech-chocolate.png',
       'vanilla': 'img/producto-proteina-iso-tech-vanilla.png',
       'strawberry': 'img/producto-proteina-iso-tech-strawberry.png',
       'unflavored': 'img/producto-proteina-iso-tech-sinSabor.png'
     };
+    // Asigna la nueva foto. Si no encuentra el sabor, deja la de por defecto.
     imgElement.src = images[f] || 'img/producto-proteina-iso-tech.png';
   }
 
+  // 3. Mantener la animación del fondo SVG que ya tenías
   const svg = document.getElementById('psvg');
-  svg.classList.add('sw');
-  setTimeout(()=>{
-    document.getElementById('s0').setAttribute('stop-color', FC[f].c0);
-    document.getElementById('s1').setAttribute('stop-color', FC[f].c1);
-    svg.classList.remove('sw');
-  }, 250);
+  if (svg) {
+    svg.classList.add('sw');
+    setTimeout(() => {
+      if (document.getElementById('s0')) document.getElementById('s0').setAttribute('stop-color', FC[f].c0);
+      if (document.getElementById('s1')) document.getElementById('s1').setAttribute('stop-color', FC[f].c1);
+      svg.classList.remove('sw');
+    }, 250);
+  }
 }
 let qty=1;
 function chQ(d){qty=Math.max(1,qty+d);document.getElementById('qn').textContent=qty;}
