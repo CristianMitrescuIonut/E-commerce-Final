@@ -905,11 +905,20 @@ body {  }
       </div>
       <img src="img/producto-proteina-iso-tech.png" alt="Proteína Iso-Tech Glitch Code" class="gc-pdp-img" loading="eager">
     </div>
+    <!-- REEMPLAZO 1: MINIATURAS (THUMBNAILS) CON FOTOS -->
     <div class="thumbs">
-      <button class="tb active" data-f="chocolate" data-n="Chocolate Oscuro" onclick="setF(this)"><div class="fdot" style="background:#3d1a0a;border:1.5px solid #7a3510"></div></button>
-      <button class="tb" data-f="vanilla" data-n="Vainilla Premium" onclick="setF(this)"><div class="fdot" style="background:#e8d8a0;border:1.5px solid #c8b060"></div></button>
-      <button class="tb" data-f="strawberry" data-n="Fresa Silvestre" onclick="setF(this)"><div class="fdot" style="background:#6b1020;border:1.5px solid #c02040"></div></button>
-      <button class="tb" data-f="unflavored" data-n="Sin Sabor" onclick="setF(this)"><div class="fdot" style="background:#3a3a3a;border:1.5px solid #6a6a6a"></div></button>
+      <button class="tb active" data-f="chocolate" data-n="Chocolate Oscuro" onclick="setF(this)" style="padding: 5px;">
+        <img src="img/producto-proteina-iso-tech-chocolate.png" alt="Sabor Chocolate" style="width:100%; height:100%; object-fit:contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));" />
+      </button>
+      <button class="tb" data-f="vanilla" data-n="Vainilla Premium" onclick="setF(this)" style="padding: 5px;">
+        <img src="img/producto-proteina-iso-tech-vanilla.png" alt="Sabor Vainilla" style="width:100%; height:100%; object-fit:contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));" />
+      </button>
+      <button class="tb" data-f="strawberry" data-n="Fresa Silvestre" onclick="setF(this)" style="padding: 5px;">
+        <img src="img/producto-proteina-iso-tech-strawberry.png" alt="Sabor Fresa" style="width:100%; height:100%; object-fit:contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));" />
+      </button>
+      <button class="tb" data-f="unflavored" data-n="Sin Sabor" onclick="setF(this)" style="padding: 5px;">
+        <img src="img/producto-proteina-iso-tech-sinSabor.png" alt="Sin Sabor" style="width:100%; height:100%; object-fit:contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));" />
+      </button>
     </div>
   </div>
 
@@ -1307,7 +1316,25 @@ function chQ(d){qty=Math.max(1,qty+d);document.getElementById('qn').textContent=
 let cn=0,tt;
 function addCart(){cn++;document.getElementById('cn').textContent=cn;const t=document.getElementById('toast');t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400);}
 function toggleW(){document.getElementById('wbtn').classList.toggle('on');}
-function setS(el,p){document.querySelectorAll('.sb').forEach(b=>b.classList.remove('active'));el.classList.add('active');document.getElementById('pd').textContent=p;}
+// REEMPLAZO 2: FUNCIÓN DE PRECIO CON CÁLCULO DE DESCUENTO
+function setS(el, p){
+  // Quitar clase active de los demás botones y ponérsela al seleccionado
+  document.querySelectorAll('.sb').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  
+  // Actualizar el precio principal
+  document.getElementById('pd').textContent = p;
+  
+  // Calcular y actualizar el precio antiguo (tachado) sumando 7€
+  const numericPrice = parseFloat(p.replace('€', ''));
+  const oldPrice = (numericPrice + 7).toFixed(2) + '€';
+  
+  // Seleccionar el elemento del precio antiguo y cambiar su texto
+  const oldPriceEl = document.querySelector('.pold');
+  if(oldPriceEl) {
+    oldPriceEl.textContent = oldPrice;
+  }
+}
 function oT(btn,id){document.querySelectorAll('.tabn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tabp').forEach(p=>p.classList.remove('active'));btn.classList.add('active');document.getElementById(id).classList.add('active');}
 function tF(btn){const a=btn.nextElementSibling,o=a.classList.contains('o');document.querySelectorAll('.fa').forEach(x=>x.classList.remove('o'));document.querySelectorAll('.fq').forEach(x=>x.classList.remove('o'));if(!o){a.classList.add('o');btn.classList.add('o');}}
 </script>
