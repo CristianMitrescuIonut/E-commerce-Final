@@ -969,10 +969,28 @@ body{padding-top:64px;}
 .gc-search-panel.active { right: 0; }
 
 /* Cabecera del Panel */
-.gc-search-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.gc-search-header h3 { color: var(--wh, #FFF); font-family: var(--fh); margin: 0; }
-.gc-search-close-btn { background: none; border: none; color: var(--wh); font-size: 32px; cursor: pointer; transition: color 0.3s;}
-.gc-search-close-btn:hover { color: var(--lm, #A8FF00); }
+.gc-search-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 20px; 
+}
+
+/* Forzar el estilo del botón de cerrar */
+.gc-search-close-btn { 
+  background: transparent !important; 
+  border: none !important; 
+  color: #FFF !important; /* Forzamos color blanco */
+  font-size: 36px !important; /* Lo hacemos un poco más grande */
+  cursor: pointer !important; 
+  line-height: 1 !important;
+  padding: 0 10px !important;
+  transition: color 0.3s !important;
+}
+
+.gc-search-close-btn:hover { 
+  color: #A8FF00 !important; /* Verde Glitch al pasar el ratón */
+}
 
 /* Input de Búsqueda */
 .gc-search-input-box input {
