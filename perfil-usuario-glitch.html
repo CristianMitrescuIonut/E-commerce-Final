@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mi Perfil — Glitch Code</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bk:#0E0E0E;--wh:#FFF;--gr:#5A5A5A;--lm:#A8FF00;--bl:#007BFF;--c1:#111;--c2:#161616;--c3:#1a1a1a;--fh:'Orbitron',sans-serif;--fb:'Poppins',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bk);color:var(--wh);font-family:var(--fb)}
+.nav{background:rgba(14,14,14,.97);backdrop-filter:blur(18px);border-bottom:1px solid rgba(168,255,0,.08);padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nlogo{display:flex;align-items:center;gap:10px;font-family:var(--fh);font-size:.62rem;font-weight:700;letter-spacing:4px}
+.nlogo svg{width:28px;height:28px}
+.nlinks{display:flex;gap:22px}
+.na{font-size:.58rem;letter-spacing:2px;color:var(--gr);text-transform:uppercase;cursor:pointer;transition:color .2s}
+.na:hover{color:var(--lm)}.na.act{color:var(--wh)}
+.nav-r{display:flex;gap:9px}
+.nic{width:36px;height:36px;border-radius:50%;background:none;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s;position:relative}
+.nic:hover{border-color:rgba(168,255,0,.4)}
+.nic svg{width:15px;height:15px;stroke:var(--gr);fill:none;stroke-width:1.8}
+.ndot{position:absolute;top:-2px;right:-2px;width:9px;height:9px;background:var(--lm);border-radius:50%;border:2px solid var(--bk)}
+
+/* LAYOUT */
+.wrap{display:grid;grid-template-columns:280px 1fr;gap:20px;padding:24px 32px;max-width:1280px;margin:0 auto}
+.sb{display:flex;flex-direction:column;gap:14px}
+
+/* Profile card */
+.pcard{background:var(--c2);border-radius:18px;border:1px solid rgba(255,255,255,.06);overflow:hidden}
+.pcover{height:84px;background:#080808;position:relative;overflow:hidden}
+.pcover svg{position:absolute;inset:0;width:100%;height:100%}
+.pavrow{padding:0 18px;margin-top:-26px;position:relative;z-index:2;margin-bottom:12px;display:flex;align-items:flex-end;justify-content:space-between}
+.pav{width:54px;height:54px;border-radius:50%;background:rgba(168,255,0,.1);border:3px solid var(--bk);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:.88rem;font-weight:700;color:var(--lm);position:relative;cursor:pointer}
+.pav:hover::after{content:'Editar foto';position:absolute;inset:0;background:rgba(0,0,0,.6);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.38rem;letter-spacing:1px;color:var(--wh);font-family:var(--fh)}
+.odot{position:absolute;bottom:1px;right:1px;width:12px;height:12px;background:var(--lm);border-radius:50%;border:2px solid var(--bk);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.78)}}
+.edit-cover{font-family:var(--fh);font-size:.48rem;font-weight:700;letter-spacing:1.5px;color:var(--gr);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:5px 10px;border-radius:6px;cursor:pointer;transition:all .2s;margin-bottom:8px}
+.edit-cover:hover{border-color:rgba(168,255,0,.3);color:var(--lm)}
+.pinfo{padding:0 18px 18px}
+.pname{font-family:var(--fh);font-size:.82rem;font-weight:700;margin-bottom:1px}
+.phandle{font-size:.68rem;color:var(--gr);margin-bottom:10px}
+.rbadge{display:inline-flex;align-items:center;gap:7px;padding:6px 11px;border-radius:8px;cursor:pointer;transition:transform .2s,box-shadow .2s;margin-bottom:12px;width:100%}
+.rbadge:hover{transform:scale(1.02);box-shadow:0 4px 16px rgba(168,255,0,.15)}
+.xpw{margin-bottom:12px}
+.xph{display:flex;justify-content:space-between;margin-bottom:4px;font-family:var(--fh);font-size:.46rem;letter-spacing:1.5px;text-transform:uppercase}
+.xph .xl{color:var(--gr)}.xph .xv{color:var(--lm);font-weight:700}
+.xpt{height:6px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden;position:relative}
+.xpf{height:100%;background:linear-gradient(to right,var(--lm),var(--bl));border-radius:100px;box-shadow:0 0 10px rgba(168,255,0,.35);transition:width 1.4s cubic-bezier(.25,.8,.25,1);position:relative}
+.xpf::after{content:'';position:absolute;top:0;right:0;width:6px;height:100%;background:white;border-radius:50%;opacity:.6;animation:glow 1.5s ease-in-out infinite}
+@keyframes glow{0%,100%{opacity:.4}50%{opacity:.9}}
+.xpn{font-size:.6rem;color:var(--gr);text-align:center;margin-top:5px}
+.xpn strong{color:var(--wh)}
+.ms{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:12px}
+.msc{background:rgba(255,255,255,.03);border-radius:9px;padding:9px;text-align:center;border:1px solid rgba(255,255,255,.05);cursor:default;transition:border-color .2s,transform .2s}
+.msc:hover{border-color:rgba(168,255,0,.18);transform:translateY(-2px)}
+.msv{font-family:var(--fh);font-size:.84rem;font-weight:900;color:var(--wh);line-height:1;margin-bottom:2px}
+.msv .u{font-size:.46rem;color:var(--lm)}
+.msl{font-size:.54rem;color:var(--gr);letter-spacing:1px;text-transform:uppercase}
+.stk{display:flex;align-items:center;gap:9px;background:rgba(168,255,0,.05);border:1px solid rgba(168,255,0,.14);border-radius:9px;padding:9px 12px;margin-bottom:12px}
+.sf{font-size:1.1rem;animation:shake 2.5s ease-in-out infinite}
+@keyframes shake{0%,90%,100%{transform:rotate(0)}92%,96%{transform:rotate(-10deg)}94%,98%{transform:rotate(10deg)}}
+.sv{font-family:var(--fh);font-size:.74rem;font-weight:700;color:var(--lm);line-height:1;margin-bottom:2px}
+.sl{font-size:.6rem;color:rgba(255,255,255,.34)}
+.socrow{display:flex;justify-content:space-around;padding-top:11px;border-top:1px solid rgba(255,255,255,.05)}
+.soc{text-align:center;cursor:pointer;padding:4px 8px;border-radius:6px;transition:background .2s}
+.soc:hover{background:rgba(255,255,255,.04)}
+.socv{font-family:var(--fh);font-size:.7rem;font-weight:700}
+.socl{font-size:.54rem;color:var(--gr)}
+
+/* Points card */
+.ptsc{background:linear-gradient(135deg,rgba(168,255,0,.07),rgba(0,123,255,.04));border:1px solid rgba(168,255,0,.2);border-radius:14px;padding:16px 18px;position:relative;overflow:hidden}
+.ptsc::before{content:'';position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(168,255,0,.08),transparent);pointer-events:none}
+.ptsk{font-family:var(--fh);font-size:.5rem;font-weight:700;letter-spacing:3px;color:var(--lm);text-transform:uppercase;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center}
+.ptsv{font-family:var(--fh);font-size:2rem;font-weight:900;color:var(--wh);line-height:1;margin-bottom:2px}
+.ptsv sub{font-size:.62rem;color:var(--lm);font-style:normal;vertical-align:baseline}
+.ptss{font-size:.64rem;color:rgba(255,255,255,.38);margin-bottom:10px}
+.ptst{height:5px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden;margin-bottom:4px}
+.ptsf{height:100%;background:var(--lm);border-radius:100px}
+.ptsl{display:flex;justify-content:space-between;font-size:.56rem;color:var(--gr);margin-bottom:11px}
+.ptsl em{color:var(--lm);font-style:normal;font-weight:600}
+.ptsbtn{width:100%;font-family:var(--fh);font-size:.52rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--lm);color:var(--bk);border:none;padding:10px;border-radius:100px;cursor:pointer;transition:background .2s,transform .15s}
+.ptsbtn:hover{background:#c8ff2a;transform:scale(1.01)}
+
+/* Sidebar nav */
+.snav{background:var(--c2);border-radius:13px;border:1px solid rgba(255,255,255,.06);overflow:hidden}
+.snb{width:100%;padding:12px 14px;background:none;border:none;border-bottom:1px solid rgba(255,255,255,.04);display:flex;align-items:center;gap:9px;cursor:pointer;transition:background .2s;text-align:left}
+.snb:last-child{border-bottom:none}
+.snb:hover{background:rgba(255,255,255,.03)}
+.snb.act{background:rgba(168,255,0,.05);border-left:2px solid var(--lm)}
+.snbi{width:27px;height:27px;border-radius:7px;background:rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.snbi svg{width:13px;height:13px;stroke:var(--gr);fill:none;stroke-width:1.8}
+.snb.act .snbi{background:rgba(168,255,0,.1)}.snb.act .snbi svg{stroke:var(--lm)}
+.snbt{font-size:.72rem;font-weight:500;color:var(--gr);flex:1}
+.snb.act .snbt{color:var(--wh);font-weight:600}
+.snbg{font-family:var(--fh);font-size:.46rem;font-weight:700;letter-spacing:1px;padding:3px 7px;border-radius:4px;background:rgba(168,255,0,.1);color:var(--lm);border:1px solid rgba(168,255,0,.2)}
+.snbg.bl{background:rgba(0,123,255,.12);color:var(--bl);border-color:rgba(0,123,255,.22)}
+.snbg.red{background:rgba(255,60,60,.1);color:#ff6060;border-color:rgba(255,60,60,.2)}
+
+/* MAIN */
+.main{display:flex;flex-direction:column;gap:14px}
+.panel{background:var(--c2);border-radius:18px;border:1px solid rgba(255,255,255,.06);padding:24px}
+.ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.pt{font-family:var(--fh);font-size:.78rem;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+.pa{font-family:var(--fh);font-size:.5rem;font-weight:700;letter-spacing:2px;color:var(--lm);cursor:pointer;border:none;background:none;padding:0;transition:opacity .2s}
+.pa:hover{opacity:.7}
+.tp{display:none}.tp.act{display:block}
+
+/* RANK JOURNEY */
+.rj{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-bottom:14px}
+.ri{display:flex;flex-direction:column;align-items:center;position:relative;cursor:pointer}
+.ri:not(:last-child)::after{content:'';position:absolute;top:17px;left:calc(50% + 17px);width:calc(100% - 34px);height:2px;background:rgba(255,255,255,.07);z-index:0}
+.ri.d:not(:last-child)::after,.ri.c:not(:last-child)::after{background:linear-gradient(to right,rgba(168,255,0,.4),rgba(255,255,255,.07))}
+.ric{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;border:2px solid rgba(255,255,255,.1);background:var(--bk);position:relative;z-index:1;transition:all .25s;margin-bottom:7px}
+.ri.d .ric{border-color:rgba(168,255,0,.4);background:rgba(168,255,0,.08)}
+.ri.c .ric{border-color:var(--lm);background:rgba(168,255,0,.12);box-shadow:0 0 16px rgba(168,255,0,.3)}
+.ri:hover .ric{transform:scale(1.14);box-shadow:0 0 12px rgba(168,255,0,.2)}
+.rin{font-family:var(--fh);font-size:.42rem;font-weight:700;letter-spacing:1.5px;text-align:center;text-transform:uppercase}
+.ri.d .rin{color:rgba(168,255,0,.6)}.ri.c .rin{color:var(--lm)}.ri:not(.d):not(.c) .rin{color:var(--gr)}
+.rip{font-size:.52rem;color:var(--gr);text-align:center}
+
+/* Stats */
+.strow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stc{background:var(--c3);border-radius:12px;padding:16px 13px;border:1px solid rgba(255,255,255,.06);transition:border-color .2s,transform .2s}
+.stc:hover{border-color:rgba(168,255,0,.15);transform:translateY(-2px)}
+.stci{width:32px;height:32px;border-radius:8px;background:rgba(168,255,0,.07);border:1px solid rgba(168,255,0,.15);display:flex;align-items:center;justify-content:center;margin-bottom:9px}
+.stci svg{width:14px;height:14px;stroke:var(--lm);fill:none;stroke-width:1.8}
+.stv{font-family:var(--fh);font-size:1.2rem;font-weight:900;color:var(--wh);line-height:1;margin-bottom:2px}
+.stv span{font-size:.6rem;color:var(--lm)}
+.stl{font-size:.6rem;color:var(--gr);margin-bottom:3px}
+.std{font-size:.56rem;color:var(--lm);display:flex;align-items:center;gap:2px}
+.std svg{width:9px;height:9px;stroke:var(--lm);fill:none;stroke-width:2}
+
+/* Weekly cal */
+.wcal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}
+.wd{display:flex;flex-direction:column;align-items:center;gap:4px}
+.wdl{font-family:var(--fh);font-size:.44rem;font-weight:700;letter-spacing:1px;color:var(--gr);text-transform:uppercase}
+.wdd{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.65rem;border:1px solid rgba(255,255,255,.07);transition:all .2s;cursor:pointer}
+.wdd:hover{transform:scale(1.1)}
+.wdd.dn{background:rgba(168,255,0,.14);border-color:rgba(168,255,0,.3)}
+.wdd.td{background:rgba(168,255,0,.22);border-color:var(--lm);box-shadow:0 0 10px rgba(168,255,0,.2)}
+.wdd.rs{background:rgba(0,123,255,.08);border-color:rgba(0,123,255,.2);font-size:.5rem}
+.wdd.em{background:rgba(255,255,255,.02)}
+
+/* Achievements */
+.ag{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.ac{background:var(--c3);border-radius:12px;padding:14px 11px;text-align:center;border:1px solid rgba(255,255,255,.06);transition:all .25s;cursor:pointer;position:relative;overflow:hidden}
+.ac::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(168,255,0,.04),transparent 60%);opacity:0;transition:opacity .3s}
+.ac:hover{transform:translateY(-4px);border-color:rgba(168,255,0,.22);box-shadow:0 8px 24px rgba(0,0,0,.3)}.ac:hover::before{opacity:1}
+.ac.lkd{opacity:.35;filter:grayscale(.8)}.ac.lkd:hover{transform:none;border-color:rgba(255,255,255,.06);box-shadow:none}
+.ac.leg{border-color:rgba(255,215,0,.22);background:rgba(255,215,0,.03)}
+.ac.leg::after{content:'LEGENDARIO';position:absolute;top:6px;right:-18px;font-family:var(--fh);font-size:.35rem;font-weight:700;letter-spacing:1px;background:#FFD700;color:var(--bk);padding:2px 24px;transform:rotate(45deg);transform-origin:center}
+.aci{font-size:1.6rem;margin-bottom:6px;display:block}
+.acn{font-family:var(--fh);font-size:.46rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--wh);margin-bottom:3px;line-height:1.3}
+.acd{font-size:.6rem;color:var(--gr);line-height:1.4;margin-bottom:6px}
+.acp{font-family:var(--fh);font-size:.5rem;font-weight:700;color:var(--lm)}
+.acp.gd{color:#FFD700}
+.acdt{font-size:.54rem;color:rgba(255,255,255,.2);margin-top:1px}
+.ack{font-size:.8rem;margin-top:3px;display:block;opacity:.4}
+.rar{height:3px;border-radius:100px;margin-top:7px;width:100%}
+.rc{background:rgba(168,255,0,.45)}.ru{background:var(--bl)}.rr{background:linear-gradient(to right,var(--bl),#9b59b6)}.rl{background:linear-gradient(to right,#FFD700,#FF8C00)}
+
+/* Orders */
+.olist{display:flex;flex-direction:column;gap:9px}
+.or{display:flex;align-items:center;gap:12px;background:var(--c3);border-radius:11px;padding:13px 14px;border:1px solid rgba(255,255,255,.05);transition:border-color .2s,transform .2s;cursor:pointer}
+.or:hover{border-color:rgba(168,255,0,.15);transform:translateX(2px)}
+.oimg{width:42px;height:42px;border-radius:8px;background:#0a0a0a;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(255,255,255,.06)}
+.oi{flex:1}
+.on{font-size:.74rem;font-weight:600;margin-bottom:1px}
+.om{font-size:.6rem;color:var(--gr)}
+.os{display:inline-flex;align-items:center;gap:4px;font-family:var(--fh);font-size:.44rem;font-weight:700;letter-spacing:1.5px;padding:4px 9px;border-radius:5px;text-transform:uppercase;flex-shrink:0}
+.os.del{background:rgba(168,255,0,.1);color:var(--lm);border:1px solid rgba(168,255,0,.2)}
+.os.tra{background:rgba(0,123,255,.1);color:var(--bl);border:1px solid rgba(0,123,255,.2)}
+.op{font-family:var(--fh);font-size:.72rem;font-weight:700;color:var(--lm);margin-left:10px;white-space:nowrap}
+
+/* Stack AI box */
+.ai-box{background:rgba(168,255,0,.04);border:1px solid rgba(168,255,0,.15);border-radius:12px;padding:14px 18px;margin-bottom:14px;font-size:.74rem;color:rgba(255,255,255,.55);line-height:1.7;display:flex;align-items:flex-start;gap:12px}
+.ai-box-icon{width:34px;height:34px;border-radius:8px;background:rgba(168,255,0,.1);border:1px solid rgba(168,255,0,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem}
+
+/* Activity feed */
+.af{display:flex;flex-direction:column}
+.ai2{display:flex;align-items:flex-start;gap:11px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.ai2:last-child{border-bottom:none}
+.adw{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.ad{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.ad.lm{background:var(--lm)}.ad.bl{background:var(--bl)}.ad.wh{background:rgba(255,255,255,.28)}
+.aln{width:1px;background:rgba(255,255,255,.05);flex:1;margin-top:3px;min-height:20px}
+.at{font-size:.72rem;line-height:1.55;color:rgba(255,255,255,.7);margin-bottom:2px}
+.at strong{color:var(--wh)}.at .hl{color:var(--lm)}
+.atm{font-size:.57rem;color:var(--gr)}
+
+/* Ref + Stack */
+.refc{background:var(--c2);border:1px solid rgba(168,255,0,.13);border-radius:14px;padding:18px 20px;display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center}
+.refk{font-family:var(--fh);font-size:.48rem;font-weight:700;letter-spacing:3px;color:var(--lm);text-transform:uppercase;margin-bottom:5px}
+.reft{font-family:var(--fh);font-size:.78rem;font-weight:700;margin-bottom:3px}
+.refs{font-size:.68rem;color:var(--gr);line-height:1.5}
+.refcw{display:flex;gap:6px;align-items:center;margin-top:8px}
+.refcode{font-family:var(--fh);font-size:.68rem;font-weight:700;letter-spacing:3px;background:rgba(168,255,0,.07);border:1px dashed rgba(168,255,0,.3);color:var(--lm);padding:8px 14px;border-radius:7px;text-transform:uppercase;cursor:pointer;transition:background .2s}
+.refcode:hover{background:rgba(168,255,0,.12)}
+.refcopy{font-family:var(--fh);font-size:.52rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--bk);background:var(--lm);padding:8px 13px;border-radius:7px;border:none;cursor:pointer;transition:background .2s}
+.refcopy:hover{background:#c8ff2a}
+
+.srec{background:linear-gradient(135deg,rgba(168,255,0,.05),rgba(0,123,255,.03));border:1px solid rgba(168,255,0,.14);border-radius:14px;padding:18px 20px}
+.srect{display:flex;align-items:center;gap:10px;margin-bottom:13px}
+.sreci{width:34px;height:34px;border-radius:8px;background:rgba(168,255,0,.1);border:1px solid rgba(168,255,0,.2);display:flex;align-items:center;justify-content:center}
+.sreci svg{width:15px;height:15px;stroke:var(--lm);fill:none;stroke-width:1.8}
+.sreck{font-family:var(--fh);font-size:.5rem;font-weight:700;letter-spacing:2px;color:var(--lm);text-transform:uppercase;margin-bottom:2px}
+.srecs{font-size:.64rem;color:var(--gr)}
+.srecg{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.srecp{display:flex;align-items:center;gap:8px;background:var(--c2);border:1px solid rgba(255,255,255,.07);border-radius:9px;padding:9px 12px;flex:1;min-width:130px;cursor:pointer;transition:border-color .2s,transform .2s}
+.srecp:hover{border-color:rgba(168,255,0,.25);transform:translateY(-1px)}
+.srecpi{width:28px;height:28px;border-radius:6px;background:#0a0a0a;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.srecpi svg{width:13px;height:13px}
+.srecpn{font-size:.62rem;font-weight:600;margin-bottom:1px}
+.srecpp{font-family:var(--fh);font-size:.54rem;color:var(--lm);font-weight:700}
+.srecadd{font-family:var(--fh);font-size:.52rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--bk);background:var(--lm);padding:8px 14px;border-radius:100px;border:none;cursor:pointer;flex-shrink:0;transition:background .2s,transform .15s}
+.srecadd:hover{background:#c8ff2a;transform:scale(1.03)}
+
+/* Challenges */
+.chs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.chc{border-radius:16px;padding:22px 24px;border:1px solid rgba(168,255,0,.15);background:linear-gradient(135deg,rgba(168,255,0,.05),rgba(0,123,255,.03));position:relative;overflow:hidden}
+.chc::before{content:'';position:absolute;top:-40px;right:-40px;width:140px;height:140px;background:radial-gradient(circle,rgba(168,255,0,.06),transparent);pointer-events:none}
+.chst{display:inline-flex;align-items:center;gap:6px;font-family:var(--fh);font-size:.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+.chst .sd{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.chst.on .sd{background:var(--lm);animation:pulse 2s ease-in-out infinite}
+.chst.on{color:var(--lm)}.chst.soon .sd{background:var(--bl)}.chst.soon{color:var(--bl)}
+.cht{font-family:var(--fh);font-size:.88rem;font-weight:900;margin-bottom:7px}
+.chd{font-size:.78rem;line-height:1.7;color:rgba(255,255,255,.52);margin-bottom:16px}
+.chmeta{display:flex;gap:18px;margin-bottom:14px}
+.chm{font-size:.68rem;color:var(--gr);display:flex;align-items:center;gap:5px}
+.chm svg{width:11px;height:11px;stroke:var(--lm);fill:none;stroke-width:1.8}
+.chpw{margin-bottom:14px}
+.chpl{display:flex;justify-content:space-between;margin-bottom:5px;font-family:var(--fh);font-size:.5rem;color:var(--gr)}
+.chpl span{color:var(--lm)}
+.chpt{height:5px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden}
+.chpf{height:100%;background:linear-gradient(to right,var(--lm),var(--bl));border-radius:100px}
+.chbtn{font-family:var(--fh);font-size:.56rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--bk);background:var(--lm);padding:11px 22px;border-radius:100px;border:none;cursor:pointer;transition:background .2s,transform .15s}
+.chbtn:hover{background:#c8ff2a;transform:scale(1.02)}
+.chbtn.bl{background:var(--bl);color:var(--wh)}
+.chbtn.bl:hover{background:#1a8fff}
+
+/* Leaderboard */
+.lb{display:flex;flex-direction:column;gap:8px}
+.lbr{display:flex;align-items:center;gap:12px;background:var(--c3);border-radius:11px;padding:12px 14px;border:1px solid rgba(255,255,255,.05);transition:all .2s;cursor:pointer}
+.lbr:hover{border-color:rgba(168,255,0,.15);transform:translateX(2px)}
+.lbr.me{border-color:rgba(168,255,0,.22);background:rgba(168,255,0,.04)}
+.lbpos{font-family:var(--fh);font-size:.72rem;font-weight:700;width:28px;text-align:center;flex-shrink:0}
+.lbpos.gold{color:#FFD700}.lbpos.silver{color:#C0C0C0}.lbpos.bronze{color:#CD7F32}
+.lbav{width:34px;height:34px;border-radius:50%;background:rgba(168,255,0,.1);border:1px solid rgba(168,255,0,.2);display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:.55rem;font-weight:700;color:var(--lm);flex-shrink:0}
+.lbinfo{flex:1}
+.lbname{font-size:.74rem;font-weight:600;margin-bottom:2px;display:flex;align-items:center;gap:7px}
+.lbsub{font-size:.6rem;color:var(--gr)}
+.lbpts{font-family:var(--fh);font-size:.72rem;font-weight:700;color:var(--lm)}
+.me-badge{font-family:var(--fh);font-size:.44rem;font-weight:700;letter-spacing:1.5px;background:rgba(168,255,0,.1);color:var(--lm);border:1px solid rgba(168,255,0,.25);padding:2px 7px;border-radius:4px;text-transform:uppercase}
+
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--lm);color:var(--bk);font-family:var(--fh);font-size:.6rem;font-weight:700;letter-spacing:2px;padding:12px 24px;border-radius:100px;opacity:0;pointer-events:none;z-index:9000;transition:opacity .25s,transform .25s;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="shortcut icon" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap">
+<style id='gc-unav-styles'>
+
+/* ═══════════════════════════════════════════════════════
+   GLITCH CODE — UNIVERSAL NAV  v1.0
+   ═══════════════════════════════════════════════════════ */
+#gc-unav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9000;
+  height: 64px;
+  background: rgba(14,14,14,0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(168,255,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  transition: border-color .3s, background .3s;
+  font-family: 'Orbitron', 'Segoe UI', sans-serif;
+}
+#gc-unav.scrolled {
+  background: rgba(14,14,14,0.99);
+  border-bottom-color: rgba(168,255,0,0.14);
+  box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+}
+body {  }
+
+/* LOGO */
+.gc-unav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.gc-unav-logo-img {
+  height: 36px;
+  width: 36px;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+.gc-unav-logo-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* NAV LINKS */
+.gc-unav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.gc-unav-link {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.44rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #5A5A5A;
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: color .2s, background .2s;
+  white-space: nowrap;
+}
+.gc-unav-link:hover {
+  color: #FFFFFF;
+  background: rgba(255,255,255,0.05);
+}
+.gc-unav-link.gc-active {
+  color: #A8FF00;
+}
+
+/* ICONS */
+.gc-unav-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.gc-unav-icon {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: none;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color .2s, background .2s;
+  color: #5A5A5A;
+}
+.gc-unav-icon:hover {
+  border-color: rgba(168,255,0,0.35);
+  color: #A8FF00;
+  background: rgba(168,255,0,0.05);
+}
+.gc-unav-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  pointer-events: none;
+}
+/* Badge */
+.gc-unav-badge {
+  position: absolute;
+  top: -1px; right: -1px;
+  min-width: 16px;
+  height: 16px;
+  background: #A8FF00;
+  color: #0E0E0E;
+  border-radius: 8px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.35rem;
+  font-weight: 900;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid #0E0E0E;
+}
+.gc-unav-badge.visible { display: flex; }
+
+/* ── SEARCH OVERLAY ── */
+#gc-search-overlay {
+  position: fixed;
+  top: 64px; left: 0; right: 0;
+  z-index: 8999;
+  background: rgba(14,14,14,0.98);
+  border-bottom: 1px solid rgba(168,255,0,0.12);
+  padding: 0 40px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s cubic-bezier(.4,0,.2,1), padding .35s;
+}
+#gc-search-overlay.open {
+  max-height: 120px;
+  padding: 20px 40px;
+}
+.gc-search-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #161616;
+  border: 1px solid rgba(168,255,0,0.2);
+  border-radius: 12px;
+  padding: 12px 18px;
+}
+.gc-search-inner svg {
+  width: 18px; height: 18px;
+  stroke: #A8FF00; fill: none; stroke-width: 2;
+  flex-shrink: 0;
+}
+#gc-search-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  color: #FFFFFF;
+}
+#gc-search-input::placeholder { color: #5A5A5A; }
+.gc-search-hint {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.35rem;
+  letter-spacing: 2px;
+  color: #3a3a3a;
+  white-space: nowrap;
+}
+/* Search results chips */
+.gc-search-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  padding: 0 40px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s;
+}
+.gc-search-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px;
+  background: rgba(168,255,0,0.08);
+  border: 1px solid rgba(168,255,0,0.2);
+  border-radius: 20px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.38rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #A8FF00;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background .2s;
+}
+.gc-search-chip:hover { background: rgba(168,255,0,0.15); }
+
+/* ── HAMBURGER (MOBILE) ── */
+.gc-unav-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.gc-unav-burger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: #5A5A5A;
+  border-radius: 2px;
+  transition: all .3s;
+}
+.gc-unav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.gc-unav-burger.open span:nth-child(2) { opacity: 0; }
+.gc-unav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── MOBILE DRAWER ── */
+#gc-mobile-menu {
+  position: fixed;
+  top: 64px; left: 0; right: 0; bottom: 0;
+  z-index: 8998;
+  background: rgba(14,14,14,0.98);
+  backdrop-filter: blur(20px);
+  transform: translateY(-100%);
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+  overflow-y: auto;
+  padding: 32px 32px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+#gc-mobile-menu.open { transform: translateY(0); }
+.gc-mobile-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: color .2s;
+}
+.gc-mobile-link:hover, .gc-mobile-link.gc-active { color: #A8FF00; }
+.gc-mobile-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.gc-mobile-icons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.gc-mobile-icon-btn {
+  flex: 1;
+  padding: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color .2s;
+}
+.gc-mobile-icon-btn:hover { border-color: rgba(168,255,0,0.3); }
+.gc-mobile-icon-btn svg { width: 18px; height: 18px; stroke: #A8FF00; fill: none; stroke-width: 1.8; }
+.gc-mobile-icon-btn span { font-family: 'Orbitron', sans-serif; font-size: 0.3rem; letter-spacing: 1px; color: #5A5A5A; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  #gc-unav { padding: 0 24px; }
+  .gc-unav-links { gap: 2px; }
+  .gc-unav-link { font-size: 0.38rem; padding: 6px 10px; }
+}
+@media (max-width: 768px) {
+  #gc-unav { padding: 0 20px; }
+  .gc-unav-links { display: none; }
+  .gc-unav-icon:not(.gc-burger-icon) { display: none; }
+  .gc-unav-burger { display: flex; }
+  #gc-search-overlay.open { max-height: 100px; padding: 16px 20px; }
+}
+
+</style>
+<style id='gc-uf-styles'>
+
+/* ═══════════════════════════════════════════════════════
+   GLITCH CODE — UNIVERSAL FOOTER v1.0
+   ═══════════════════════════════════════════════════════ */
+#gc-ufooter {
+  background: #0a0a0a;
+  border-top: 1px solid rgba(255,255,255,.06);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ── NEWSLETTER STRIP ── */
+.gc-uf-news {
+  background: linear-gradient(135deg, rgba(168,255,0,.06) 0%, rgba(0,123,255,.04) 100%);
+  border-bottom: 1px solid rgba(168,255,0,.1);
+  padding: 36px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.gc-uf-news-left { display: flex; flex-direction: column; gap: 4px; }
+.gc-uf-news-tag {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .38rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: #A8FF00; margin-bottom: 2px;
+}
+.gc-uf-news-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .85rem; font-weight: 900;
+  letter-spacing: -.5px; color: #fff;
+}
+.gc-uf-news-sub {
+  font-size: .75rem; color: rgba(255,255,255,.4); margin-top: 2px;
+}
+.gc-uf-news-form {
+  display: flex; gap: 8px; flex-shrink: 0;
+}
+.gc-uf-news-input {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  padding: 11px 18px;
+  font-family: 'Poppins', sans-serif;
+  font-size: .78rem; color: #fff;
+  outline: none; min-width: 240px;
+  transition: border-color .2s;
+}
+.gc-uf-news-input::placeholder { color: rgba(90,90,90,.8); }
+.gc-uf-news-input:focus { border-color: rgba(168,255,0,.4); }
+.gc-uf-news-btn {
+  padding: 11px 22px;
+  background: #A8FF00; color: #0E0E0E;
+  border: none; border-radius: 10px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .42rem; font-weight: 700;
+  letter-spacing: 1px; cursor: pointer;
+  transition: all .2s; white-space: nowrap;
+}
+.gc-uf-news-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(168,255,0,.3);
+}
+
+/* ── MAIN GRID ── */
+.gc-uf-main {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding: 56px 64px 48px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Brand column */
+.gc-uf-brand-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; margin-bottom: 14px;
+}
+.gc-uf-brand-logo img {
+  height: 32px; width: 32px;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+.gc-uf-brand-logo-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .56rem; font-weight: 700;
+  letter-spacing: 4px; color: #fff;
+  text-transform: uppercase;
+}
+.gc-uf-tagline {
+  font-size: .75rem; color: rgba(255,255,255,.35);
+  line-height: 1.75; max-width: 260px; margin-bottom: 24px;
+}
+.gc-uf-tagline strong { color: rgba(255,255,255,.6); font-weight: 500; }
+
+/* Social */
+.gc-uf-social { display: flex; gap: 10px; margin-bottom: 28px; }
+.gc-uf-social-btn {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none; cursor: pointer;
+  transition: all .2s;
+}
+.gc-uf-social-btn:hover {
+  border-color: rgba(168,255,0,.3);
+  background: rgba(168,255,0,.06);
+}
+.gc-uf-social-btn svg {
+  width: 16px; height: 16px;
+}
+
+/* Trust badges */
+.gc-uf-badges { display: flex; flex-direction: column; gap: 8px; }
+.gc-uf-badge {
+  display: flex; align-items: center; gap: 8px;
+  font-size: .68rem; color: rgba(255,255,255,.3);
+}
+.gc-uf-badge-icon {
+  font-size: .85rem; flex-shrink: 0;
+}
+
+/* Link columns */
+.gc-uf-col-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .42rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(90,90,90,.8); margin-bottom: 20px;
+}
+.gc-uf-links { display: flex; flex-direction: column; gap: 10px; }
+.gc-uf-links a, .gc-uf-links button {
+  font-size: .76rem; color: rgba(255,255,255,.38);
+  text-decoration: none; cursor: pointer;
+  transition: color .2s; background: none;
+  border: none; text-align: left;
+  padding: 0; font-family: 'Poppins', sans-serif;
+  display: flex; align-items: center; gap: 6px;
+}
+.gc-uf-links a:hover, .gc-uf-links button:hover { color: #fff; }
+.gc-uf-links a.gc-uf-hot {
+  color: rgba(168,255,0,.6);
+}
+.gc-uf-links a.gc-uf-hot:hover { color: #A8FF00; }
+.gc-uf-new-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  background: rgba(168,255,0,.12);
+  border: 1px solid rgba(168,255,0,.2);
+  border-radius: 4px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .3rem; font-weight: 700;
+  letter-spacing: 1px; color: #A8FF00;
+  text-transform: uppercase;
+}
+
+/* ── BOTTOM BAR ── */
+.gc-uf-bottom {
+  border-top: 1px solid rgba(255,255,255,.05);
+  padding: 20px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.gc-uf-copy {
+  font-size: .65rem; color: rgba(90,90,90,.6);
+}
+.gc-uf-bottom-links {
+  display: flex; gap: 20px; flex-wrap: wrap;
+}
+.gc-uf-bottom-links a {
+  font-size: .62rem; color: rgba(90,90,90,.6);
+  text-decoration: none; transition: color .2s;
+}
+.gc-uf-bottom-links a:hover { color: #A8FF00; }
+.gc-uf-bottom-right {
+  display: flex; align-items: center; gap: 8px;
+}
+.gc-uf-pay-badge {
+  display: flex; align-items: center; gap: 2px;
+  padding: 4px 10px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 6px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .32rem; font-weight: 700;
+  letter-spacing: 1px; color: rgba(255,255,255,.3);
+  text-transform: uppercase;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .gc-uf-main { grid-template-columns: 1fr 1fr; padding: 40px 32px 36px; gap: 32px; }
+  .gc-uf-news { padding: 28px 32px; }
+  .gc-uf-bottom { padding: 16px 32px; }
+}
+@media (max-width: 640px) {
+  .gc-uf-main { grid-template-columns: 1fr; padding: 36px 24px 32px; }
+  .gc-uf-news { flex-direction: column; padding: 24px; gap: 20px; }
+  .gc-uf-news-form { width: 100%; flex-direction: column; }
+  .gc-uf-news-input { min-width: unset; width: 100%; }
+  .gc-uf-bottom { flex-direction: column; align-items: flex-start; padding: 16px 24px; gap: 12px; }
+  .gc-uf-bottom-links { display: none; }
+  .gc-uf-bottom-right { display: none; }
+}
+
+</style>
+</head>
+<body>
+<div id="toast"></div>
+
+<nav id="gc-unav">
+
+  <!-- LOGO -->
+  <a href="home-glitch-popup.html" class="gc-unav-logo" aria-label="Glitch Code - Inicio">
+    <img src="logo-glitch-code.png" alt="Glitch Code" class="gc-unav-logo-img">
+    <span class="gc-unav-logo-text">Glitch Code</span>
+  </a>
+
+  <!-- LINKS CENTRADOS -->
+  <div class="gc-unav-links">
+    <a href="plp-glitch-code.html"              class="gc-unav-link" data-gc-page="productos">Productos</a>
+    <a href="comunidad_blog_glitch_code.html"   class="gc-unav-link" data-gc-page="comunidad">Comunidad</a>
+    <a href="contacto_v2_glitch_code.html"      class="gc-unav-link" data-gc-page="contacto">Contacto</a>
+    <a href="sobre-nosotros.html"               class="gc-unav-link" data-gc-page="nosotros">Sobre nosotros</a>
+  </div>
+
+  <!-- ICONOS DERECHA -->
+  <div class="gc-unav-icons">
+
+    <!-- Lupa / Buscar -->
+    <button class="gc-unav-icon" id="gc-search-btn" aria-label="Buscar" title="Buscar">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+
+    <!-- Favoritos / Me gusta -->
+    <a href="perfil-usuario-glitch.html" class="gc-unav-icon" aria-label="Mis favoritos" title="Favoritos" id="gc-wish-icon">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span class="gc-unav-badge" id="gc-wish-badge">0</span>
+    </a>
+
+    <!-- Perfil -->
+    <a href="login.html" class="gc-unav-icon" aria-label="Mi cuenta" title="Mi cuenta">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </a>
+
+    <!-- Carrito -->
+    <a href="carrito.html" class="gc-unav-icon" aria-label="Carrito" title="Carrito" id="gc-cart-nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="gc-unav-badge" id="gc-cart-badge">0</span>
+    </a>
+
+    <!-- Hamburguesa (mobile) -->
+    <button class="gc-unav-burger" id="gc-burger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</nav>
+
+<!-- BUSCADOR OVERLAY -->
+<div id="gc-search-overlay" role="search">
+  <div class="gc-search-inner">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="gc-search-input" placeholder="Buscar productos, artículos, guías..." autocomplete="off" spellcheck="false">
+    <span class="gc-search-hint">ESC para cerrar</span>
+  </div>
+</div>
+
+<!-- MENÚ MOBILE -->
+<div id="gc-mobile-menu">
+  <a href="home-glitch-popup.html"            class="gc-mobile-link" data-gc-page="inicio">
+    Inicio <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="plp-glitch-code.html"              class="gc-mobile-link" data-gc-page="productos">
+    Productos <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="comunidad_blog_glitch_code.html"   class="gc-mobile-link" data-gc-page="comunidad">
+    Comunidad <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="contacto_v2_glitch_code.html"      class="gc-mobile-link" data-gc-page="contacto">
+    Contacto <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="sobre-nosotros.html"               class="gc-mobile-link" data-gc-page="nosotros">
+    Sobre nosotros <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="legales-glitch-code.html"          class="gc-mobile-link">
+    Legales <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <div class="gc-mobile-icons">
+    <button class="gc-mobile-icon-btn" onclick="document.getElementById('gc-mobile-menu').classList.remove('open');document.getElementById('gc-burger').classList.remove('open');document.getElementById('gc-search-btn').click()">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span>Buscar</span>
+    </button>
+    <a href="perfil-usuario-glitch.html" class="gc-mobile-icon-btn">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span>Favoritos</span>
+    </a>
+    <a href="login.html" class="gc-mobile-icon-btn">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span>Mi cuenta</span>
+    </a>
+    <a href="carrito.html" class="gc-mobile-icon-btn" id="gc-cart-mobile">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span>Carrito</span>
+    </a>
+  </div>
+</div>
+
+<div class="wrap">
+<aside class="sb">
+  <div class="pcard">
+    <div class="pcover">
+      <svg viewBox="0 0 280 84" fill="none"><rect width="280" height="84" fill="#080808"/>
+        <defs><radialGradient id="covG" cx="50%" cy="50%" r="60%"><stop offset="0%" stop-color="#A8FF00" stop-opacity=".12"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></radialGradient></defs>
+        <rect width="280" height="84" fill="url(#covG)"/>
+        <g stroke="rgba(168,255,0,0.07)" stroke-width="1" fill="none">
+          <polygon points="140,5 166,20 166,50 140,65 114,50 114,20"/>
+          <polygon points="180,14 200,25 200,47 180,58 160,47 160,25"/>
+          <polygon points="100,14 120,25 120,47 100,58 80,47 80,25"/>
+        </g>
+        <circle cx="140" cy="35" r="3.5" fill="rgba(168,255,0,0.6)"/>
+        <circle cx="180" cy="36" r="2" fill="rgba(168,255,0,0.25)"/>
+        <circle cx="100" cy="36" r="2" fill="rgba(168,255,0,0.25)"/>
+      </svg>
+    </div>
+    <div class="pavrow">
+      <div class="pav" onclick="T('Editar foto de perfil...')">DC<div class="odot"></div></div>
+      <button class="edit-cover" onclick="T('Editar portada...')">Editar portada</button>
+    </div>
+    <div class="pinfo">
+      <div class="pname">David Catalán</div>
+      <div class="phandle">@davidcatalan · Madrid 📍</div>
+      <div class="rbadge" style="background:rgba(168,255,0,.08);border:1px solid rgba(168,255,0,.25)" onclick="T('⚡ Rango actual: Glitch Pro — Nivel 3')">
+        <span style="font-size:.9rem">⚡</span>
+        <span style="font-family:var(--fh);font-size:.5rem;font-weight:700;letter-spacing:2px;color:var(--lm);text-transform:uppercase">Glitch Pro</span>
+        <span style="background:rgba(168,255,0,.15);color:var(--lm);font-family:var(--fh);font-size:.44rem;font-weight:700;letter-spacing:1px;padding:2px 7px;border-radius:4px;text-transform:uppercase;margin-left:auto">NV. 3</span>
+      </div>
+      <div class="xpw">
+        <div class="xph"><span class="xl">Hacia Elite</span><span class="xv">2.840 / 4.000 XP</span></div>
+        <div class="xpt"><div class="xpf" id="xpf" style="width:0%"></div></div>
+        <div class="xpn"><strong>1.160 XP</strong> para Glitch Elite</div>
+      </div>
+      <div class="ms">
+        <div class="msc"><div class="msv">14<span class="u">m</span></div><div class="msl">Comunidad</div></div>
+        <div class="msc"><div class="msv">8</div><div class="msl">Pedidos</div></div>
+        <div class="msc"><div class="msv">3</div><div class="msl">Retos ✓</div></div>
+        <div class="msc"><div class="msv">18</div><div class="msl">Logros</div></div>
+      </div>
+      <div class="stk"><span class="sf">🔥</span><div><div class="sv">23 días de racha</div><div class="sl">Máximo personal: 31 días</div></div></div>
+      <div class="socrow">
+        <div class="soc" onclick="T('Ver siguiendo...')"><div class="socv">47</div><div class="socl">Siguiendo</div></div>
+        <div class="soc" onclick="T('Ver seguidores...')"><div class="socv">128</div><div class="socl">Seguidores</div></div>
+        <div class="soc"><div class="socv">312</div><div class="socl">Posts</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ptsc">
+    <div class="ptsk">Glitch Points <span>⚡</span></div>
+    <div class="ptsv">3.240 <sub>pts</sub></div>
+    <div class="ptss">+120 pts esta semana · Expiran en 180 días</div>
+    <div class="ptst"><div class="ptsf"></div></div>
+    <div class="ptsl"><span>Próximo descuento</span><em>3.240 / 5.000 pts</em></div>
+    <button class="ptsbtn" onclick="T('Cargando canje de puntos...')">Canjear puntos →</button>
+  </div>
+
+  <div class="snav">
+    <button class="snb act" onclick="showTab('overview',this)">
+      <div class="snbi"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+      <span class="snbt">Panel general</span>
+    </button>
+    <button class="snb" onclick="showTab('logros',this)">
+      <div class="snbi"><svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></div>
+      <span class="snbt">Logros</span><span class="snbg">18/32</span>
+    </button>
+    <button class="snb" onclick="showTab('pedidos',this)">
+      <div class="snbi"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>
+      <span class="snbt">Mis pedidos</span><span class="snbg bl">1 nuevo</span>
+    </button>
+    <button class="snb" onclick="showTab('stack',this)">
+      <div class="snbi"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+      <span class="snbt">Mi stack</span>
+    </button>
+    <button class="snb" onclick="showTab('retos',this)">
+      <div class="snbi"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+      <span class="snbt">Retos activos</span>
+    </button>
+    <button class="snb" onclick="showTab('ranking',this)">
+      <div class="snbi"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+      <span class="snbt">Ranking comunidad</span>
+    </button>
+    <button class="snb" onclick="showTab('actividad',this)">
+      <div class="snbi"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div>
+      <span class="snbt">Actividad</span>
+    </button>
+    <button class="snb" onclick="showTab('ajustes',this)">
+      <div class="snbi"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+      <span class="snbt">Ajustes</span>
+    </button>
+  </div>
+</aside>
+
+<main class="main">
+
+<!-- OVERVIEW -->
+<div id="tp-overview" class="tp act">
+  <div class="panel">
+    <div class="ph"><div class="pt">Tu camino Glitch Code</div><button class="pa" onclick="T('Cargando beneficios por rango...')">Ver beneficios por rango →</button></div>
+    <div class="rj">
+      <div class="ri d" onclick="T('✅ Superado: Rookie · 0 XP · Beneficio: acceso a comunidad')"><div class="ric">🌱</div><div class="rin">Rookie</div><div class="rip">0 XP</div></div>
+      <div class="ri d" onclick="T('✅ Superado: Athlete · 500 XP · Beneficio: 5% descuento')"><div class="ric">⚡</div><div class="rin">Athlete</div><div class="rip">500 XP</div></div>
+      <div class="ri c" onclick="T('⚡ ACTUAL: Pro · 2.000 XP · Beneficio: 10% + eventos gratis')"><div class="ric">🔥</div><div class="rin">Pro</div><div class="rip">2.000 XP</div></div>
+      <div class="ri" onclick="T('🔒 Siguiente: Elite · 4.000 XP · Envío gratis permanente + 15%')"><div class="ric" style="opacity:.36">💎</div><div class="rin">Elite</div><div class="rip">4.000 XP</div></div>
+      <div class="ri" onclick="T('🔒 Máximo: Legend · 10.000 XP · Acceso anticipado + embajador oficial')"><div class="ric" style="opacity:.22">👑</div><div class="rin">Legend</div><div class="rip">10.000 XP</div></div>
+    </div>
+    <div style="padding:12px 16px;background:rgba(168,255,0,.04);border:1px solid rgba(168,255,0,.12);border-radius:10px;display:flex;align-items:center;justify-content:space-between">
+      <div style="font-size:.7rem;color:rgba(255,255,255,.5);line-height:1.5">Al llegar a <strong style="color:var(--wh)">Glitch Elite</strong>: <span style="color:var(--lm)">envío gratis permanente</span> · <span style="color:var(--lm)">15% en todos los productos</span> · acceso anticipado a lanzamientos</div>
+      <button style="font-family:var(--fh);font-size:.52rem;font-weight:700;letter-spacing:2px;color:var(--bk);background:var(--lm);padding:9px 16px;border-radius:100px;border:none;cursor:pointer;white-space:nowrap;margin-left:16px;transition:background .2s" onmouseover="this.style.background='#c8ff2a'" onmouseout="this.style.background='var(--lm)'" onclick="T('¡Solo 1.160 XP más para Elite!')">1.160 XP más →</button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="ph"><div class="pt">Estadísticas</div><button class="pa">Ver completo →</button></div>
+    <div class="strow" style="margin-bottom:18px">
+      <div class="stc"><div class="stci"><svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div><div class="stv">23<span>d</span></div><div class="stl">Racha activa</div><div class="std"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>+3 vs semana pasada</div></div>
+      <div class="stc"><div class="stci"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg></div><div class="stv">8</div><div class="stl">Pedidos totales</div><div class="std"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>+2 este mes</div></div>
+      <div class="stc"><div class="stci"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><div class="stv">128</div><div class="stl">Seguidores</div><div class="std"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>+14 esta semana</div></div>
+      <div class="stc"><div class="stci"><svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><path d="M21 12c-1 5-5.4 9-9 9S3 17 2 12a10 10 0 0 1 10-10 10 10 0 0 1 9 10z"/></svg></div><div class="stv">18</div><div class="stl">Logros</div><div class="std"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg>2 nuevos este mes</div></div>
+    </div>
+    <div style="font-family:var(--fh);font-size:.52rem;font-weight:700;letter-spacing:2px;color:var(--gr);text-transform:uppercase;margin-bottom:10px">Registro de entrenos · Esta semana</div>
+    <div class="wcal">
+      <div class="wd"><div class="wdl">Lun</div><div class="wdd dn" onclick="T('Lunes: Pecho + Hombros 💪 · 90 min')">💪</div></div>
+      <div class="wd"><div class="wdl">Mar</div><div class="wdd rs" onclick="T('Martes: Descanso activo 😴')">😴</div></div>
+      <div class="wd"><div class="wdl">Mié</div><div class="wdd dn" onclick="T('Miércoles: Pierna + Glúteos 🔥 · 75 min')">🔥</div></div>
+      <div class="wd"><div class="wdl">Jue</div><div class="wdd dn" onclick="T('Jueves: Espalda + Bíceps ⚡ · 80 min')">⚡</div></div>
+      <div class="wd"><div class="wdl">Vie</div><div class="wdd td" onclick="T('¡Hoy toca entrenar! ¿Cuál es el plan? 🎯')">🎯</div></div>
+      <div class="wd"><div class="wdl">Sáb</div><div class="wdd em" onclick="T('Sábado sin registrar todavía')">—</div></div>
+      <div class="wd"><div class="wdl">Dom</div><div class="wdd em" onclick="T('Domingo sin registrar todavía')">—</div></div>
+    </div>
+  </div>
+
+  <div class="srec">
+    <div class="srect">
+      <div class="sreci"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+      <div><div class="sreck">⚡ Glitch AI · Recomendado para ti</div><div class="srecs">Basado en tu objetivo de volumen + tu historial de compras</div></div>
+    </div>
+    <div class="srecg">
+      <div class="srecp" onclick="T('Abriendo: Creatina Monohidrato 500g')">
+        <div class="srecpi"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(168,255,0,.7)" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <div><div class="srecpn">Creatina Mono</div><div class="srecpp">24.99€</div></div>
+      </div>
+      <div class="srecp" onclick="T('Abriendo: Vitamina D3 + K2')">
+        <div class="srecpi"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(168,255,0,.7)" stroke-width="1.5"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/></svg></div>
+        <div><div class="srecpn">Vitamina D3 + K2</div><div class="srecpp">12.99€</div></div>
+      </div>
+      <button class="srecadd" onclick="T('Stack añadido al carrito — 2 productos ⚡')">+ Añadir todo al carrito</button>
+    </div>
+  </div>
+
+  <div class="refc">
+    <div>
+      <div class="refk">Programa de referidos</div>
+      <div class="reft">Invita y gana Glitch Points</div>
+      <div class="refs">Tú recibes <strong style="color:var(--lm)">500 pts</strong> y tu amigo <strong style="color:var(--lm)">200 pts</strong> de bienvenida en su primer pedido. Sin límite de referidos.</div>
+      <div class="refcw"><div class="refcode" onclick="T('Código copiado: DAVID-GC ✓')">DAVID-GC</div><button class="refcopy" onclick="T('Código copiado al portapapeles ✓')">Copiar</button></div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-size:.62rem;color:var(--gr);margin-bottom:5px">Referidos activos</div>
+      <div style="font-family:var(--fh);font-size:1.8rem;font-weight:900;color:var(--wh);line-height:1">3</div>
+      <div style="font-size:.62rem;color:var(--lm);margin-top:3px;font-weight:600">+1.500 pts ganados</div>
+    </div>
+  </div>
+</div>
+
+<!-- LOGROS -->
+<div id="tp-logros" class="tp">
+  <div class="panel">
+    <div class="ph"><div class="pt">Logros · 18 / 32</div><button class="pa" onclick="T('Ver todos los logros disponibles...')">Ver todos →</button></div>
+    <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap">
+      <div style="padding:4px 12px;background:rgba(168,255,0,.08);border:1px solid rgba(168,255,0,.2);border-radius:100px;font-family:var(--fh);font-size:.5rem;font-weight:700;color:var(--lm);cursor:pointer" onclick="T('Filtrando: Todos los logros')">Todos (32)</div>
+      <div style="padding:4px 12px;background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:100px;font-family:var(--fh);font-size:.5rem;color:var(--gr);cursor:pointer" onclick="T('Filtrando: Desbloqueados')">✓ Desbloqueados (18)</div>
+      <div style="padding:4px 12px;background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:100px;font-family:var(--fh);font-size:.5rem;color:var(--gr);cursor:pointer" onclick="T('Filtrando: Pendientes')">🔒 Pendientes (14)</div>
+      <div style="padding:4px 12px;background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.2);border-radius:100px;font-family:var(--fh);font-size:.5rem;color:#FFD700;cursor:pointer" onclick="T('Filtrando: Legendarios')">★ Legendarios (2)</div>
+    </div>
+    <div class="ag">
+      <div class="ac" onclick="T('🎯 Primer Protocolo: +100 XP · Desbloqueado el 14 mar 2026')"><span class="aci">🎯</span><div class="acn">Primer Protocolo</div><div class="acd">Primera compra en Glitch Code</div><div class="acp">+100 XP</div><div class="acdt">14 mar 2026</div><div class="rar rc"></div></div>
+      <div class="ac" onclick="T('🔥 En Racha: +200 XP · 7 días seguidos en la comunidad')"><span class="aci">🔥</span><div class="acn">En Racha</div><div class="acd">7 días seguidos activo en comunidad</div><div class="acp">+200 XP</div><div class="acdt">22 mar 2026</div><div class="rar rc"></div></div>
+      <div class="ac" onclick="T('💬 Voz de la Comunidad: +300 XP · 50 mensajes enviados')"><span class="aci">💬</span><div class="acn">Voz Comunidad</div><div class="acd">50 mensajes en el Discord</div><div class="acp">+300 XP</div><div class="acdt">1 abr 2026</div><div class="rar ru"></div></div>
+      <div class="ac" onclick="T('⚗️ Científico del Gym: +250 XP · 10 artículos leídos')"><span class="aci">⚗️</span><div class="acn">Científico</div><div class="acd">Leíste 10 artículos del blog</div><div class="acp">+250 XP</div><div class="acdt">8 abr 2026</div><div class="rar ru"></div></div>
+      <div class="ac" onclick="T('🏅 Constancia x30: +500 XP · 30 días sin fallar')"><span class="aci">🏅</span><div class="acn">Constancia x30</div><div class="acd">30 días seguidos sin fallar</div><div class="acp">+500 XP</div><div class="acdt">5 abr 2026</div><div class="rar rr"></div></div>
+      <div class="ac" onclick="T('🎪 Evento Real: +400 XP · Primer evento presencial')"><span class="aci">🎪</span><div class="acn">Evento Real</div><div class="acd">Primer evento presencial Glitch Code</div><div class="acp">+400 XP</div><div class="acdt">18 abr 2026</div><div class="rar ru"></div></div>
+      <div class="ac" onclick="T('🤝 Embajador: +600 XP · 3 amigos referidos que compraron')"><span class="aci">🤝</span><div class="acn">Embajador</div><div class="acd">3 amigos referidos que compraron</div><div class="acp">+600 XP</div><div class="acdt">25 abr 2026</div><div class="rar rr"></div></div>
+      <div class="ac leg" onclick="T('🏆 LEGENDARIO — Stack Completo: +1000 XP · Tienes el stack esencial completo')"><span class="aci">🏆</span><div class="acn">Stack Completo</div><div class="acd">Stack esencial completo activo</div><div class="acp gd">+1000 XP ★</div><div class="acdt">2 may 2026</div><div class="rar rl"></div></div>
+      <div class="ac lkd" onclick="T('🔒 PR Hunter: Registra tu primer récord personal en cualquier ejercicio')"><span class="aci">💪</span><div class="acn">PR Hunter</div><div class="acd">Registra tu primer récord personal</div><div class="acp">+400 XP</div><span class="ack">🔒</span><div class="rar ru" style="opacity:.2"></div></div>
+      <div class="ac lkd" onclick="T('🔒 Escritor GC: Publica 5 posts valorados con +10 reacciones cada uno')"><span class="aci">✍️</span><div class="acn">Escritor GC</div><div class="acd">5 posts con +10 reacciones cada uno</div><div class="acp">+350 XP</div><span class="ack">🔒</span><div class="rar ru" style="opacity:.2"></div></div>
+      <div class="ac lkd" onclick="T('🔒 Leyenda Local: Asiste a 10 eventos presenciales de Glitch Code')"><span class="aci">🌟</span><div class="acn">Leyenda Local</div><div class="acd">Asiste a 10 eventos presenciales</div><div class="acp">+800 XP</div><span class="ack">🔒</span><div class="rar rr" style="opacity:.2"></div></div>
+      <div class="ac lkd leg" onclick="T('🔒 LEGENDARIO — Glitch Legend: Alcanza el rango máximo de la comunidad')"><span class="aci">👑</span><div class="acn">Glitch Legend</div><div class="acd">Alcanza el rango máximo</div><div class="acp gd">+2000 XP ★★</div><span class="ack">🔒</span><div class="rar rl" style="opacity:.2"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PEDIDOS -->
+<div id="tp-pedidos" class="tp">
+  <div class="panel">
+    <div class="ph"><div class="pt">Mis pedidos</div><button class="pa">Ver historial completo →</button></div>
+    <div class="olist">
+      <div class="or" onclick="T('Abriendo pedido #GC-0091 — en tránsito, llega mañana')">
+        <div class="oimg"><svg viewBox="0 0 40 40" fill="none" width="22" height="22"><rect x="4" y="8" width="32" height="26" rx="4" fill="#1a1a1a" stroke="rgba(168,255,0,.3)" stroke-width="1"/><text x="20" y="25" text-anchor="middle" font-family="Orbitron" font-size="6" font-weight="900" fill="#A8FF00">ISO</text></svg></div>
+        <div class="oi"><div class="on">Proteína Iso-Tech 500g + Creatina Monohidrato</div><div class="om">Pedido #GC-0091 · 8 may 2026 · 2 productos · 70.98€</div></div>
+        <div class="os tra">📦 En tránsito · Llega mañana</div>
+      </div>
+      <div class="or" onclick="T('Abriendo pedido #GC-0078 — entregado el 24 abr')">
+        <div class="oimg"><svg viewBox="0 0 40 40" fill="none" width="22" height="22"><path d="M8 8L12 6L28 6L32 8L33 34L20 38L7 34Z" fill="#1a1a1a" stroke="rgba(168,255,0,.2)" stroke-width="1"/><text x="20" y="24" text-anchor="middle" font-family="Orbitron" font-size="5" font-weight="900" fill="#A8FF00">GF</text></svg></div>
+        <div class="oi"><div class="on">Glitch Fuel Pre-Workout 400g</div><div class="om">Pedido #GC-0078 · 22 abr 2026 · 1 producto · 29.99€</div></div>
+        <div class="os del">✓ Entregado</div>
+      </div>
+      <div class="or" onclick="T('Abriendo pedido #GC-0065')">
+        <div class="oimg"><svg viewBox="0 0 40 40" fill="none" width="22" height="22"><rect x="6" y="8" width="28" height="26" rx="4" fill="#1a1a1a" stroke="rgba(0,123,255,.3)" stroke-width="1"/><text x="20" y="25" text-anchor="middle" font-family="Orbitron" font-size="5" font-weight="900" fill="#007BFF">BCAA</text></svg></div>
+        <div class="oi"><div class="on">BCAA 2:1:1 Recovery + Vitamina D3+K2</div><div class="om">Pedido #GC-0065 · 10 abr 2026 · 2 productos · 37.98€</div></div>
+        <div class="os del">✓ Entregado</div>
+      </div>
+      <div class="or" onclick="T('Abriendo pedido #GC-0044')">
+        <div class="oimg"><svg viewBox="0 0 40 40" fill="none" width="22" height="22"><rect x="6" y="6" width="28" height="30" rx="4" fill="#1a1a1a" stroke="rgba(168,255,0,.2)" stroke-width="1"/><path d="M16 16L14 22L17 22L15 30L22 19L19 19L22 16Z" fill="rgba(168,255,0,.5)"/></svg></div>
+        <div class="oi"><div class="on">Pack Ganancia Muscular — Stack Completo</div><div class="om">Pedido #GC-0044 · 15 mar 2026 · 3 productos · 59.99€</div></div>
+        <div class="os del">✓ Entregado</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- STACK -->
+<div id="tp-stack" class="tp">
+  <div class="panel">
+    <div class="ph"><div class="pt">Mi stack actual</div><button class="pa" onclick="T('Abriendo editor de stack personalizado...')">Editar stack →</button></div>
+    <div class="ai-box">
+      <div class="ai-box-icon">⚡</div>
+      <div><strong style="color:var(--lm)">Glitch AI analiza tu stack:</strong> Tu combinación Iso-Tech + Creatina + BCAA es óptima para volumen limpio. Te falta <strong style="color:var(--wh)">Vitamina D3 + K2</strong> para optimizar la recuperación nocturna y los niveles hormonales. Puntuación del stack: <strong style="color:var(--lm)">8.5 / 10</strong></div>
+    </div>
+    <div class="olist">
+      <div class="or" style="background:rgba(168,255,0,.03);border-color:rgba(168,255,0,.2)" onclick="T('Ver producto: Proteína Iso-Tech')">
+        <div class="oimg"><svg viewBox="0 0 40 40" fill="none" width="22" height="22"><rect x="4" y="8" width="32" height="26" rx="4" fill="#1a1a1a" stroke="rgba(168,255,0,.3)" stroke-width="1"/><text x="20" y="25" text-anchor="middle" font-family="Orbitron" font-size="6" font-weight="900" fill="#A8FF00">ISO</text></svg></div>
+        <div class="oi"><div class="on">Proteína Iso-Tech 500g · Chocolate Oscuro</div><div class="om" style="color:var(--lm)">⚠ Quedan ~8 días de producto · Se recomienda pedir pronto</div></div>
+        <div class="os" style="background:rgba(168,255,0,.08);color:var(--lm);border:1px solid rgba(168,255,0,.22);font-family:var(--fh);font-size:.42rem;font-weight:700;letter-spacing:1.5px;padding:4px 9px;border-radius:5px;text-transform:uppercase">⚠ Por acabar</div>
+        <button style="margin-left:8px;font-family:var(--fh);font-size:.48rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--bk);background:var(--lm);padding:8px 13px;border-radius:100px;border:none;cursor:pointer;flex-shrink:0;transition:background .2s" onmouseover="this.style.background='#c8ff2a'" onmouseout="this.style.background='var(--lm)'" onclick="event.stopPropagation();T('Reorden: Proteína Iso-Tech añadida al carrito ⚡')">Reordenar</button>
+      </div>
+      <div class="or" onclick="T('Ver producto: Creatina Monohidrato')">
+        <div class="oimg"><svg viewBox="0 0 40 40" fill="none" width="22" height="22"><path d="M8 8L12 6L28 6L32 8L33 32L20 36L7 32Z" fill="#1a1a1a" stroke="rgba(168,255,0,.2)" stroke-width="1"/><text x="20" y="24" text-anchor="middle" font-family="Orbitron" font-size="5" font-weight="900" fill="#A8FF00">MONO</text></svg></div>
+        <div class="oi"><div class="on">Creatina Monohidrato 500g</div><div class="om">~22 días restantes · Stock OK</div></div>
+        <div class="os del">✓ Stock OK</div>
+        <button style="margin-left:8px;font-family:var(--fh);font-size:.48rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--bk);background:rgba(168,255,0,.4);padding:8px 13px;border-radius:100px;border:none;cursor:pointer;flex-shrink:0" onclick="event.stopPropagation();T('Reorden: Creatina añadida al carrito')">Reordenar</button>
+      </div>
+      <div class="or" onclick="T('Ver producto: BCAA 2:1:1')">
+        <div class="oimg"><svg viewBox="0 0 40 40" fill="none" width="22" height="22"><rect x="6" y="8" width="28" height="26" rx="4" fill="#1a1a1a" stroke="rgba(0,123,255,.25)" stroke-width="1"/><text x="20" y="25" text-anchor="middle" font-family="Orbitron" font-size="5" font-weight="900" fill="#007BFF">BCAA</text></svg></div>
+        <div class="oi"><div class="on">BCAA 2:1:1 Recovery</div><div class="om">~15 días restantes · Stock OK</div></div>
+        <div class="os del">✓ Stock OK</div>
+        <button style="margin-left:8px;font-family:var(--fh);font-size:.48rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--bk);background:rgba(168,255,0,.4);padding:8px 13px;border-radius:100px;border:none;cursor:pointer;flex-shrink:0" onclick="event.stopPropagation();T('Reorden: BCAA añadida al carrito')">Reordenar</button>
+      </div>
+      <div class="or" style="border-style:dashed;border-color:rgba(168,255,0,.15);background:rgba(168,255,0,.02);cursor:pointer" onclick="T('Añadir Vitamina D3+K2 al stack — recomendado por Glitch AI')">
+        <div class="oimg" style="border-color:rgba(168,255,0,.2)"><svg viewBox="0 0 40 40" fill="none" width="22" height="22"><line x1="20" y1="8" x2="20" y2="32" stroke="rgba(168,255,0,.5)" stroke-width="2" stroke-linecap="round"/><line x1="8" y1="20" x2="32" y2="20" stroke="rgba(168,255,0,.5)" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div class="oi"><div class="on" style="color:var(--lm)">⚡ Añadir Vitamina D3 + K2 (recomendado por IA)</div><div class="om">Mejora la recuperación nocturna y los niveles hormonales · 12.99€</div></div>
+        <button style="margin-left:8px;font-family:var(--fh);font-size:.48rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--bk);background:var(--lm);padding:8px 13px;border-radius:100px;border:none;cursor:pointer;flex-shrink:0;transition:background .2s" onmouseover="this.style.background='#c8ff2a'" onmouseout="this.style.background='var(--lm)'" onclick="event.stopPropagation();T('D3+K2 añadida al carrito — stack al 9.5/10 ⚡')">Añadir</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RETOS -->
+<div id="tp-retos" class="tp">
+  <div class="panel">
+    <div class="ph"><div class="pt">Retos activos</div><button class="pa" onclick="T('Cargando ranking de retos...')">Ver ranking →</button></div>
+    <div class="chs">
+      <div class="chc">
+        <div class="chst on"><div class="sd"></div>EN CURSO · MAYO 2026</div>
+        <div class="cht">RETO 30 DÍAS DE CONSTANCIA</div>
+        <div class="chd">Entrena mínimo 4 días a la semana durante 30 días. Documenta tu proceso con #Constancia30. El mejor progreso gana un pack completo Glitch Code valorado en 120€.</div>
+        <div class="chmeta">
+          <div class="chm"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>347 participantes</div>
+          <div class="chm"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>12 días restantes</div>
+        </div>
+        <div class="chpw"><div class="chpl"><span>Tu progreso (23/30 días)</span><span>77%</span></div><div class="chpt"><div class="chpf" style="width:77%"></div></div></div>
+        <button class="chbtn" onclick="T('¡Registrando entreno de hoy en el reto!')">Registrar entreno de hoy</button>
+      </div>
+      <div class="chc" style="border-color:rgba(0,123,255,.2)">
+        <div class="chst soon"><div class="sd"></div>PRÓXIMO · JUNIO 2026</div>
+        <div class="cht">RETO FUERZA: NUEVO PR EN 6 SEMANAS</div>
+        <div class="chd">Supera tu 1RM en press banca, sentadilla o peso muerto en 6 semanas. Documenta inicio y final. Premio: stack fuerza valorado en 120€.</div>
+        <div class="chmeta">
+          <div class="chm" style="color:var(--bl)"><svg viewBox="0 0 24 24" style="stroke:var(--bl)"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>128 pre-inscritos</div>
+          <div class="chm" style="color:var(--bl)"><svg viewBox="0 0 24 24" style="stroke:var(--bl)"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Empieza el 1 jun</div>
+        </div>
+        <div class="chpw"><div class="chpl" style="color:var(--bl)"><span>Pre-inscripciones abiertas</span><span style="color:var(--bl)">128 / 200 plazas</span></div><div class="chpt"><div class="chpf" style="width:64%;background:linear-gradient(to right,#007BFF,#00c3ff)"></div></div></div>
+        <button class="chbtn bl" onclick="T('¡Pre-inscrito al Reto Fuerza de junio!')">Pre-inscribirme gratis</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RANKING -->
+<div id="tp-ranking" class="tp">
+  <div class="panel">
+    <div class="ph"><div class="pt">Ranking comunidad · Mayo 2026</div><button class="pa" onclick="T('Cargando ranking completo...')">Ver ranking completo →</button></div>
+    <div style="display:flex;gap:8px;margin-bottom:18px">
+      <div style="padding:4px 12px;background:rgba(168,255,0,.08);border:1px solid rgba(168,255,0,.2);border-radius:100px;font-family:var(--fh);font-size:.5rem;color:var(--lm);cursor:pointer">Global</div>
+      <div style="padding:4px 12px;background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:100px;font-family:var(--fh);font-size:.5rem;color:var(--gr);cursor:pointer" onclick="T('Filtrando: Madrid')">Madrid</div>
+      <div style="padding:4px 12px;background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:100px;font-family:var(--fh);font-size:.5rem;color:var(--gr);cursor:pointer" onclick="T('Filtrando: Amigos')">Amigos</div>
+      <div style="padding:4px 12px;background:transparent;border:1px solid rgba(255,255,255,.1);border-radius:100px;font-family:var(--fh);font-size:.5rem;color:var(--gr);cursor:pointer" onclick="T('Filtrando: Este mes')">Este mes</div>
+    </div>
+    <div class="lb">
+      <div class="lbr" onclick="T('Ver perfil de Javier M. · Glitch Legend · 12.840 XP')">
+        <div class="lbpos gold">🥇</div>
+        <div class="lbav" style="background:rgba(255,215,0,.1);border-color:rgba(255,215,0,.25);color:#FFD700">JM</div>
+        <div class="lbinfo"><div class="lbname">Javier M. <span style="font-family:var(--fh);font-size:.44rem;color:rgba(255,215,0,.8);background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.2);padding:2px 6px;border-radius:4px">LEGEND</span></div><div class="lbsub">Madrid · Racha 45 días 🔥</div></div>
+        <div class="lbpts">12.840 XP</div>
+      </div>
+      <div class="lbr" onclick="T('Ver perfil de Sara R. · Glitch Elite · 8.240 XP')">
+        <div class="lbpos silver">🥈</div>
+        <div class="lbav" style="background:rgba(192,192,192,.08);border-color:rgba(192,192,192,.2);color:#C0C0C0">SR</div>
+        <div class="lbinfo"><div class="lbname">Sara R. <span style="font-family:var(--fh);font-size:.44rem;color:rgba(0,123,255,.8);background:rgba(0,123,255,.08);border:1px solid rgba(0,123,255,.2);padding:2px 6px;border-radius:4px">ELITE</span></div><div class="lbsub">Valencia · Racha 31 días 🔥</div></div>
+        <div class="lbpts">8.240 XP</div>
+      </div>
+      <div class="lbr" onclick="T('Ver perfil de Carlos P. · Glitch Pro · 6.120 XP')">
+        <div class="lbpos bronze">🥉</div>
+        <div class="lbav" style="background:rgba(205,127,50,.08);border-color:rgba(205,127,50,.2);color:#CD7F32">CP</div>
+        <div class="lbinfo"><div class="lbname">Carlos P. <span style="font-family:var(--fh);font-size:.44rem;color:rgba(168,255,0,.8);background:rgba(168,255,0,.08);border:1px solid rgba(168,255,0,.2);padding:2px 6px;border-radius:4px">PRO</span></div><div class="lbsub">Barcelona · Racha 28 días 🔥</div></div>
+        <div class="lbpts">6.120 XP</div>
+      </div>
+      <div class="lbr" onclick="T('Ver perfil de Ana M.')"><div class="lbpos" style="color:var(--gr)">4</div><div class="lbav">AM</div><div class="lbinfo"><div class="lbname">Ana M.</div><div class="lbsub">Sevilla · Racha 19 días</div></div><div class="lbpts">4.880 XP</div></div>
+      <div class="lbr" onclick="T('Ver perfil de Rubén G.')"><div class="lbpos" style="color:var(--gr)">5</div><div class="lbav">RG</div><div class="lbinfo"><div class="lbname">Rubén G.</div><div class="lbsub">Madrid · Racha 12 días</div></div><div class="lbpts">3.940 XP</div></div>
+      <!-- TÚ -->
+      <div style="padding:4px 0;display:flex;align-items:center;gap:8px;margin:4px 0"><div style="flex:1;height:1px;background:rgba(168,255,0,.15)"></div><span style="font-family:var(--fh);font-size:.46rem;color:rgba(168,255,0,.5);letter-spacing:2px;white-space:nowrap">TU POSICIÓN</span><div style="flex:1;height:1px;background:rgba(168,255,0,.15)"></div></div>
+      <div class="lbr me" onclick="T('¡Este eres tú! Posición #23 global · +2 posiciones esta semana')">
+        <div class="lbpos" style="color:var(--lm)">23</div>
+        <div class="lbav">DC</div>
+        <div class="lbinfo">
+          <div class="lbname">David Catalán <span class="me-badge">TÚ</span> <span style="font-family:var(--fh);font-size:.44rem;color:rgba(168,255,0,.8);background:rgba(168,255,0,.08);border:1px solid rgba(168,255,0,.2);padding:2px 6px;border-radius:4px">PRO</span></div>
+          <div class="lbsub">Madrid · Racha 23 días 🔥 · ↑2 esta semana</div>
+        </div>
+        <div class="lbpts">2.840 XP</div>
+      </div>
+    </div>
+    <div style="margin-top:14px;padding:12px 16px;background:rgba(168,255,0,.04);border:1px solid rgba(168,255,0,.12);border-radius:10px;font-size:.72rem;color:rgba(255,255,255,.5);text-align:center">
+      Estás <strong style="color:var(--wh)">1.100 XP</strong> por detrás del puesto #20. <strong style="color:var(--lm)">Completa el reto activo</strong> para subir 5 posiciones esta semana.
+    </div>
+  </div>
+</div>
+
+<!-- ACTIVIDAD -->
+<div id="tp-actividad" class="tp">
+  <div class="panel">
+    <div class="ph"><div class="pt">Actividad reciente</div></div>
+    <div class="af">
+      <div class="ai2"><div class="adw"><div class="ad lm"></div><div class="aln"></div></div><div><div class="at">Desbloqueaste el logro <span class="hl">🏆 Stack Completo</span> → ganaste <span class="hl">+1000 XP</span></div><div class="atm">Hoy · 09:14</div></div></div>
+      <div class="ai2"><div class="adw"><div class="ad bl"></div><div class="aln"></div></div><div><div class="at">Pedido <strong>#GC-0091</strong> enviado — llegada estimada <span class="hl">mañana antes de las 14h</span></div><div class="atm">Hoy · 07:30</div></div></div>
+      <div class="ai2"><div class="adw"><div class="ad lm"></div><div class="aln"></div></div><div><div class="at">Completaste el <span class="hl">Reto 30 días de Constancia</span> — <span class="hl">+500 XP</span> y badge 🏅</div><div class="atm">Ayer · 21:00</div></div></div>
+      <div class="ai2"><div class="adw"><div class="ad wh"></div><div class="aln"></div></div><div><div class="at">Comentaste en el blog <strong>"Guía definitiva de la creatina"</strong> — 12 reacciones de la comunidad</div><div class="atm">Hace 2 días</div></div></div>
+      <div class="ai2"><div class="adw"><div class="ad lm"></div><div class="aln"></div></div><div><div class="at">Subiste de rango: <strong>Athlete</strong> → <span class="hl">⚡ Glitch Pro</span> · nivel 3 desbloqueado · beneficios actualizados</div><div class="atm">Hace 3 días</div></div></div>
+      <div class="ai2"><div class="adw"><div class="ad bl"></div><div class="aln"></div></div><div><div class="at">Tu referido <strong>Carlos P.</strong> realizó su primera compra → <span class="hl">+500 Glitch Points</span> para ti</div><div class="atm">Hace 4 días</div></div></div>
+      <div class="ai2"><div class="adw"><div class="ad wh"></div><div class="aln"></div></div><div><div class="at">Asististe al evento <strong>"Entreno grupal Madrid"</strong> → logro <span class="hl">🎪 Evento Real</span> desbloqueado</div><div class="atm">Hace 6 días</div></div></div>
+      <div class="ai2"><div class="adw"><div class="ad lm"></div></div><div><div class="at">Registraste tu primer <span class="hl">PR personal</span> — Press banca 100kg → badge en camino 💪</div><div class="atm">Hace 7 días</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- AJUSTES -->
+<div id="tp-ajustes" class="tp">
+  <div class="panel">
+    <div class="ph"><div class="pt">Ajustes de cuenta</div></div>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+        <div><div style="font-family:var(--fh);font-size:.5rem;font-weight:700;letter-spacing:2px;color:var(--gr);text-transform:uppercase;margin-bottom:5px">Nombre completo</div><input style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--wh);font-family:var(--fb);font-size:.78rem;padding:10px 13px;border-radius:9px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(168,255,0,.4)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'" value="David Catalán"></div>
+        <div><div style="font-family:var(--fh);font-size:.5rem;font-weight:700;letter-spacing:2px;color:var(--gr);text-transform:uppercase;margin-bottom:5px">Username</div><input style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--wh);font-family:var(--fb);font-size:.78rem;padding:10px 13px;border-radius:9px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(168,255,0,.4)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'" value="@davidcatalan"></div>
+      </div>
+      <div><div style="font-family:var(--fh);font-size:.5rem;font-weight:700;letter-spacing:2px;color:var(--gr);text-transform:uppercase;margin-bottom:5px">Email</div><input type="email" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--wh);font-family:var(--fb);font-size:.78rem;padding:10px 13px;border-radius:9px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(168,255,0,.4)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'" value="david@email.com"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:11px">
+        <div><div style="font-family:var(--fh);font-size:.5rem;font-weight:700;letter-spacing:2px;color:var(--gr);text-transform:uppercase;margin-bottom:5px">Objetivo principal</div><select style="width:100%;background:#1a1a1a;border:1px solid rgba(255,255,255,.1);color:var(--wh);font-family:var(--fb);font-size:.78rem;padding:10px 13px;border-radius:9px;outline:none"><option>Volumen muscular</option><option>Definición</option><option>Fuerza máxima</option><option>Resistencia</option><option>Bienestar general</option></select></div>
+        <div><div style="font-family:var(--fh);font-size:.5rem;font-weight:700;letter-spacing:2px;color:var(--gr);text-transform:uppercase;margin-bottom:5px">Ciudad</div><input style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--wh);font-family:var(--fb);font-size:.78rem;padding:10px 13px;border-radius:9px;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='rgba(168,255,0,.4)'" onblur="this.style.borderColor='rgba(255,255,255,.1)'" value="Madrid"></div>
+      </div>
+      <div style="background:rgba(255,255,255,.02);border-radius:12px;border:1px solid rgba(255,255,255,.06);padding:16px">
+        <div style="font-family:var(--fh);font-size:.52rem;font-weight:700;letter-spacing:2px;color:var(--gr);text-transform:uppercase;margin-bottom:12px">Notificaciones y privacidad</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <label style="display:flex;align-items:center;justify-content:space-between;cursor:pointer"><div><div style="font-size:.74rem;color:rgba(255,255,255,.7);margin-bottom:1px">Nuevos logros desbloqueados</div><div style="font-size:.62rem;color:var(--gr)">Recibe un aviso cuando consigas un logro</div></div><input type="checkbox" checked style="accent-color:var(--lm);width:16px;height:16px"></label>
+          <label style="display:flex;align-items:center;justify-content:space-between;cursor:pointer"><div><div style="font-size:.74rem;color:rgba(255,255,255,.7);margin-bottom:1px">Alerta de stock bajo en mi stack</div><div style="font-size:.62rem;color:var(--gr)">Aviso 10 días antes de que se acabe un producto</div></div><input type="checkbox" checked style="accent-color:var(--lm);width:16px;height:16px"></label>
+          <label style="display:flex;align-items:center;justify-content:space-between;cursor:pointer"><div><div style="font-size:.74rem;color:rgba(255,255,255,.7);margin-bottom:1px">Eventos cerca de ti</div><div style="font-size:.62rem;color:var(--gr)">Notificación de nuevos eventos en tu ciudad</div></div><input type="checkbox" checked style="accent-color:var(--lm);width:16px;height:16px"></label>
+          <label style="display:flex;align-items:center;justify-content:space-between;cursor:pointer"><div><div style="font-size:.74rem;color:rgba(255,255,255,.7);margin-bottom:1px">Newsletter semanal</div><div style="font-size:.62rem;color:var(--gr)">Artículos, ciencia y ofertas exclusivas</div></div><input type="checkbox" style="accent-color:var(--lm);width:16px;height:16px"></label>
+          <label style="display:flex;align-items:center;justify-content:space-between;cursor:pointer"><div><div style="font-size:.74rem;color:rgba(255,255,255,.7);margin-bottom:1px">Perfil público</div><div style="font-size:.62rem;color:var(--gr)">Otros miembros pueden ver tu perfil y logros</div></div><input type="checkbox" checked style="accent-color:var(--lm);width:16px;height:16px"></label>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button style="flex:1;font-family:var(--fh);font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--lm);color:var(--bk);border:none;padding:13px;border-radius:100px;cursor:pointer;transition:background .2s,transform .15s" onmouseover="this.style.background='#c8ff2a'" onmouseout="this.style.background='var(--lm)'" onclick="T('✓ Cambios guardados correctamente')">Guardar cambios</button>
+        <button style="font-family:var(--fh);font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:transparent;color:rgba(255,60,60,.7);border:1px solid rgba(255,60,60,.3);padding:13px 20px;border-radius:100px;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='rgba(255,60,60,.6)'" onmouseout="this.style.borderColor='rgba(255,60,60,.3)'" onclick="T('¿Seguro que quieres cerrar sesión?')">Cerrar sesión</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+setTimeout(()=>{document.getElementById('xpf').style.width='71%'},400);
+let tt;
+function T(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2600);}
+function showTab(id,btn){
+  document.querySelectorAll('.tp').forEach(t=>t.classList.remove('act'));
+  document.querySelectorAll('.snb').forEach(b=>b.classList.remove('act'));
+  const tp=document.getElementById('tp-'+id);
+  if(tp)tp.classList.add('act');
+  if(btn)btn.classList.add('act');
+}
+</script>
+<script src="carrito.js"></script>
+
+<script>
+(function(){
+  // Active link detection
+  var page = window.location.pathname.split('/').pop() || 'home-glitch-popup.html';
+  var map = {
+    'plp-glitch-code.html':             'productos',
+    'pdp_proteina_iso_tech.html':       'productos',
+    'pdp_creatina_monohidrato.html':    'productos',
+    'comunidad_blog_glitch_code.html':  'comunidad',
+    'contacto_v2_glitch_code.html':     'contacto',
+    'sobre-nosotros.html':              'nosotros',
+    'home-glitch-popup.html':           'inicio',
+    'login.html':                       '',
+    'perfil-usuario-glitch.html':       '',
+    'checkout-glitch.html':             '',
+    'legales-glitch-code.html':         '',
+  };
+  var active = map[page];
+  if(active){
+    document.querySelectorAll('[data-gc-page="'+active+'"]').forEach(function(el){
+      el.classList.add('gc-active');
+    });
+  }
+
+  // Scroll effect
+  window.addEventListener('scroll', function(){
+    document.getElementById('gc-unav').classList.toggle('scrolled', window.scrollY > 40);
+  }, {passive:true});
+
+  // Search
+  var searchBtn  = document.getElementById('gc-search-btn');
+  var searchOver = document.getElementById('gc-search-overlay');
+  var searchInp  = document.getElementById('gc-search-input');
+  var searchOpen = false;
+  var PRODUCTS = [
+    {name:'Proteína Iso-Tech', url:'pdp_proteina_iso_tech.html'},
+    {name:'Creatina Monohidrato', url:'pdp_creatina_monohidrato.html'},
+    {name:'Ver todos los productos', url:'plp-glitch-code.html'},
+    {name:'Blog & Comunidad', url:'comunidad_blog_glitch_code.html'},
+    {name:'Sobre nosotros', url:'sobre-nosotros.html'},
+  ];
+
+  function openSearch(){
+    searchOpen = true;
+    searchOver.classList.add('open');
+    searchBtn.style.color = '#A8FF00';
+    setTimeout(function(){ searchInp && searchInp.focus(); }, 350);
+  }
+  function closeSearch(){
+    searchOpen = false;
+    searchOver.classList.remove('open');
+    searchBtn.style.color = '';
+    if(searchInp) searchInp.value = '';
+  }
+  if(searchBtn) searchBtn.addEventListener('click', function(){
+    searchOpen ? closeSearch() : openSearch();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeSearch();
+    if((e.ctrlKey||e.metaKey) && e.key==='k'){ e.preventDefault(); openSearch(); }
+  });
+  if(searchInp){
+    searchInp.addEventListener('input', function(){
+      var val = this.value.toLowerCase().trim();
+      // future: show result chips
+    });
+    searchInp.addEventListener('keydown', function(e){
+      if(e.key==='Enter' && this.value.trim()){
+        window.location.href = 'plp-glitch-code.html';
+      }
+    });
+  }
+
+  // Burger / Mobile menu
+  var burger = document.getElementById('gc-burger');
+  var mobileMenu = document.getElementById('gc-mobile-menu');
+  if(burger && mobileMenu){
+    burger.addEventListener('click', function(){
+      var open = mobileMenu.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+  }
+
+  // Cart badge sync (works with carrito.js)
+  function syncBadge(){
+    if(window.GCCart){
+      var count = GCCart.getCount();
+      var badge = document.getElementById('gc-cart-badge');
+      if(badge){
+        badge.textContent = count;
+        badge.classList.toggle('visible', count > 0);
+      }
+    }
+  }
+  setInterval(syncBadge, 500);
+
+  // Wishlist badge (localStorage based)
+  try{
+    var wCount = parseInt(localStorage.getItem('gc-wishlist-count')||'0');
+    var wb = document.getElementById('gc-wish-badge');
+    if(wb && wCount > 0){
+      wb.textContent = wCount;
+      wb.classList.add('visible');
+    }
+  } catch(e){}
+
+})();
+</script>
+<script src="gc-utils.js"></script>
+<footer id="gc-ufooter">
+
+  <!-- NEWSLETTER -->
+  <div class="gc-uf-news">
+    <div class="gc-uf-news-left">
+      <span class="gc-uf-news-tag">Comunidad Glitch Code</span>
+      <span class="gc-uf-news-title">No entrenes solo. Nunca más.</span>
+      <span class="gc-uf-news-sub">Descuentos exclusivos, lanzamientos y contenido antes que nadie.</span>
+    </div>
+    <div class="gc-uf-news-form">
+      <input type="email" class="gc-uf-news-input" id="gc-uf-email"
+        placeholder="tu@email.com" autocomplete="email">
+      <button class="gc-uf-news-btn" onclick="gcUfSubscribe()">Suscribirme</button>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="gc-uf-main">
+
+    <!-- MARCA -->
+    <div>
+      <a href="home-glitch-popup.html" class="gc-uf-brand-logo">
+        <img src="logo-glitch-code.png" alt="Glitch Code">
+        <span class="gc-uf-brand-logo-text">Glitch Code</span>
+      </a>
+      <p class="gc-uf-tagline">
+        Suplementación de alto rendimiento para una <strong>comunidad de verdad</strong>.
+        Cuerpos reales, objetivos reales, resultados reales.
+      </p>
+
+      <div class="gc-uf-social">
+        <!-- Instagram -->
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="4.5"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="rgba(255,255,255,.5)" stroke="none"/>
+          </svg>
+        </a>
+        <!-- TikTok -->
+        <a href="https://tiktok.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="TikTok">
+          <svg viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.73a8.17 8.17 0 0 0 4.78 1.54V6.82a4.85 4.85 0 0 1-1.01-.13z"/>
+          </svg>
+        </a>
+        <!-- YouTube -->
+        <a href="https://youtube.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="YouTube">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="rgba(255,255,255,.5)"/>
+          </svg>
+        </a>
+        <!-- Twitter/X -->
+        <a href="https://x.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="X / Twitter">
+          <svg viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L2.25 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="gc-uf-badges">
+        <span class="gc-uf-badge"><span class="gc-uf-badge-icon">🔒</span> Pago 100% seguro · SSL</span>
+        <span class="gc-uf-badge"><span class="gc-uf-badge-icon">🚚</span> Envío gratis desde 50€</span>
+        <span class="gc-uf-badge"><span class="gc-uf-badge-icon">↩️</span> Devolución en 14 días</span>
+      </div>
+    </div>
+
+    <!-- PRODUCTOS -->
+    <div>
+      <p class="gc-uf-col-title">Productos</p>
+      <div class="gc-uf-links">
+        <a href="plp-glitch-code.html">Proteínas</a>
+        <a href="plp-glitch-code.html">Creatinas</a>
+        <a href="plp-glitch-code.html">Pre-Workouts</a>
+        <a href="plp-glitch-code.html">Vitaminas</a>
+        <a href="plp-glitch-code.html">Complementos</a>
+        <a href="plp-glitch-code.html">Packs <span class="gc-uf-new-badge">Nuevo</span></a>
+        <a href="plp-glitch-code.html" class="gc-uf-hot">Ver todo →</a>
+      </div>
+    </div>
+
+    <!-- MARCA -->
+    <div>
+      <p class="gc-uf-col-title">Marca</p>
+      <div class="gc-uf-links">
+        <a href="sobre-nosotros.html">Sobre nosotros</a>
+        <a href="comunidad_blog_glitch_code.html">Comunidad</a>
+        <a href="comunidad_blog_glitch_code.html">Blog</a>
+        <a href="embajadores.html">Embajadores</a>
+        <a href="contacto_v2_glitch_code.html">Contacto</a>
+        <a href="rewards.html">Rewards <span class="gc-uf-new-badge">Pronto</span></a>
+      </div>
+    </div>
+
+    <!-- AYUDA -->
+    <div>
+      <p class="gc-uf-col-title">Ayuda</p>
+      <div class="gc-uf-links">
+        <a href="faq.html">Preguntas frecuentes</a>
+        <a href="legales-glitch-code.html#condiciones">Envíos y plazos</a>
+        <a href="legales-glitch-code.html#condiciones">Devoluciones</a>
+        <a href="login.html">Mi cuenta</a>
+        <a href="seguimiento.html">Seguimiento de pedido</a>
+        <a href="legales-glitch-code.html">Textos legales</a>
+      </div>
+    </div>
+
+  </div><!-- /gc-uf-main -->
+
+  <!-- BOTTOM BAR -->
+  <div class="gc-uf-bottom">
+    <span class="gc-uf-copy">© 2025 Glitch Code SA · Zaragoza, España · Todos los derechos reservados.</span>
+    <div class="gc-uf-bottom-links">
+      <a href="legales-glitch-code.html">Aviso legal</a>
+      <a href="legales-glitch-code.html#privacidad">Privacidad</a>
+      <a href="legales-glitch-code.html#cookies">Cookies</a>
+      <a href="legales-glitch-code.html#condiciones">Condiciones generales</a>
+    </div>
+    <div class="gc-uf-bottom-right">
+      <span class="gc-uf-pay-badge">Visa</span>
+      <span class="gc-uf-pay-badge">Mastercard</span>
+      <span class="gc-uf-pay-badge">PayPal</span>
+      <span class="gc-uf-pay-badge">Bizum</span>
+    </div>
+  </div>
+
+</footer>
+
+<script id="gc-uf-js">
+function gcUfSubscribe(){
+  var input = document.getElementById('gc-uf-email');
+  if(!input) return;
+  var email = input.value.trim();
+  var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if(!valid){
+    input.style.borderColor='rgba(255,79,79,.5)';
+    input.placeholder='Email no válido';
+    setTimeout(function(){ input.style.borderColor=''; input.placeholder='tu@email.com'; },2000);
+    return;
+  }
+  try{
+    var s=JSON.parse(localStorage.getItem('gc_subs')||'[]');
+    if(!s.includes(email)) s.push(email);
+    localStorage.setItem('gc_subs',JSON.stringify(s));
+  }catch(e){}
+  input.value='';
+  var btn = input.nextElementSibling;
+  if(btn){ btn.textContent='✓ Apuntado'; btn.style.background='rgba(168,255,0,.2)'; btn.style.color='#A8FF00'; btn.disabled=true; }
+  if(window.GCToast) GCToast.show('¡Bienvenido a la comunidad! 🎉','success');
+}
+</script>
+</body>
+</html>

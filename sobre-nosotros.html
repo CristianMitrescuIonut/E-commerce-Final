@@ -1,0 +1,2119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sobre Nosotros — Glitch Code</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bk: #0E0E0E;
+  --wh: #FFFFFF;
+  --gr: #5A5A5A;
+  --lm: #A8FF00;
+  --bl: #007BFF;
+  --c1: #111;
+  --c2: #161616;
+  --c3: #1a1a1a;
+  --fh: 'Orbitron', sans-serif;
+  --fb: 'Poppins', sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { background: var(--bk); color: var(--wh); font-family: var(--fb); overflow-x: hidden; }
+
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: var(--lm); border-radius: 2px; }
+
+/* ── NAV ── */
+.nav {
+  background: rgba(14,14,14,.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(168,255,0,.07);
+  padding: 0 48px;
+  height: 60px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 500;
+  transition: border-color .3s;
+}
+.nlogo { display: flex; align-items: center; gap: 10px; font-family: var(--fh); font-size: .62rem; font-weight: 700; letter-spacing: 4px; text-decoration: none; color: var(--wh); }
+.nlogo svg { width: 28px; height: 28px; }
+.nlinks { display: flex; gap: 32px; }
+.nlink { font-family: var(--fh); font-size: .46rem; letter-spacing: 2px; color: var(--gr); text-transform: uppercase; text-decoration: none; transition: color .2s; }
+.nlink:hover { color: var(--wh); }
+.nlink.active { color: var(--lm); }
+.nav-r { display: flex; gap: 8px; }
+.nic { width: 36px; height: 36px; border-radius: 50%; background: none; border: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: border-color .2s; text-decoration: none; }
+.nic:hover { border-color: rgba(168,255,0,.4); }
+.nic svg { width: 15px; height: 15px; stroke: var(--gr); fill: none; stroke-width: 1.8; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Grid animado de fondo */
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(168,255,0,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168,255,0,.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridShift 20s linear infinite;
+}
+@keyframes gridShift {
+  from { background-position: 0 0; }
+  to   { background-position: 60px 60px; }
+}
+
+/* Glows */
+.hero-glow-a {
+  position: absolute;
+  top: -200px; right: -200px;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(168,255,0,.1) 0%, transparent 65%);
+  animation: pulse 6s ease-in-out infinite;
+}
+.hero-glow-b {
+  position: absolute;
+  bottom: -100px; left: -100px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(0,123,255,.08) 0%, transparent 65%);
+  animation: pulse 8s ease-in-out infinite reverse;
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: .7; }
+}
+
+/* Noise overlay */
+.hero-noise {
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: .4;
+}
+
+.hero-inner {
+  position: relative; z-index: 2;
+  padding: 0 80px;
+  max-width: 1400px;
+}
+
+.hero-kicker {
+  font-family: var(--fh);
+  font-size: .5rem; letter-spacing: 6px; color: var(--lm);
+  text-transform: uppercase; margin-bottom: 28px;
+  display: flex; align-items: center; gap: 14px;
+  opacity: 0; animation: fadeUp .7s .3s ease forwards;
+}
+.hero-kicker::before { content: ''; width: 32px; height: 1px; background: var(--lm); }
+
+.hero-headline {
+  font-family: var(--fh);
+  font-size: clamp(3.5rem, 9vw, 9rem);
+  font-weight: 900;
+  line-height: .92;
+  letter-spacing: -4px;
+  margin-bottom: 40px;
+  opacity: 0; animation: fadeUp .8s .5s ease forwards;
+}
+.hero-headline .outline {
+  -webkit-text-stroke: 1px rgba(255,255,255,.25);
+  color: transparent;
+}
+.hero-headline .lm { color: var(--lm); }
+
+.hero-desc-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: end;
+  opacity: 0; animation: fadeUp .8s .8s ease forwards;
+}
+.hero-desc {
+  font-size: 1rem; line-height: 1.8;
+  color: rgba(255,255,255,.55);
+  max-width: 480px;
+}
+.hero-desc strong { color: var(--wh); font-weight: 600; }
+
+.hero-stats {
+  display: flex; gap: 40px; justify-content: flex-end;
+}
+.hstat { text-align: right; }
+.hstat-num {
+  font-family: var(--fh);
+  font-size: 2.2rem; font-weight: 900;
+  color: var(--lm); letter-spacing: -2px;
+  display: block; line-height: 1;
+}
+.hstat-label {
+  font-size: .68rem; color: var(--gr);
+  margin-top: 4px; display: block;
+}
+
+/* scroll hint */
+.scroll-hint {
+  position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  z-index: 2; opacity: 0; animation: fadeUp .6s 1.2s ease forwards;
+}
+.scroll-line {
+  width: 1px; height: 48px;
+  background: linear-gradient(to bottom, transparent, var(--lm));
+  animation: scrollDrop 2s ease-in-out infinite;
+}
+@keyframes scrollDrop {
+  0%   { transform: scaleY(0); transform-origin: top; }
+  50%  { transform: scaleY(1); transform-origin: top; }
+  51%  { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+.scroll-label { font-family: var(--fh); font-size: .35rem; letter-spacing: 3px; color: var(--gr); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── MARQUEE ── */
+.marquee-wrap {
+  overflow: hidden;
+  border-top: 1px solid rgba(255,255,255,.05);
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  padding: 20px 0;
+  background: var(--c1);
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 30s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+@keyframes marqueeScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-item {
+  display: flex; align-items: center; gap: 20px;
+  padding: 0 32px;
+  font-family: var(--fh);
+  font-size: .5rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gr); white-space: nowrap;
+}
+.marquee-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--lm); flex-shrink: 0; }
+.marquee-item.hl { color: var(--lm); }
+
+/* ── MANIFESTO ── */
+.manifesto {
+  padding: 160px 80px;
+  max-width: 1400px;
+  margin: 0 auto;
+  position: relative;
+}
+.manifesto::before {
+  content: '"';
+  position: absolute;
+  top: 80px; left: 60px;
+  font-family: Georgia, serif;
+  font-size: 20rem;
+  color: rgba(168,255,0,.04);
+  line-height: 1;
+  pointer-events: none;
+}
+.manifesto-label {
+  font-family: var(--fh);
+  font-size: .45rem; letter-spacing: 4px; color: var(--lm);
+  text-transform: uppercase; margin-bottom: 48px;
+  display: flex; align-items: center; gap: 14px;
+}
+.manifesto-label::before { content: ''; width: 24px; height: 1px; background: var(--lm); }
+
+.manifesto-text {
+  font-family: var(--fh);
+  font-size: clamp(1.4rem, 3vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.5px;
+  color: rgba(255,255,255,.85);
+  max-width: 900px;
+}
+.manifesto-text .pop { color: var(--lm); }
+.manifesto-text .dim { color: rgba(255,255,255,.35); }
+
+.manifesto-sub {
+  margin-top: 48px;
+  font-size: .9rem;
+  color: rgba(255,255,255,.45);
+  line-height: 1.9;
+  max-width: 560px;
+}
+.manifesto-sub strong { color: rgba(255,255,255,.75); font-weight: 600; }
+
+/* ── SPLIT SECTION (Origen) ── */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 80vh;
+  border-top: 1px solid rgba(255,255,255,.05);
+}
+.split-visual {
+  position: relative;
+  background: var(--c2);
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+}
+.split-visual-inner {
+  position: relative;
+  width: 340px; height: 340px;
+}
+/* Hexagon system */
+.hex-ring {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  animation: spinSlow 60s linear infinite;
+}
+.hex-ring:nth-child(2) { animation-duration: 40s; animation-direction: reverse; }
+.hex-ring:nth-child(3) { animation-duration: 25s; }
+.hex-ring svg { position: absolute; }
+.hex-center {
+  position: relative; z-index: 2;
+  width: 120px; height: 120px;
+  border-radius: 50%;
+  background: rgba(168,255,0,.08);
+  border: 1px solid rgba(168,255,0,.2);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 4px;
+}
+.hex-center-num {
+  font-family: var(--fh);
+  font-size: 2rem; font-weight: 900;
+  color: var(--lm); line-height: 1;
+}
+.hex-center-label {
+  font-family: var(--fh);
+  font-size: .32rem; letter-spacing: 2px; color: var(--gr);
+}
+@keyframes spinSlow { to { transform: rotate(360deg); } }
+
+.split-corner-tl, .split-corner-br {
+  position: absolute;
+  font-family: var(--fh);
+  font-size: .38rem; letter-spacing: 2px; color: rgba(168,255,0,.3);
+}
+.split-corner-tl { top: 24px; left: 24px; }
+.split-corner-br { bottom: 24px; right: 24px; }
+
+.split-content {
+  padding: 80px;
+  display: flex; flex-direction: column; justify-content: center;
+  border-left: 1px solid rgba(255,255,255,.05);
+}
+.split-tag {
+  font-family: var(--fh);
+  font-size: .42rem; letter-spacing: 4px; color: var(--lm);
+  text-transform: uppercase; margin-bottom: 24px;
+}
+.split-title {
+  font-family: var(--fh);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 900; line-height: 1.05;
+  letter-spacing: -1px; margin-bottom: 28px;
+}
+.split-title span { color: var(--lm); }
+.split-body {
+  font-size: .88rem; color: rgba(255,255,255,.55);
+  line-height: 1.9; margin-bottom: 36px;
+}
+.split-body strong { color: rgba(255,255,255,.85); font-weight: 600; }
+
+.split-items { display: flex; flex-direction: column; gap: 14px; }
+.split-item {
+  display: flex; gap: 14px; align-items: flex-start;
+  padding: 16px 18px;
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(255,255,255,.05);
+  border-radius: 10px;
+  transition: border-color .3s;
+}
+.split-item:hover { border-color: rgba(168,255,0,.15); }
+.split-item-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: rgba(168,255,0,.1);
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem; flex-shrink: 0;
+}
+.split-item-text { display: flex; flex-direction: column; gap: 3px; }
+.split-item-title { font-family: var(--fh); font-size: .45rem; font-weight: 700; letter-spacing: 1px; color: var(--wh); }
+.split-item-desc { font-size: .73rem; color: var(--gr); line-height: 1.5; }
+
+/* ── VALUES ── */
+.values-section {
+  padding: 160px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.values-section::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(168,255,0,.2), transparent);
+}
+
+.values-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  margin-bottom: 80px;
+  align-items: end;
+}
+.values-title {
+  font-family: var(--fh);
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 900; line-height: 1;
+  letter-spacing: -2px;
+}
+.values-title .outline {
+  -webkit-text-stroke: 1px rgba(255,255,255,.2);
+  color: transparent;
+}
+.values-intro {
+  font-size: .88rem;
+  color: rgba(255,255,255,.45);
+  line-height: 1.9;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,.05);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.value-card {
+  background: var(--c2);
+  padding: 40px 32px;
+  display: flex; flex-direction: column; gap: 16px;
+  transition: background .3s;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+.value-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--lm);
+  transform: scaleX(0);
+  transition: transform .3s ease;
+}
+.value-card:hover { background: #1c1c1c; }
+.value-card:hover::before { transform: scaleX(1); }
+.value-num {
+  font-family: var(--fh);
+  font-size: .38rem; letter-spacing: 2px; color: rgba(168,255,0,.4);
+}
+.value-icon { font-size: 2rem; margin-bottom: 4px; }
+.value-name {
+  font-family: var(--fh);
+  font-size: .65rem; font-weight: 700;
+  letter-spacing: 1px; color: var(--wh);
+}
+.value-desc {
+  font-size: .78rem; color: var(--gr);
+  line-height: 1.7;
+}
+.value-quote {
+  margin-top: auto;
+  font-family: var(--fh);
+  font-size: .38rem; letter-spacing: 1px;
+  color: rgba(168,255,0,.5);
+  font-style: italic;
+}
+
+/* ── NUMBERS ── */
+.numbers-section {
+  background: var(--c1);
+  border-top: 1px solid rgba(255,255,255,.05);
+  border-bottom: 1px solid rgba(255,255,255,.05);
+  padding: 100px 80px;
+}
+.numbers-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,.05);
+  border-radius: 16px;
+  overflow: hidden;
+}
+.number-card {
+  background: var(--c2);
+  padding: 48px 36px;
+  display: flex; flex-direction: column; gap: 10px;
+  transition: background .3s;
+  position: relative;
+}
+.number-card:hover { background: #1c1c1c; }
+.number-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--lm), transparent);
+}
+.number-val {
+  font-family: var(--fh);
+  font-size: 3rem; font-weight: 900;
+  color: var(--lm); line-height: 1;
+  letter-spacing: -2px;
+}
+.number-val sup { font-size: 1.2rem; vertical-align: super; }
+.number-label {
+  font-family: var(--fh);
+  font-size: .45rem; letter-spacing: 2px;
+  color: var(--gr); text-transform: uppercase;
+}
+.number-desc {
+  font-size: .73rem; color: rgba(255,255,255,.35);
+  line-height: 1.6; margin-top: 4px;
+}
+
+/* ── COMMUNITY ── */
+.community-section {
+  padding: 160px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.community-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 50%, rgba(168,255,0,.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.community-inner { max-width: 1200px; margin: 0 auto; }
+
+.community-head {
+  text-align: center;
+  margin-bottom: 80px;
+}
+.community-kicker {
+  font-family: var(--fh);
+  font-size: .45rem; letter-spacing: 4px; color: var(--lm);
+  text-transform: uppercase; margin-bottom: 20px;
+  display: inline-flex; align-items: center; gap: 12px;
+}
+.community-kicker::before, .community-kicker::after {
+  content: ''; width: 20px; height: 1px; background: var(--lm);
+}
+.community-title {
+  font-family: var(--fh);
+  font-size: clamp(2.2rem, 5vw, 5rem);
+  font-weight: 900; line-height: 1;
+  letter-spacing: -2px; margin-bottom: 20px;
+}
+.community-title .break { display: block; color: rgba(255,255,255,.25); }
+.community-sub {
+  font-size: .9rem; color: rgba(255,255,255,.45);
+  max-width: 520px; margin: 0 auto; line-height: 1.8;
+}
+
+/* Community pillars */
+.community-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 60px;
+}
+.pillar {
+  background: var(--c2);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 20px;
+  padding: 36px 28px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color .3s, transform .3s;
+}
+.pillar:hover { border-color: rgba(168,255,0,.2); transform: translateY(-4px); }
+.pillar-glow {
+  position: absolute; top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(168,255,0,.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.pillar-icon {
+  font-size: 2.2rem; margin-bottom: 20px; display: block;
+}
+.pillar-title {
+  font-family: var(--fh);
+  font-size: .65rem; font-weight: 700;
+  letter-spacing: 1px; color: var(--wh);
+  margin-bottom: 12px;
+}
+.pillar-desc {
+  font-size: .8rem; color: var(--gr); line-height: 1.75;
+}
+.pillar-cta {
+  display: inline-flex; align-items: center; gap: 6px;
+  margin-top: 20px;
+  font-family: var(--fh);
+  font-size: .38rem; letter-spacing: 2px; color: var(--lm);
+  text-decoration: none; text-transform: uppercase;
+  transition: gap .2s;
+}
+.pillar-cta:hover { gap: 10px; }
+.pillar-cta svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+/* ── DIFERENCIAL ── */
+.diff-section {
+  padding: 0 80px 160px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.diff-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+  margin-bottom: 64px;
+}
+.diff-title {
+  font-family: var(--fh);
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 900; line-height: 1.05;
+  letter-spacing: -1.5px;
+}
+.diff-title .lm { color: var(--lm); }
+.diff-label {
+  font-family: var(--fh);
+  font-size: .42rem; letter-spacing: 3px; color: var(--lm);
+  margin-bottom: 16px; text-transform: uppercase;
+}
+.diff-intro {
+  font-size: .88rem; color: rgba(255,255,255,.45); line-height: 1.9;
+}
+
+/* Comparison */
+.comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.comp-col {
+  border-radius: 20px;
+  overflow: hidden;
+}
+.comp-head-row {
+  padding: 20px 24px;
+  display: flex; align-items: center; gap: 12px;
+}
+.comp-col.them .comp-head-row { background: rgba(255,255,255,.04); }
+.comp-col.us .comp-head-row { background: rgba(168,255,0,.08); border: 1px solid rgba(168,255,0,.15); }
+.comp-head-icon {
+  width: 32px; height: 32px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .9rem;
+}
+.comp-col.them .comp-head-icon { background: rgba(255,255,255,.05); }
+.comp-col.us .comp-head-icon { background: rgba(168,255,0,.15); }
+.comp-head-name {
+  font-family: var(--fh);
+  font-size: .5rem; font-weight: 700; letter-spacing: 2px;
+}
+.comp-col.them .comp-head-name { color: var(--gr); }
+.comp-col.us .comp-head-name { color: var(--lm); }
+
+.comp-items { display: flex; flex-direction: column; }
+.comp-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 24px;
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  font-size: .78rem; line-height: 1.5;
+}
+.comp-item:last-child { border-bottom: none; }
+.comp-col.them .comp-item { background: rgba(255,255,255,.02); color: rgba(255,255,255,.4); }
+.comp-col.us .comp-item { background: rgba(168,255,0,.03); color: rgba(255,255,255,.8); }
+.comp-item .ico { font-size: .85rem; flex-shrink: 0; }
+
+/* ── PROMISE ── */
+.promise-section {
+  background: var(--c1);
+  border-top: 1px solid rgba(255,255,255,.05);
+  padding: 160px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.promise-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(168,255,0,.05) 0%, transparent 70%);
+}
+.promise-inner { position: relative; z-index: 1; max-width: 860px; margin: 0 auto; }
+.promise-kicker {
+  font-family: var(--fh);
+  font-size: .45rem; letter-spacing: 4px; color: var(--lm);
+  text-transform: uppercase; margin-bottom: 32px;
+  display: inline-flex; align-items: center; gap: 12px;
+}
+.promise-kicker::before, .promise-kicker::after { content: ''; width: 20px; height: 1px; background: var(--lm); }
+.promise-title {
+  font-family: var(--fh);
+  font-size: clamp(2rem, 5vw, 5rem);
+  font-weight: 900; line-height: 1;
+  letter-spacing: -2px; margin-bottom: 40px;
+}
+.promise-title .lm { color: var(--lm); }
+.promise-title .dim { color: rgba(255,255,255,.2); }
+.promise-body {
+  font-size: .95rem; color: rgba(255,255,255,.5);
+  line-height: 1.9; margin-bottom: 56px;
+}
+.promise-body strong { color: rgba(255,255,255,.85); font-weight: 600; }
+
+.promise-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 36px;
+  background: var(--lm); color: #0E0E0E;
+  border-radius: 10px;
+  font-family: var(--fh); font-size: .5rem; font-weight: 700; letter-spacing: 3px;
+  text-decoration: none; text-transform: uppercase;
+  transition: all .25s; position: relative; overflow: hidden;
+}
+.btn-primary::before {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(255,255,255,.2);
+  transform: translateX(-100%); transition: transform .3s;
+}
+.btn-primary:hover::before { transform: translateX(0); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(168,255,0,.3); }
+.btn-primary svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.5; }
+
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 16px 36px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 10px;
+  font-family: var(--fh); font-size: .5rem; font-weight: 700; letter-spacing: 3px;
+  color: rgba(255,255,255,.6); text-decoration: none; text-transform: uppercase;
+  transition: all .25s;
+}
+.btn-secondary:hover { border-color: rgba(168,255,0,.4); color: var(--lm); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--bk);
+  border-top: 1px solid rgba(255,255,255,.05);
+  padding: 40px 80px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+}
+.footer-brand { font-family: var(--fh); font-size: .45rem; letter-spacing: 4px; color: var(--gr); }
+.footer-links { display: flex; gap: 28px; }
+.footer-link { font-size: .7rem; color: var(--gr); text-decoration: none; transition: color .2s; }
+.footer-link:hover { color: var(--lm); }
+.footer-copy { font-size: .68rem; color: rgba(90,90,90,.5); }
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity .8s ease, transform .8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+.reveal-delay-4 { transition-delay: .4s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .hero-inner { padding: 0 40px; }
+  .hero-desc-row { grid-template-columns: 1fr; gap: 30px; }
+  .hero-stats { justify-content: flex-start; }
+  .split { grid-template-columns: 1fr; }
+  .split-visual { display: none; }
+  .values-grid { grid-template-columns: repeat(2, 1fr); }
+  .numbers-inner { grid-template-columns: repeat(2, 1fr); }
+  .community-pillars { grid-template-columns: 1fr; }
+  .comparison { grid-template-columns: 1fr; }
+  .diff-head { grid-template-columns: 1fr; gap: 30px; }
+  .values-head { grid-template-columns: 1fr; gap: 24px; }
+  .values-section, .manifesto, .community-section, .diff-section, .promise-section { padding-left: 32px; padding-right: 32px; }
+  .numbers-section { padding: 80px 32px; }
+  footer { padding: 32px; }
+  .hero-headline { letter-spacing: -2px; }
+}
+@media (max-width: 640px) {
+  .nav { padding: 0 20px; }
+  .nlinks { display: none; }
+  .values-grid { grid-template-columns: 1fr; }
+  .numbers-inner { grid-template-columns: 1fr; }
+  .hero-stats { flex-wrap: wrap; gap: 24px; }
+}
+</style>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="shortcut icon" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap">
+<style id='gc-unav-styles'>
+
+/* ═══════════════════════════════════════════════════════
+   GLITCH CODE — UNIVERSAL NAV  v1.0
+   ═══════════════════════════════════════════════════════ */
+#gc-unav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9000;
+  height: 64px;
+  background: rgba(14,14,14,0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(168,255,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  transition: border-color .3s, background .3s;
+  font-family: 'Orbitron', 'Segoe UI', sans-serif;
+}
+#gc-unav.scrolled {
+  background: rgba(14,14,14,0.99);
+  border-bottom-color: rgba(168,255,0,0.14);
+  box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+}
+body {  }
+
+/* LOGO */
+.gc-unav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.gc-unav-logo-img {
+  height: 36px;
+  width: 36px;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+.gc-unav-logo-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* NAV LINKS */
+.gc-unav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.gc-unav-link {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.44rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #5A5A5A;
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: color .2s, background .2s;
+  white-space: nowrap;
+}
+.gc-unav-link:hover {
+  color: #FFFFFF;
+  background: rgba(255,255,255,0.05);
+}
+.gc-unav-link.gc-active {
+  color: #A8FF00;
+}
+
+/* ICONS */
+.gc-unav-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.gc-unav-icon {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: none;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color .2s, background .2s;
+  color: #5A5A5A;
+}
+.gc-unav-icon:hover {
+  border-color: rgba(168,255,0,0.35);
+  color: #A8FF00;
+  background: rgba(168,255,0,0.05);
+}
+.gc-unav-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  pointer-events: none;
+}
+/* Badge */
+.gc-unav-badge {
+  position: absolute;
+  top: -1px; right: -1px;
+  min-width: 16px;
+  height: 16px;
+  background: #A8FF00;
+  color: #0E0E0E;
+  border-radius: 8px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.35rem;
+  font-weight: 900;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid #0E0E0E;
+}
+.gc-unav-badge.visible { display: flex; }
+
+/* ── SEARCH OVERLAY ── */
+#gc-search-overlay {
+  position: fixed;
+  top: 64px; left: 0; right: 0;
+  z-index: 8999;
+  background: rgba(14,14,14,0.98);
+  border-bottom: 1px solid rgba(168,255,0,0.12);
+  padding: 0 40px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s cubic-bezier(.4,0,.2,1), padding .35s;
+}
+#gc-search-overlay.open {
+  max-height: 120px;
+  padding: 20px 40px;
+}
+.gc-search-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #161616;
+  border: 1px solid rgba(168,255,0,0.2);
+  border-radius: 12px;
+  padding: 12px 18px;
+}
+.gc-search-inner svg {
+  width: 18px; height: 18px;
+  stroke: #A8FF00; fill: none; stroke-width: 2;
+  flex-shrink: 0;
+}
+#gc-search-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  color: #FFFFFF;
+}
+#gc-search-input::placeholder { color: #5A5A5A; }
+.gc-search-hint {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.35rem;
+  letter-spacing: 2px;
+  color: #3a3a3a;
+  white-space: nowrap;
+}
+/* Search results chips */
+.gc-search-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  padding: 0 40px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s;
+}
+.gc-search-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px;
+  background: rgba(168,255,0,0.08);
+  border: 1px solid rgba(168,255,0,0.2);
+  border-radius: 20px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.38rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #A8FF00;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background .2s;
+}
+.gc-search-chip:hover { background: rgba(168,255,0,0.15); }
+
+/* ── HAMBURGER (MOBILE) ── */
+.gc-unav-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.gc-unav-burger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: #5A5A5A;
+  border-radius: 2px;
+  transition: all .3s;
+}
+.gc-unav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.gc-unav-burger.open span:nth-child(2) { opacity: 0; }
+.gc-unav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── MOBILE DRAWER ── */
+#gc-mobile-menu {
+  position: fixed;
+  top: 64px; left: 0; right: 0; bottom: 0;
+  z-index: 8998;
+  background: rgba(14,14,14,0.98);
+  backdrop-filter: blur(20px);
+  transform: translateY(-100%);
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+  overflow-y: auto;
+  padding: 32px 32px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+#gc-mobile-menu.open { transform: translateY(0); }
+.gc-mobile-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: color .2s;
+}
+.gc-mobile-link:hover, .gc-mobile-link.gc-active { color: #A8FF00; }
+.gc-mobile-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.gc-mobile-icons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.gc-mobile-icon-btn {
+  flex: 1;
+  padding: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color .2s;
+}
+.gc-mobile-icon-btn:hover { border-color: rgba(168,255,0,0.3); }
+.gc-mobile-icon-btn svg { width: 18px; height: 18px; stroke: #A8FF00; fill: none; stroke-width: 1.8; }
+.gc-mobile-icon-btn span { font-family: 'Orbitron', sans-serif; font-size: 0.3rem; letter-spacing: 1px; color: #5A5A5A; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  #gc-unav { padding: 0 24px; }
+  .gc-unav-links { gap: 2px; }
+  .gc-unav-link { font-size: 0.38rem; padding: 6px 10px; }
+}
+@media (max-width: 768px) {
+  #gc-unav { padding: 0 20px; }
+  .gc-unav-links { display: none; }
+  .gc-unav-icon:not(.gc-burger-icon) { display: none; }
+  .gc-unav-burger { display: flex; }
+  #gc-search-overlay.open { max-height: 100px; padding: 16px 20px; }
+}
+
+</style>
+<style id='gc-uf-styles'>
+
+/* ═══════════════════════════════════════════════════════
+   GLITCH CODE — UNIVERSAL FOOTER v1.0
+   ═══════════════════════════════════════════════════════ */
+#gc-ufooter {
+  background: #0a0a0a;
+  border-top: 1px solid rgba(255,255,255,.06);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ── NEWSLETTER STRIP ── */
+.gc-uf-news {
+  background: linear-gradient(135deg, rgba(168,255,0,.06) 0%, rgba(0,123,255,.04) 100%);
+  border-bottom: 1px solid rgba(168,255,0,.1);
+  padding: 36px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.gc-uf-news-left { display: flex; flex-direction: column; gap: 4px; }
+.gc-uf-news-tag {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .38rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: #A8FF00; margin-bottom: 2px;
+}
+.gc-uf-news-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .85rem; font-weight: 900;
+  letter-spacing: -.5px; color: #fff;
+}
+.gc-uf-news-sub {
+  font-size: .75rem; color: rgba(255,255,255,.4); margin-top: 2px;
+}
+.gc-uf-news-form {
+  display: flex; gap: 8px; flex-shrink: 0;
+}
+.gc-uf-news-input {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  padding: 11px 18px;
+  font-family: 'Poppins', sans-serif;
+  font-size: .78rem; color: #fff;
+  outline: none; min-width: 240px;
+  transition: border-color .2s;
+}
+.gc-uf-news-input::placeholder { color: rgba(90,90,90,.8); }
+.gc-uf-news-input:focus { border-color: rgba(168,255,0,.4); }
+.gc-uf-news-btn {
+  padding: 11px 22px;
+  background: #A8FF00; color: #0E0E0E;
+  border: none; border-radius: 10px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .42rem; font-weight: 700;
+  letter-spacing: 1px; cursor: pointer;
+  transition: all .2s; white-space: nowrap;
+}
+.gc-uf-news-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(168,255,0,.3);
+}
+
+/* ── MAIN GRID ── */
+.gc-uf-main {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding: 56px 64px 48px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Brand column */
+.gc-uf-brand-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; margin-bottom: 14px;
+}
+.gc-uf-brand-logo img {
+  height: 32px; width: 32px;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+.gc-uf-brand-logo-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .56rem; font-weight: 700;
+  letter-spacing: 4px; color: #fff;
+  text-transform: uppercase;
+}
+.gc-uf-tagline {
+  font-size: .75rem; color: rgba(255,255,255,.35);
+  line-height: 1.75; max-width: 260px; margin-bottom: 24px;
+}
+.gc-uf-tagline strong { color: rgba(255,255,255,.6); font-weight: 500; }
+
+/* Social */
+.gc-uf-social { display: flex; gap: 10px; margin-bottom: 28px; }
+.gc-uf-social-btn {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none; cursor: pointer;
+  transition: all .2s;
+}
+.gc-uf-social-btn:hover {
+  border-color: rgba(168,255,0,.3);
+  background: rgba(168,255,0,.06);
+}
+.gc-uf-social-btn svg {
+  width: 16px; height: 16px;
+}
+
+/* Trust badges */
+.gc-uf-badges { display: flex; flex-direction: column; gap: 8px; }
+.gc-uf-badge {
+  display: flex; align-items: center; gap: 8px;
+  font-size: .68rem; color: rgba(255,255,255,.3);
+}
+.gc-uf-badge-icon {
+  font-size: .85rem; flex-shrink: 0;
+}
+
+/* Link columns */
+.gc-uf-col-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .42rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(90,90,90,.8); margin-bottom: 20px;
+}
+.gc-uf-links { display: flex; flex-direction: column; gap: 10px; }
+.gc-uf-links a, .gc-uf-links button {
+  font-size: .76rem; color: rgba(255,255,255,.38);
+  text-decoration: none; cursor: pointer;
+  transition: color .2s; background: none;
+  border: none; text-align: left;
+  padding: 0; font-family: 'Poppins', sans-serif;
+  display: flex; align-items: center; gap: 6px;
+}
+.gc-uf-links a:hover, .gc-uf-links button:hover { color: #fff; }
+.gc-uf-links a.gc-uf-hot {
+  color: rgba(168,255,0,.6);
+}
+.gc-uf-links a.gc-uf-hot:hover { color: #A8FF00; }
+.gc-uf-new-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  background: rgba(168,255,0,.12);
+  border: 1px solid rgba(168,255,0,.2);
+  border-radius: 4px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .3rem; font-weight: 700;
+  letter-spacing: 1px; color: #A8FF00;
+  text-transform: uppercase;
+}
+
+/* ── BOTTOM BAR ── */
+.gc-uf-bottom {
+  border-top: 1px solid rgba(255,255,255,.05);
+  padding: 20px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.gc-uf-copy {
+  font-size: .65rem; color: rgba(90,90,90,.6);
+}
+.gc-uf-bottom-links {
+  display: flex; gap: 20px; flex-wrap: wrap;
+}
+.gc-uf-bottom-links a {
+  font-size: .62rem; color: rgba(90,90,90,.6);
+  text-decoration: none; transition: color .2s;
+}
+.gc-uf-bottom-links a:hover { color: #A8FF00; }
+.gc-uf-bottom-right {
+  display: flex; align-items: center; gap: 8px;
+}
+.gc-uf-pay-badge {
+  display: flex; align-items: center; gap: 2px;
+  padding: 4px 10px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 6px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .32rem; font-weight: 700;
+  letter-spacing: 1px; color: rgba(255,255,255,.3);
+  text-transform: uppercase;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .gc-uf-main { grid-template-columns: 1fr 1fr; padding: 40px 32px 36px; gap: 32px; }
+  .gc-uf-news { padding: 28px 32px; }
+  .gc-uf-bottom { padding: 16px 32px; }
+}
+@media (max-width: 640px) {
+  .gc-uf-main { grid-template-columns: 1fr; padding: 36px 24px 32px; }
+  .gc-uf-news { flex-direction: column; padding: 24px; gap: 20px; }
+  .gc-uf-news-form { width: 100%; flex-direction: column; }
+  .gc-uf-news-input { min-width: unset; width: 100%; }
+  .gc-uf-bottom { flex-direction: column; align-items: flex-start; padding: 16px 24px; gap: 12px; }
+  .gc-uf-bottom-links { display: none; }
+  .gc-uf-bottom-right { display: none; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="gc-unav">
+
+  <!-- LOGO -->
+  <a href="home-glitch-popup.html" class="gc-unav-logo" aria-label="Glitch Code - Inicio">
+    <img src="logo-glitch-code.png" alt="Glitch Code" class="gc-unav-logo-img">
+    <span class="gc-unav-logo-text">Glitch Code</span>
+  </a>
+
+  <!-- LINKS CENTRADOS -->
+  <div class="gc-unav-links">
+    <a href="plp-glitch-code.html"              class="gc-unav-link" data-gc-page="productos">Productos</a>
+    <a href="comunidad_blog_glitch_code.html"   class="gc-unav-link" data-gc-page="comunidad">Comunidad</a>
+    <a href="contacto_v2_glitch_code.html"      class="gc-unav-link" data-gc-page="contacto">Contacto</a>
+    <a href="sobre-nosotros.html"               class="gc-unav-link" data-gc-page="nosotros">Sobre nosotros</a>
+  </div>
+
+  <!-- ICONOS DERECHA -->
+  <div class="gc-unav-icons">
+
+    <!-- Lupa / Buscar -->
+    <button class="gc-unav-icon" id="gc-search-btn" aria-label="Buscar" title="Buscar">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+
+    <!-- Favoritos / Me gusta -->
+    <a href="perfil-usuario-glitch.html" class="gc-unav-icon" aria-label="Mis favoritos" title="Favoritos" id="gc-wish-icon">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span class="gc-unav-badge" id="gc-wish-badge">0</span>
+    </a>
+
+    <!-- Perfil -->
+    <a href="login.html" class="gc-unav-icon" aria-label="Mi cuenta" title="Mi cuenta">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </a>
+
+    <!-- Carrito -->
+    <a href="carrito.html" class="gc-unav-icon" aria-label="Carrito" title="Carrito" id="gc-cart-nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="gc-unav-badge" id="gc-cart-badge">0</span>
+    </a>
+
+    <!-- Hamburguesa (mobile) -->
+    <button class="gc-unav-burger" id="gc-burger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</nav>
+
+<!-- BUSCADOR OVERLAY -->
+<div id="gc-search-overlay" role="search">
+  <div class="gc-search-inner">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="gc-search-input" placeholder="Buscar productos, artículos, guías..." autocomplete="off" spellcheck="false">
+    <span class="gc-search-hint">ESC para cerrar</span>
+  </div>
+</div>
+
+<!-- MENÚ MOBILE -->
+<div id="gc-mobile-menu">
+  <a href="home-glitch-popup.html"            class="gc-mobile-link" data-gc-page="inicio">
+    Inicio <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="plp-glitch-code.html"              class="gc-mobile-link" data-gc-page="productos">
+    Productos <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="comunidad_blog_glitch_code.html"   class="gc-mobile-link" data-gc-page="comunidad">
+    Comunidad <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="contacto_v2_glitch_code.html"      class="gc-mobile-link" data-gc-page="contacto">
+    Contacto <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="sobre-nosotros.html"               class="gc-mobile-link" data-gc-page="nosotros">
+    Sobre nosotros <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="legales-glitch-code.html"          class="gc-mobile-link">
+    Legales <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <div class="gc-mobile-icons">
+    <button class="gc-mobile-icon-btn" onclick="document.getElementById('gc-mobile-menu').classList.remove('open');document.getElementById('gc-burger').classList.remove('open');document.getElementById('gc-search-btn').click()">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span>Buscar</span>
+    </button>
+    <a href="perfil-usuario-glitch.html" class="gc-mobile-icon-btn">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span>Favoritos</span>
+    </a>
+    <a href="login.html" class="gc-mobile-icon-btn">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span>Mi cuenta</span>
+    </a>
+    <a href="carrito.html" class="gc-mobile-icon-btn" id="gc-cart-mobile">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span>Carrito</span>
+    </a>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow-a"></div>
+  <div class="hero-glow-b"></div>
+  <div class="hero-noise"></div>
+
+  <div class="hero-inner">
+    <p class="hero-kicker">Nuestra historia · Glitch Code</p>
+    <h1 class="hero-headline">
+      NO<br>
+      <span class="outline">SOMOS</span><br>
+      OTRA<br>
+      <span class="lm">MARCA.</span>
+    </h1>
+    <div class="hero-desc-row">
+      <p class="hero-desc">
+        Nacimos para romper con todo lo que está mal en la industria de la suplementación.
+        Sin humo, sin cuerpos irreales, sin comunidades vacías.
+        <strong>Solo rendimiento real, para personas reales.</strong>
+      </p>
+      <div class="hero-stats">
+        <div class="hstat">
+          <span class="hstat-num" data-target="100">0</span>
+          <span class="hstat-label">% Fórmulas transparentes</span>
+        </div>
+        <div class="hstat">
+          <span class="hstat-num" data-target="0">0</span>
+          <span class="hstat-label">Compromisos rotos</span>
+        </div>
+        <div class="hstat">
+          <span class="hstat-num" data-target="1">0</span>
+          <span class="hstat-label">Comunidad real</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    <span class="scroll-label">Scroll</span>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     MARQUEE
+════════════════════════════════════════ -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <!-- First set -->
+    <span class="marquee-item hl">Suplementación de élite <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Comunidad real <span class="marquee-dot"></span></span>
+    <span class="marquee-item hl">Fórmulas transparentes <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Sin humo <span class="marquee-dot"></span></span>
+    <span class="marquee-item hl">Sabores trabajados <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Tu mejor versión <span class="marquee-dot"></span></span>
+    <span class="marquee-item hl">No entrenes solo <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Constancia sobre todo <span class="marquee-dot"></span></span>
+    <span class="marquee-item hl">Glitch Code <span class="marquee-dot"></span></span>
+    <span class="marquee-item">La nueva era <span class="marquee-dot"></span></span>
+    <!-- Duplicate for seamless loop -->
+    <span class="marquee-item hl">Suplementación de élite <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Comunidad real <span class="marquee-dot"></span></span>
+    <span class="marquee-item hl">Fórmulas transparentes <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Sin humo <span class="marquee-dot"></span></span>
+    <span class="marquee-item hl">Sabores trabajados <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Tu mejor versión <span class="marquee-dot"></span></span>
+    <span class="marquee-item hl">No entrenes solo <span class="marquee-dot"></span></span>
+    <span class="marquee-item">Constancia sobre todo <span class="marquee-dot"></span></span>
+    <span class="marquee-item hl">Glitch Code <span class="marquee-dot"></span></span>
+    <span class="marquee-item">La nueva era <span class="marquee-dot"></span></span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     MANIFIESTO
+════════════════════════════════════════ -->
+<section class="manifesto">
+  <p class="manifesto-label reveal">El manifiesto</p>
+  <p class="manifesto-text reveal reveal-delay-1">
+    <span class="dim">En la era de la dopamina fácil y los malos hábitos,</span>
+    solo unas pocas personas eligen el camino de la
+    <span class="pop">constancia.</span>
+    <span class="dim">Pero ese camino suele ser solitario.</span>
+    Las marcas que se supone que te ayudan
+    <span class="pop">no lo hacen de verdad.</span>
+    <span class="dim">Te venden una imagen.</span>
+    Te venden humo.
+    <span class="pop">Nosotros no.</span>
+  </p>
+  <p class="manifesto-sub reveal reveal-delay-2">
+    Glitch Code nació porque vimos esa necesidad: miles de personas que se sienten
+    <strong>solas en su proceso de cambio</strong>, con suplementos de dudosa calidad
+    o marcas vacías que solo buscan una foto bonita para Instagram.
+    Aparecimos para <strong>cambiar eso para siempre.</strong>
+  </p>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     SPLIT — ORIGEN
+════════════════════════════════════════ -->
+<section class="split">
+  <!-- Visual -->
+  <div class="split-visual">
+    <div class="split-visual-inner">
+      <div class="hex-ring">
+        <svg width="340" height="340" viewBox="0 0 340 340">
+          <polygon points="170,10 320,90 320,250 170,330 20,250 20,90"
+            fill="none" stroke="rgba(168,255,0,.08)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="hex-ring">
+        <svg width="260" height="260" viewBox="0 0 260 260">
+          <polygon points="130,10 240,70 240,190 130,250 20,190 20,70"
+            fill="none" stroke="rgba(168,255,0,.12)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="hex-ring">
+        <svg width="180" height="180" viewBox="0 0 180 180">
+          <polygon points="90,10 160,50 160,130 90,170 20,130 20,50"
+            fill="none" stroke="rgba(168,255,0,.2)" stroke-width="1"/>
+        </svg>
+      </div>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+        <div class="hex-center">
+          <span class="hex-center-num">2025</span>
+          <span class="hex-center-label">Fundación</span>
+        </div>
+      </div>
+    </div>
+    <span class="split-corner-tl">GC · ORIGEN</span>
+    <span class="split-corner-br">ZARAGOZA · ES</span>
+  </div>
+
+  <!-- Content -->
+  <div class="split-content">
+    <p class="split-tag reveal">01 · El origen</p>
+    <h2 class="split-title reveal reveal-delay-1">CÓMO<br>EMPEZÓ<br><span>TODO.</span></h2>
+    <p class="split-body reveal reveal-delay-2">
+      Glitch Code nace de una convicción simple pero radical:
+      <strong>la suplementación deportiva puede ser honesta, sabrosa y construir comunidad real</strong>
+      al mismo tiempo. Sin elegir entre calidad y sabor. Sin elegir entre rendimiento y pertenencia.
+      <br><br>
+      Vimos que las marcas grandes estaban tan ocupadas siendo aspiracionales que
+      <strong>olvidaron ser humanas.</strong> Y las pequeñas querían serlo pero no tenían
+      los productos. Nosotros decidimos tener las dos cosas.
+    </p>
+
+    <div class="split-items reveal reveal-delay-3">
+      <div class="split-item">
+        <div class="split-item-icon">🔬</div>
+        <div class="split-item-text">
+          <span class="split-item-title">Ingredientes respaldados</span>
+          <span class="split-item-desc">Cada fórmula tiene un porqué científico. Sin rellenos, sin propietario blends.</span>
+        </div>
+      </div>
+      <div class="split-item">
+        <div class="split-item-icon">🎯</div>
+        <div class="split-item-text">
+          <span class="split-item-title">Sabores que importan</span>
+          <span class="split-item-desc">Innovamos en sabor sin perder ni un gramo de calidad. Que la constancia no sea un castigo.</span>
+        </div>
+      </div>
+      <div class="split-item">
+        <div class="split-item-icon">🤝</div>
+        <div class="split-item-text">
+          <span class="split-item-title">Comunidad antes que influencers</span>
+          <span class="split-item-desc">No necesitas 100k seguidores para entrar. Solo necesitas querer ser mejor.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     VALORES
+════════════════════════════════════════ -->
+<section class="values-section">
+  <div class="values-head">
+    <h2 class="values-title reveal">
+      LO QUE<br>
+      <span class="outline">NOS</span><br>
+      DEFINE.
+    </h2>
+    <p class="values-intro reveal reveal-delay-1">
+      Cuatro valores que no son un poster en la pared de nuestra oficina.
+      Son las decisiones que tomamos cada día cuando formulamos un producto,
+      cuando respondemos un mensaje, cuando construimos esta comunidad.
+    </p>
+  </div>
+
+  <div class="values-grid reveal reveal-delay-2">
+    <div class="value-card">
+      <span class="value-num">01</span>
+      <span class="value-icon">🛡️</span>
+      <p class="value-name">Seguridad</p>
+      <p class="value-desc">Nuestros productos son de la mejor calidad, con fórmulas transparentes y sin ingredientes cuestionables. Tu salud no es negociable.</p>
+      <p class="value-quote">"Sabes exactamente qué tomas."</p>
+    </div>
+    <div class="value-card">
+      <span class="value-num">02</span>
+      <span class="value-icon">🌍</span>
+      <p class="value-name">Inclusión</p>
+      <p class="value-desc">Da igual si llevas 2 semanas o 10 años entrenando. Da igual tu nivel, tu cuerpo o tus objetivos. Aquí todos tienen un sitio.</p>
+      <p class="value-quote">"La comunidad más abierta del fitness."</p>
+    </div>
+    <div class="value-card">
+      <span class="value-num">03</span>
+      <span class="value-icon">⚡</span>
+      <p class="value-name">Superación</p>
+      <p class="value-desc">La mentalidad de crecimiento es nuestra brújula. Constancia, disciplina, mejorar un 1% cada día. No buscamos perfección, buscamos progreso.</p>
+      <p class="value-quote">"Hoy mejor que ayer."</p>
+    </div>
+    <div class="value-card">
+      <span class="value-num">04</span>
+      <span class="value-icon">🔗</span>
+      <p class="value-name">Confianza</p>
+      <p class="value-desc">Construimos relaciones a largo plazo, no transacciones. Una comunidad sin toxicidad, productos que cumplen lo que prometen. Siempre.</p>
+      <p class="value-quote">"Una relación para toda la vida."</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     NÚMEROS
+════════════════════════════════════════ -->
+<div class="numbers-section">
+  <div class="numbers-inner">
+    <div class="number-card reveal">
+      <span class="number-val"><sup>+</sup><span data-count="3">0</span></span>
+      <span class="number-label">Líneas de producto</span>
+      <p class="number-desc">Proteínas, creatinas, pre-entrenos y mucho más. Arsenal completo para cada objetivo.</p>
+    </div>
+    <div class="number-card reveal reveal-delay-1">
+      <span class="number-val"><span data-count="100">0</span>%</span>
+      <span class="number-label">Transparencia total</span>
+      <p class="number-desc">Todos los ingredientes y sus dosis en cada producto. Cero propietario blends.</p>
+    </div>
+    <div class="number-card reveal reveal-delay-2">
+      <span class="number-val"><span data-count="48">0</span>h</span>
+      <span class="number-label">Envío a España peninsular</span>
+      <p class="number-desc">Preparamos tu pedido en 24h y lo tienes en casa en 24-48h hábiles.</p>
+    </div>
+    <div class="number-card reveal reveal-delay-3">
+      <span class="number-val"><span data-count="14">0</span></span>
+      <span class="number-label">Días de devolución</span>
+      <p class="number-desc">No te gusta, te devolvemos el dinero. Sin preguntas incómodas. Por ley y por convicción.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════
+     COMUNIDAD
+════════════════════════════════════════ -->
+<section class="community-section">
+  <div class="community-bg"></div>
+  <div class="community-inner">
+    <div class="community-head reveal">
+      <p class="community-kicker">La diferencia</p>
+      <h2 class="community-title">
+        NO ENTRENES<br>
+        <span class="break">SOLO.</span>
+        JAMÁS.
+      </h2>
+      <p class="community-sub">
+        La suplementación es solo una parte. Lo que realmente te hace mejorar
+        es saber que hay personas con tus mismos objetivos empujando contigo.
+      </p>
+    </div>
+
+    <div class="community-pillars">
+      <div class="pillar reveal">
+        <div class="pillar-glow"></div>
+        <span class="pillar-icon">💬</span>
+        <p class="pillar-title">Canales de difusión</p>
+        <p class="pillar-desc">Acceso directo a nuestra comunidad en Telegram e Instagram. Duda resuelta en horas, no en días. Sin bots, con personas reales.</p>
+        <a href="comunidad_blog_glitch_code.html" class="pillar-cta">
+          Unirse <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+      </div>
+      <div class="pillar reveal reveal-delay-1">
+        <div class="pillar-glow"></div>
+        <span class="pillar-icon">🏆</span>
+        <p class="pillar-title">Retos y quedadas</p>
+        <p class="pillar-desc">Retos activos cada mes, eventos presenciales en las principales ciudades. Fitness que se vive, no que se scrollea.</p>
+        <a href="comunidad_blog_glitch_code.html" class="pillar-cta">
+          Ver eventos <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+      </div>
+      <div class="pillar reveal reveal-delay-2">
+        <div class="pillar-glow"></div>
+        <span class="pillar-icon">📚</span>
+        <p class="pillar-title">Contenido que educa</p>
+        <p class="pillar-desc">Blog con guías serias, artículos respaldados en ciencia, sin clickbait. Porque cuando entiendes por qué haces las cosas, las haces mejor.</p>
+        <a href="blog-glitch-code.html" class="pillar-cta">
+          Leer el blog <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     DIFERENCIAL — COMPARATIVA
+════════════════════════════════════════ -->
+<section class="diff-section">
+  <div class="diff-head">
+    <div>
+      <p class="diff-label reveal">02 · Por qué Glitch Code</p>
+      <h2 class="diff-title reveal reveal-delay-1">
+        LAS OTRAS<br>MARCAS.<br>
+        <span class="lm">NOSOTROS.</span>
+      </h2>
+    </div>
+    <p class="diff-intro reveal reveal-delay-2">
+      No decimos que somos los mejores porque sí.
+      Lo decimos porque miramos la industria, vemos lo que falta,
+      y lo construimos nosotros. Aquí la diferencia en negro sobre blanco.
+    </p>
+  </div>
+
+  <div class="comparison reveal">
+    <div class="comp-col them">
+      <div class="comp-head-row">
+        <div class="comp-head-icon">😶</div>
+        <span class="comp-head-name">Las otras marcas</span>
+      </div>
+      <div class="comp-items">
+        <div class="comp-item"><span class="ico">✗</span> Propietario blends — no sabes qué tomas</div>
+        <div class="comp-item"><span class="ico">✗</span> Comunidad solo para influencers</div>
+        <div class="comp-item"><span class="ico">✗</span> Sabores que abandonas a la semana</div>
+        <div class="comp-item"><span class="ico">✗</span> Marketing de cuerpos perfectos e irreales</div>
+        <div class="comp-item"><span class="ico">✗</span> Atención al cliente por bot</div>
+        <div class="comp-item"><span class="ico">✗</span> Solo te conocen como número de pedido</div>
+      </div>
+    </div>
+    <div class="comp-col us">
+      <div class="comp-head-row">
+        <div class="comp-head-icon">⚡</div>
+        <span class="comp-head-name">Glitch Code</span>
+      </div>
+      <div class="comp-items">
+        <div class="comp-item"><span class="ico">✓</span> Fórmulas 100% transparentes con dosis reales</div>
+        <div class="comp-item"><span class="ico">✓</span> Comunidad abierta a cualquiera que quiera mejorar</div>
+        <div class="comp-item"><span class="ico">✓</span> Sabores trabajados que hacen la constancia fácil</div>
+        <div class="comp-item"><span class="ico">✓</span> Cuerpos reales, objetivos reales, resultados reales</div>
+        <div class="comp-item"><span class="ico">✓</span> Personas reales respondiendo en horas</div>
+        <div class="comp-item"><span class="ico">✓</span> Te conocemos por tu nombre y tu objetivo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     PROMESA FINAL
+════════════════════════════════════════ -->
+<section class="promise-section">
+  <div class="promise-inner">
+    <p class="promise-kicker reveal">Nuestra promesa</p>
+    <h2 class="promise-title reveal reveal-delay-1">
+      FORMA PARTE<br>
+      <span class="lm">DE ALGO</span><br>
+      <span class="dim">MÁS GRANDE.</span>
+    </h2>
+    <p class="promise-body reveal reveal-delay-2">
+      Prometemos <strong>suplementos de alto rendimiento</strong>, con fórmulas claras,
+      ingredientes de calidad y sabores trabajados, para que tener
+      <strong>constancia no sea un castigo</strong> sino una elección propia.
+      No vendemos humo ni cuerpos irreales.
+      Vendemos la experiencia de <strong>no entrenar solo</strong>
+      y un acompañamiento deportivo de verdad.
+      <br><br>
+      Porque cuando te hablamos como piensas y entendemos tu proceso,
+      hacemos más fácil tu cambio. Cada producto tiene un porqué.
+      Detrás de cada mensaje hay una persona con la misma motivación que tú.
+      <strong>Eso es Glitch Code.</strong>
+    </p>
+    <div class="promise-ctas reveal reveal-delay-3">
+      <a href="plp-glitch-code.html" class="btn-primary">
+        Ver productos
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+      <a href="comunidad_blog_glitch_code.html" class="btn-secondary">
+        Unirse a la comunidad
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── FOOTER ── -->
+<footer id="gc-ufooter">
+
+  <!-- NEWSLETTER -->
+  <div class="gc-uf-news">
+    <div class="gc-uf-news-left">
+      <span class="gc-uf-news-tag">Comunidad Glitch Code</span>
+      <span class="gc-uf-news-title">No entrenes solo. Nunca más.</span>
+      <span class="gc-uf-news-sub">Descuentos exclusivos, lanzamientos y contenido antes que nadie.</span>
+    </div>
+    <div class="gc-uf-news-form">
+      <input type="email" class="gc-uf-news-input" id="gc-uf-email"
+        placeholder="tu@email.com" autocomplete="email">
+      <button class="gc-uf-news-btn" onclick="gcUfSubscribe()">Suscribirme</button>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="gc-uf-main">
+
+    <!-- MARCA -->
+    <div>
+      <a href="home-glitch-popup.html" class="gc-uf-brand-logo">
+        <img src="logo-glitch-code.png" alt="Glitch Code">
+        <span class="gc-uf-brand-logo-text">Glitch Code</span>
+      </a>
+      <p class="gc-uf-tagline">
+        Suplementación de alto rendimiento para una <strong>comunidad de verdad</strong>.
+        Cuerpos reales, objetivos reales, resultados reales.
+      </p>
+
+      <div class="gc-uf-social">
+        <!-- Instagram -->
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="4.5"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="rgba(255,255,255,.5)" stroke="none"/>
+          </svg>
+        </a>
+        <!-- TikTok -->
+        <a href="https://tiktok.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="TikTok">
+          <svg viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.73a8.17 8.17 0 0 0 4.78 1.54V6.82a4.85 4.85 0 0 1-1.01-.13z"/>
+          </svg>
+        </a>
+        <!-- YouTube -->
+        <a href="https://youtube.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="YouTube">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="rgba(255,255,255,.5)"/>
+          </svg>
+        </a>
+        <!-- Twitter/X -->
+        <a href="https://x.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="X / Twitter">
+          <svg viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L2.25 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="gc-uf-badges">
+        <span class="gc-uf-badge"><span class="gc-uf-badge-icon">🔒</span> Pago 100% seguro · SSL</span>
+        <span class="gc-uf-badge"><span class="gc-uf-badge-icon">🚚</span> Envío gratis desde 50€</span>
+        <span class="gc-uf-badge"><span class="gc-uf-badge-icon">↩️</span> Devolución en 14 días</span>
+      </div>
+    </div>
+
+    <!-- PRODUCTOS -->
+    <div>
+      <p class="gc-uf-col-title">Productos</p>
+      <div class="gc-uf-links">
+        <a href="plp-glitch-code.html">Proteínas</a>
+        <a href="plp-glitch-code.html">Creatinas</a>
+        <a href="plp-glitch-code.html">Pre-Workouts</a>
+        <a href="plp-glitch-code.html">Vitaminas</a>
+        <a href="plp-glitch-code.html">Complementos</a>
+        <a href="plp-glitch-code.html">Packs <span class="gc-uf-new-badge">Nuevo</span></a>
+        <a href="plp-glitch-code.html" class="gc-uf-hot">Ver todo →</a>
+      </div>
+    </div>
+
+    <!-- MARCA -->
+    <div>
+      <p class="gc-uf-col-title">Marca</p>
+      <div class="gc-uf-links">
+        <a href="sobre-nosotros.html">Sobre nosotros</a>
+        <a href="comunidad_blog_glitch_code.html">Comunidad</a>
+        <a href="comunidad_blog_glitch_code.html">Blog</a>
+        <a href="embajadores.html">Embajadores</a>
+        <a href="contacto_v2_glitch_code.html">Contacto</a>
+        <a href="rewards.html">Rewards <span class="gc-uf-new-badge">Pronto</span></a>
+      </div>
+    </div>
+
+    <!-- AYUDA -->
+    <div>
+      <p class="gc-uf-col-title">Ayuda</p>
+      <div class="gc-uf-links">
+        <a href="faq.html">Preguntas frecuentes</a>
+        <a href="legales-glitch-code.html#condiciones">Envíos y plazos</a>
+        <a href="legales-glitch-code.html#condiciones">Devoluciones</a>
+        <a href="login.html">Mi cuenta</a>
+        <a href="seguimiento.html">Seguimiento de pedido</a>
+        <a href="legales-glitch-code.html">Textos legales</a>
+      </div>
+    </div>
+
+  </div><!-- /gc-uf-main -->
+
+  <!-- BOTTOM BAR -->
+  <div class="gc-uf-bottom">
+    <span class="gc-uf-copy">© 2025 Glitch Code SA · Zaragoza, España · Todos los derechos reservados.</span>
+    <div class="gc-uf-bottom-links">
+      <a href="legales-glitch-code.html">Aviso legal</a>
+      <a href="legales-glitch-code.html#privacidad">Privacidad</a>
+      <a href="legales-glitch-code.html#cookies">Cookies</a>
+      <a href="legales-glitch-code.html#condiciones">Condiciones generales</a>
+    </div>
+    <div class="gc-uf-bottom-right">
+      <span class="gc-uf-pay-badge">Visa</span>
+      <span class="gc-uf-pay-badge">Mastercard</span>
+      <span class="gc-uf-pay-badge">PayPal</span>
+      <span class="gc-uf-pay-badge">Bizum</span>
+    </div>
+  </div>
+
+</footer>
+
+
+<script>
+// ── SCROLL REVEAL ──────────────────────────────────────────
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+// ── COUNTER ANIMATION ──────────────────────────────────────
+function animateCount(el, target, duration = 1800) {
+  let start = 0;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start += step;
+    if (start >= target) {
+      el.textContent = target;
+      clearInterval(timer);
+    } else {
+      el.textContent = Math.floor(start);
+    }
+  }, 16);
+}
+
+const countObs = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const target = parseInt(entry.target.dataset.count || entry.target.dataset.target);
+      animateCount(entry.target, target);
+      countObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('[data-count], [data-target]').forEach(el => countObs.observe(el));
+
+// ── NAV SCROLL EFFECT ──────────────────────────────────────
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('.nav');
+  if (window.scrollY > 60) {
+    nav.style.borderBottomColor = 'rgba(168,255,0,.12)';
+  } else {
+    nav.style.borderBottomColor = 'rgba(168,255,0,.07)';
+  }
+}, { passive: true });
+</script>
+
+<script src="carrito.js"></script>
+
+<script>
+(function(){
+  // Active link detection
+  var page = window.location.pathname.split('/').pop() || 'home-glitch-popup.html';
+  var map = {
+    'plp-glitch-code.html':             'productos',
+    'pdp_proteina_iso_tech.html':       'productos',
+    'pdp_creatina_monohidrato.html':    'productos',
+    'comunidad_blog_glitch_code.html':  'comunidad',
+    'contacto_v2_glitch_code.html':     'contacto',
+    'sobre-nosotros.html':              'nosotros',
+    'home-glitch-popup.html':           'inicio',
+    'login.html':                       '',
+    'perfil-usuario-glitch.html':       '',
+    'checkout-glitch.html':             '',
+    'legales-glitch-code.html':         '',
+  };
+  var active = map[page];
+  if(active){
+    document.querySelectorAll('[data-gc-page="'+active+'"]').forEach(function(el){
+      el.classList.add('gc-active');
+    });
+  }
+
+  // Scroll effect
+  window.addEventListener('scroll', function(){
+    document.getElementById('gc-unav').classList.toggle('scrolled', window.scrollY > 40);
+  }, {passive:true});
+
+  // Search
+  var searchBtn  = document.getElementById('gc-search-btn');
+  var searchOver = document.getElementById('gc-search-overlay');
+  var searchInp  = document.getElementById('gc-search-input');
+  var searchOpen = false;
+  var PRODUCTS = [
+    {name:'Proteína Iso-Tech', url:'pdp_proteina_iso_tech.html'},
+    {name:'Creatina Monohidrato', url:'pdp_creatina_monohidrato.html'},
+    {name:'Ver todos los productos', url:'plp-glitch-code.html'},
+    {name:'Blog & Comunidad', url:'comunidad_blog_glitch_code.html'},
+    {name:'Sobre nosotros', url:'sobre-nosotros.html'},
+  ];
+
+  function openSearch(){
+    searchOpen = true;
+    searchOver.classList.add('open');
+    searchBtn.style.color = '#A8FF00';
+    setTimeout(function(){ searchInp && searchInp.focus(); }, 350);
+  }
+  function closeSearch(){
+    searchOpen = false;
+    searchOver.classList.remove('open');
+    searchBtn.style.color = '';
+    if(searchInp) searchInp.value = '';
+  }
+  if(searchBtn) searchBtn.addEventListener('click', function(){
+    searchOpen ? closeSearch() : openSearch();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeSearch();
+    if((e.ctrlKey||e.metaKey) && e.key==='k'){ e.preventDefault(); openSearch(); }
+  });
+  if(searchInp){
+    searchInp.addEventListener('input', function(){
+      var val = this.value.toLowerCase().trim();
+      // future: show result chips
+    });
+    searchInp.addEventListener('keydown', function(e){
+      if(e.key==='Enter' && this.value.trim()){
+        window.location.href = 'plp-glitch-code.html';
+      }
+    });
+  }
+
+  // Burger / Mobile menu
+  var burger = document.getElementById('gc-burger');
+  var mobileMenu = document.getElementById('gc-mobile-menu');
+  if(burger && mobileMenu){
+    burger.addEventListener('click', function(){
+      var open = mobileMenu.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+  }
+
+  // Cart badge sync (works with carrito.js)
+  function syncBadge(){
+    if(window.GCCart){
+      var count = GCCart.getCount();
+      var badge = document.getElementById('gc-cart-badge');
+      if(badge){
+        badge.textContent = count;
+        badge.classList.toggle('visible', count > 0);
+      }
+    }
+  }
+  setInterval(syncBadge, 500);
+
+  // Wishlist badge (localStorage based)
+  try{
+    var wCount = parseInt(localStorage.getItem('gc-wishlist-count')||'0');
+    var wb = document.getElementById('gc-wish-badge');
+    if(wb && wCount > 0){
+      wb.textContent = wCount;
+      wb.classList.add('visible');
+    }
+  } catch(e){}
+
+})();
+</script>
+<script src="gc-utils.js"></script>
+
+<script id="gc-uf-js">
+function gcUfSubscribe(){
+  var input = document.getElementById('gc-uf-email');
+  if(!input) return;
+  var email = input.value.trim();
+  var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if(!valid){
+    input.style.borderColor='rgba(255,79,79,.5)';
+    input.placeholder='Email no válido';
+    setTimeout(function(){ input.style.borderColor=''; input.placeholder='tu@email.com'; },2000);
+    return;
+  }
+  try{
+    var s=JSON.parse(localStorage.getItem('gc_subs')||'[]');
+    if(!s.includes(email)) s.push(email);
+    localStorage.setItem('gc_subs',JSON.stringify(s));
+  }catch(e){}
+  input.value='';
+  var btn = input.nextElementSibling;
+  if(btn){ btn.textContent='✓ Apuntado'; btn.style.background='rgba(168,255,0,.2)'; btn.style.color='#A8FF00'; btn.disabled=true; }
+  if(window.GCToast) GCToast.show('¡Bienvenido a la comunidad! 🎉','success');
+}
+</script>
+</body>
+</html>

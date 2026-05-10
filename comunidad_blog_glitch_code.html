@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root{--bk:#0E0E0E;--wh:#FFF;--gr:#5A5A5A;--lm:#A8FF00;--bl:#007BFF;--cd:#111;--c2:#161616;--fh:'Orbitron',sans-serif;--fb:'Poppins',sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+body{background:var(--bk);color:var(--wh);font-family:var(--fb);overflow-x:hidden}
+
+/* ANN BAR */
+.ann{background:var(--lm);color:var(--bk);text-align:center;padding:9px;font-family:var(--fh);font-size:.52rem;font-weight:700;letter-spacing:3px;text-transform:uppercase}
+.ann span{opacity:.5;margin:0 10px}
+
+/* NAV */
+.nav{background:rgba(14,14,14,.96);backdrop-filter:blur(18px);border-bottom:1px solid rgba(168,255,0,.08);padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.nlogo{display:flex;align-items:center;gap:10px;font-family:var(--fh);font-size:.62rem;font-weight:700;letter-spacing:4px;color:var(--wh);cursor:pointer}
+.nlogo svg{width:28px;height:28px}
+.nlinks{display:flex;align-items:center;gap:22px}
+.na{font-size:.58rem;font-weight:500;letter-spacing:2px;color:var(--gr);text-decoration:none;text-transform:uppercase;cursor:pointer;transition:color .2s}
+.na:hover{color:var(--lm)}.na.act{color:var(--wh)}
+.nav-icons{display:flex;gap:10px}
+.nic{width:36px;height:36px;border-radius:50%;background:none;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:border-color .2s}
+.nic:hover{border-color:rgba(168,255,0,.4)}
+.nic svg{width:15px;height:15px;stroke:var(--gr);fill:none;stroke-width:1.8}
+
+/* ── HERO ──────────────────────────────────────────── */
+.hero{padding:56px 32px 0;position:relative;overflow:hidden;min-height:520px;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 40%,rgba(168,255,0,.06),transparent 60%),radial-gradient(ellipse at 20% 80%,rgba(0,123,255,.04),transparent 55%);pointer-events:none}
+.hero-text{position:relative;z-index:2}
+.heye{display:inline-flex;align-items:center;gap:10px;font-family:var(--fh);font-size:.52rem;font-weight:700;letter-spacing:4px;color:var(--lm);text-transform:uppercase;margin-bottom:16px}
+.heye::before{content:'';display:block;width:22px;height:1px;background:var(--lm)}
+.hh1{font-family:var(--fh);font-size:clamp(2.2rem,4vw,3.8rem);font-weight:900;line-height:.9;letter-spacing:-1px;margin-bottom:18px}
+.hh1 em{font-style:normal;color:transparent;-webkit-text-stroke:1.5px rgba(255,255,255,.22)}
+.hh1 .acc{color:var(--lm)}
+.hp{font-size:.88rem;line-height:1.8;color:rgba(255,255,255,.55);margin-bottom:28px;max-width:440px}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:32px}
+.btn-prime{display:inline-flex;align-items:center;gap:8px;font-family:var(--fh);font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--lm);color:var(--bk);padding:13px 26px;border-radius:100px;cursor:pointer;border:none;transition:background .2s,gap .2s}
+.btn-prime:hover{background:#c8ff2a;gap:12px}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;font-family:var(--fh);font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:transparent;color:var(--lm);padding:13px 26px;border-radius:100px;cursor:pointer;border:1.5px solid rgba(168,255,0,.3);transition:all .2s}
+.btn-ghost:hover{background:rgba(168,255,0,.08);border-color:var(--lm);gap:12px}
+/* Hero stats */
+.hero-stats{display:flex;gap:28px}
+.hs{border-left:2px solid rgba(168,255,0,.2);padding-left:14px}
+.hs-val{font-family:var(--fh);font-size:1.4rem;font-weight:900;color:var(--wh);line-height:1;margin-bottom:3px}
+.hs-val span{color:var(--lm)}
+.hs-lbl{font-size:.6rem;color:var(--gr);letter-spacing:2px;text-transform:uppercase}
+/* Hero visual: live community feed */
+.hero-visual{position:relative;z-index:2}
+.live-feed{background:var(--c2);border-radius:20px;border:1px solid rgba(168,255,0,.12);overflow:hidden}
+.feed-hdr{padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between}
+.feed-hdr-left{display:flex;align-items:center;gap:10px}
+.live-dot{width:8px;height:8px;background:var(--lm);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.feed-hdr-title{font-family:var(--fh);font-size:.6rem;font-weight:700;letter-spacing:2px;color:var(--wh)}
+.feed-hdr-count{font-size:.62rem;color:var(--gr)}
+.feed-msgs{padding:14px 18px;display:flex;flex-direction:column;gap:10px;max-height:320px;overflow:hidden}
+.fmsg{display:flex;gap:10px;align-items:flex-start;animation:fadeUp .4s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fav{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:.5rem;font-weight:700}
+.fb2{background:rgba(168,255,0,.1);border:1px solid rgba(168,255,0,.2);color:var(--lm)}
+.fc2{background:rgba(0,123,255,.1);border:1px solid rgba(0,123,255,.2);color:var(--bl)}
+.fd2{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--wh)}
+.ftext{flex:1}
+.fname{font-size:.7rem;font-weight:600;margin-bottom:2px;color:var(--wh)}
+.fmsg-txt{font-size:.72rem;line-height:1.5;color:rgba(255,255,255,.6)}
+.ftag{display:inline-block;font-family:var(--fh);font-size:.44rem;font-weight:700;letter-spacing:1.5px;padding:2px 7px;border-radius:4px;margin-right:4px}
+.ftag.lm{background:rgba(168,255,0,.1);color:var(--lm)}
+.ftag.bl{background:rgba(0,123,255,.1);color:var(--bl)}
+.ftime{font-size:.58rem;color:var(--gr);margin-top:3px}
+.feed-footer{padding:12px 18px;border-top:1px solid rgba(255,255,255,.05);display:flex;align-items:center;gap:10px}
+.feed-input{flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);color:var(--wh);font-family:var(--fb);font-size:.74rem;padding:9px 14px;border-radius:100px;outline:none;transition:border-color .2s}
+.feed-input:focus{border-color:rgba(168,255,0,.4)}
+.feed-input::placeholder{color:var(--gr)}
+.feed-send{width:34px;height:34px;border-radius:50%;background:var(--lm);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s}
+.feed-send:hover{background:#c8ff2a}
+.feed-send svg{width:13px;height:13px;stroke:var(--bk);fill:none;stroke-width:2.5;stroke-linecap:round}
+
+/* ── MARQUEE ───────────────────────────────────────── */
+.mq{overflow:hidden;border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04);padding:12px 0;margin-top:48px}
+.mqt{display:flex;animation:mq 22s linear infinite;white-space:nowrap}
+.mqi{display:inline-flex;align-items:center;gap:16px;font-family:var(--fh);font-size:.5rem;font-weight:700;letter-spacing:3px;color:var(--gr);text-transform:uppercase;padding:0 26px;flex-shrink:0}
+.mqi .d{width:4px;height:4px;background:var(--lm);border-radius:50%}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── COMMUNITY FEATURES ───────────────────────────── */
+.sect{padding:64px 32px}
+.sect-hdr{display:flex;align-items:baseline;gap:14px;margin-bottom:36px}
+.sect-t{font-family:var(--fh);font-size:.9rem;font-weight:700;letter-spacing:3px;text-transform:uppercase}
+.sect-line{flex:1;height:1px;background:rgba(255,255,255,.05)}
+.sect-lnk{font-family:var(--fh);font-size:.55rem;font-weight:700;letter-spacing:2px;color:var(--lm);cursor:pointer;display:flex;align-items:center;gap:6px;transition:gap .2s;white-space:nowrap}
+.sect-lnk:hover{gap:10px}
+
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:0}
+.feat-card{background:var(--c2);border-radius:18px;border:1px solid rgba(255,255,255,.06);overflow:hidden;cursor:pointer;transition:border-color .3s,transform .3s}
+.feat-card:hover{border-color:rgba(168,255,0,.2);transform:translateY(-4px)}
+.feat-visual{height:160px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.feat-body{padding:20px 22px 22px}
+.feat-icon-wrap{width:40px;height:40px;border-radius:10px;background:rgba(168,255,0,.07);border:1px solid rgba(168,255,0,.15);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.feat-icon-wrap svg{width:18px;height:18px;stroke:var(--lm);fill:none;stroke-width:1.8}
+.feat-tag{font-family:var(--fh);font-size:.52rem;font-weight:700;letter-spacing:2.5px;color:var(--lm);text-transform:uppercase;margin-bottom:6px}
+.feat-title{font-family:var(--fh);font-size:.82rem;font-weight:700;letter-spacing:.5px;margin-bottom:8px}
+.feat-desc{font-size:.76rem;color:var(--gr);line-height:1.6;margin-bottom:14px}
+.feat-cta{font-family:var(--fh);font-size:.54rem;font-weight:700;letter-spacing:2px;color:var(--lm);text-transform:uppercase;display:flex;align-items:center;gap:6px;transition:gap .2s;cursor:pointer;border:none;background:none;padding:0}
+.feat-card:hover .feat-cta{gap:10px}
+/* Big feature card */
+.feat-card.big{grid-column:span 2}
+.feat-card.big .feat-visual{height:200px}
+
+/* ── MEMBERS WALL ─────────────────────────────────── */
+.members-section{background:var(--cd);border-top:1px solid rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.04);padding:64px 32px}
+.members-inner{max-width:1200px;margin:0 auto}
+.members-top{display:grid;grid-template-columns:1fr 2fr;gap:56px;align-items:center;margin-bottom:48px}
+.mt-kicker{font-family:var(--fh);font-size:.52rem;font-weight:700;letter-spacing:4px;color:var(--lm);text-transform:uppercase;margin-bottom:10px}
+.mt-h2{font-family:var(--fh);font-size:clamp(1.5rem,2.8vw,2.4rem);font-weight:900;line-height:.92;margin-bottom:14px}
+.mt-h2 em{font-style:normal;color:var(--lm)}
+.mt-p{font-size:.82rem;line-height:1.8;color:rgba(255,255,255,.5);margin-bottom:20px}
+/* Member cards grid */
+.member-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.mcard{background:var(--c2);border-radius:14px;padding:18px 16px;border:1px solid rgba(255,255,255,.06);transition:border-color .2s,transform .2s;cursor:pointer}
+.mcard:hover{border-color:rgba(168,255,0,.18);transform:translateY(-3px)}
+.mcard-top{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.mav{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:.6rem;font-weight:700;flex-shrink:0}
+.mav.a{background:rgba(168,255,0,.1);border:1.5px solid rgba(168,255,0,.25);color:var(--lm)}
+.mav.b{background:rgba(0,123,255,.1);border:1.5px solid rgba(0,123,255,.25);color:var(--bl)}
+.mcard-name{font-size:.76rem;font-weight:600;margin-bottom:1px}
+.mcard-sub{font-size:.6rem;color:var(--gr)}
+.mcard-quote{font-size:.73rem;font-style:italic;line-height:1.6;color:rgba(255,255,255,.52);margin-bottom:12px}
+.mcard-tags{display:flex;gap:5px;flex-wrap:wrap}
+.mtag{font-family:var(--fh);font-size:.44rem;font-weight:700;letter-spacing:1.5px;padding:3px 8px;border-radius:4px;background:rgba(168,255,0,.07);color:var(--lm);border:1px solid rgba(168,255,0,.12)}
+.mtag.bl{background:rgba(0,123,255,.07);color:var(--bl);border-color:rgba(0,123,255,.15)}
+/* Ambassador badge */
+.mcard.ambassador{border-color:rgba(168,255,0,.2);background:rgba(168,255,0,.03)}
+.amb-badge{display:inline-flex;align-items:center;gap:5px;font-family:var(--fh);font-size:.46rem;font-weight:700;letter-spacing:1.5px;background:rgba(168,255,0,.1);color:var(--lm);border:1px solid rgba(168,255,0,.2);padding:3px 9px;border-radius:5px;margin-bottom:8px;text-transform:uppercase}
+
+/* ── EVENTS ───────────────────────────────────────── */
+.events-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ev-card{background:var(--c2);border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.06);transition:border-color .3s,transform .3s;cursor:pointer}
+.ev-card:hover{border-color:rgba(168,255,0,.2);transform:translateY(-4px)}
+.ev-visual{height:130px;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.ev-date-badge{position:absolute;top:12px;left:12px;background:var(--lm);color:var(--bk);border-radius:10px;padding:6px 10px;text-align:center;font-family:var(--fh);z-index:2}
+.ev-day{font-size:1.1rem;font-weight:900;line-height:1;display:block}
+.ev-mon{font-size:.46rem;font-weight:700;letter-spacing:2px;display:block}
+.ev-type{position:absolute;top:12px;right:12px;font-family:var(--fh);font-size:.46rem;font-weight:700;letter-spacing:2px;padding:4px 9px;border-radius:5px;z-index:2;text-transform:uppercase}
+.ev-type.pres{background:rgba(0,123,255,.2);color:var(--bl);border:1px solid rgba(0,123,255,.3)}
+.ev-type.online{background:rgba(168,255,0,.1);color:var(--lm);border:1px solid rgba(168,255,0,.2)}
+.ev-body{padding:16px 18px}
+.ev-city{font-family:var(--fh);font-size:.52rem;font-weight:700;letter-spacing:2px;color:var(--lm);text-transform:uppercase;margin-bottom:5px;display:flex;align-items:center;gap:5px}
+.ev-city svg{width:10px;height:10px;stroke:var(--lm);fill:none;stroke-width:2}
+.ev-title{font-family:var(--fh);font-size:.78rem;font-weight:700;line-height:1.3;margin-bottom:6px}
+.ev-desc{font-size:.72rem;color:var(--gr);line-height:1.5;margin-bottom:12px}
+.ev-footer{display:flex;align-items:center;justify-content:space-between}
+.ev-spots{font-size:.64rem;color:var(--gr)}
+.ev-spots strong{color:var(--wh)}
+.ev-btn{font-family:var(--fh);font-size:.52rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--bk);background:var(--lm);padding:8px 16px;border-radius:100px;border:none;cursor:pointer;transition:background .2s}
+.ev-btn:hover{background:#c8ff2a}
+.ev-btn.sold{background:rgba(255,255,255,.1);color:var(--gr);cursor:not-allowed}
+
+/* ── CHALLENGES ───────────────────────────────────── */
+.challenge-sect{background:var(--cd);border-top:1px solid rgba(255,255,255,.04);padding:64px 32px}
+.challenge-inner{max-width:1200px;margin:0 auto}
+.ch-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.ch-card{border-radius:18px;padding:28px 30px;border:1px solid rgba(168,255,0,.15);background:linear-gradient(135deg,rgba(168,255,0,.05),rgba(0,123,255,.03));position:relative;overflow:hidden;transition:border-color .3s}
+.ch-card:hover{border-color:rgba(168,255,0,.28)}
+.ch-card::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;background:radial-gradient(circle,rgba(168,255,0,.06),transparent);pointer-events:none}
+.ch-status{display:inline-flex;align-items:center;gap:6px;font-family:var(--fh);font-size:.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px}
+.ch-status .sdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.ch-status.active .sdot{background:var(--lm);animation:pulse 2s ease-in-out infinite}
+.ch-status.active{color:var(--lm)}
+.ch-status.soon .sdot{background:var(--bl)}
+.ch-status.soon{color:var(--bl)}
+.ch-title{font-family:var(--fh);font-size:1rem;font-weight:900;margin-bottom:8px}
+.ch-desc{font-size:.8rem;line-height:1.7;color:rgba(255,255,255,.55);margin-bottom:20px}
+.ch-meta{display:flex;gap:20px;margin-bottom:18px}
+.ch-m{font-size:.7rem;color:var(--gr);display:flex;align-items:center;gap:5px}
+.ch-m svg{width:12px;height:12px;stroke:var(--lm);fill:none;stroke-width:1.8}
+.ch-progress-wrap{margin-bottom:16px}
+.ch-progress-lbl{display:flex;justify-content:space-between;margin-bottom:6px;font-family:var(--fh);font-size:.52rem;color:var(--gr)}
+.ch-progress-lbl span{color:var(--lm)}
+.ch-bar{height:5px;background:rgba(255,255,255,.07);border-radius:100px;overflow:hidden}
+.ch-fill{height:100%;background:linear-gradient(to right,var(--lm),#007BFF);border-radius:100px}
+.ch-cta{font-family:var(--fh);font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--bk);background:var(--lm);padding:11px 22px;border-radius:100px;border:none;cursor:pointer;transition:background .2s}
+.ch-cta:hover{background:#c8ff2a}
+.ch-cta.bl{background:var(--bl);color:var(--wh)}
+.ch-cta.bl:hover{background:#1a8fff}
+
+/* ════════════ BLOG ════════════ */
+/* Blog filter bar */
+.blog-filter{background:rgba(14,14,14,.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.04);padding:0 32px;position:sticky;top:0;z-index:100}
+.blog-finner{display:flex;align-items:center;justify-content:space-between;height:58px;gap:16px}
+.blog-cats{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none}
+.blog-cats::-webkit-scrollbar{display:none}
+.bfbtn{white-space:nowrap;padding:7px 15px;border-radius:100px;font-family:var(--fb);font-size:.66rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;border:1px solid rgba(255,255,255,.09);background:transparent;color:var(--gr);cursor:pointer;transition:all .2s}
+.bfbtn:hover{border-color:rgba(168,255,0,.4);color:var(--lm)}
+.bfbtn.active{background:var(--lm);color:var(--bk);border-color:var(--lm);font-weight:700}
+.blog-count{font-size:.66rem;color:var(--gr);white-space:nowrap}
+.blog-count strong{color:var(--wh);font-weight:600}
+
+/* Featured article */
+.feat-art{display:grid;grid-template-columns:1fr 1fr;border-radius:20px;overflow:hidden;border:1px solid rgba(168,255,0,.12);margin-bottom:56px;background:var(--cd);transition:border-color .3s,box-shadow .3s;cursor:pointer}
+.feat-art:hover{border-color:rgba(168,255,0,.25);box-shadow:0 24px 60px rgba(0,0,0,.45)}
+.fart-vis{min-height:400px;background:#080808;position:relative;overflow:hidden}
+.fart-vis-in{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:transform .4s}
+.feat-art:hover .fart-vis-in{transform:scale(1.03)}
+.fart-ov{position:absolute;inset:0;background:linear-gradient(135deg,rgba(168,255,0,.04),rgba(0,0,0,.3))}
+.fart-body{padding:48px 44px;display:flex;flex-direction:column;justify-content:center}
+.fart-cat{display:inline-flex;align-items:center;gap:8px;font-family:var(--fh);font-size:.52rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--lm);margin-bottom:16px}
+.fart-cat::before{content:'';display:block;width:18px;height:1px;background:var(--lm)}
+.fart-h2{font-family:var(--fh);font-size:1.4rem;font-weight:900;line-height:1.12;color:var(--wh);margin-bottom:14px}
+.fart-p{font-size:.86rem;line-height:1.8;color:rgba(255,255,255,.5);margin-bottom:22px}
+.fart-meta{display:flex;align-items:center;gap:16px;margin-bottom:24px}
+.fmeta-chip{display:flex;align-items:center;gap:5px;font-size:.66rem;color:var(--gr)}
+.fmeta-chip svg{width:12px;height:12px;stroke:var(--gr);fill:none;stroke-width:1.8}
+.btn-read{display:inline-flex;align-items:center;gap:8px;font-family:var(--fh);font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--bk);background:var(--lm);padding:12px 24px;border-radius:100px;cursor:pointer;border:none;transition:background .2s,gap .2s;width:fit-content}
+.btn-read:hover{background:#c8ff2a;gap:12px}
+
+/* Article grid */
+.art-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:20px}
+.acard{background:var(--c2);border-radius:14px;overflow:hidden;border:1px solid rgba(255,255,255,.05);cursor:pointer;transition:transform .3s,border-color .3s;display:flex;flex-direction:column}
+.acard:hover{transform:translateY(-5px);border-color:rgba(168,255,0,.18);box-shadow:0 18px 44px rgba(0,0,0,.4)}
+.avis{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;flex-shrink:0}
+.avis-in{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:transform .4s}
+.acard:hover .avis-in{transform:scale(1.04)}
+.aov{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(0,0,0,.5))}
+.acat-badge{position:absolute;top:12px;left:12px;font-family:var(--fh);font-size:.46rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;padding:4px 9px;border-radius:5px;z-index:2}
+.bg{background:var(--lm);color:var(--bk)}
+.bn{background:var(--bl);color:var(--wh)}
+.br{background:rgba(255,255,255,.1);color:var(--wh);border:1px solid rgba(255,255,255,.15)}
+.bm{background:rgba(168,255,0,.12);color:var(--lm);border:1px solid rgba(168,255,0,.2)}
+.abody{padding:18px 18px 20px;display:flex;flex-direction:column;flex:1}
+.ah3{font-family:var(--fh);font-size:.76rem;font-weight:700;letter-spacing:.5px;line-height:1.35;color:var(--wh);margin-bottom:8px}
+.ap{font-size:.72rem;line-height:1.6;color:var(--gr);flex:1;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.afoot{display:flex;align-items:center;justify-content:space-between}
+.atime{font-size:.6rem;color:var(--gr);display:flex;align-items:center;gap:4px}
+.atime svg{width:10px;height:10px;stroke:var(--gr);fill:none;stroke-width:1.8}
+.alrm{font-family:var(--fh);font-size:.5rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--lm);display:flex;align-items:center;gap:5px;transition:gap .2s}
+.acard:hover .alrm{gap:9px}
+/* Load more */
+.load-more{display:flex;align-items:center;justify-content:center;padding:8px 0 32px}
+.lm-btn{font-family:var(--fh);font-size:.6rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--lm);background:transparent;border:1.5px solid rgba(168,255,0,.25);padding:12px 28px;border-radius:100px;cursor:pointer;transition:all .2s}
+.lm-btn:hover{background:rgba(168,255,0,.07);border-color:var(--lm)}
+
+/* ── NEWSLETTER ───────────────────────────────────── */
+.nl{margin:0 32px 64px;border-radius:20px;background:var(--c2);border:1px solid rgba(168,255,0,.12);padding:52px 56px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;position:relative;overflow:hidden}
+.nl::before{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 50%,rgba(168,255,0,.05),transparent 60%);pointer-events:none}
+.nl-k{font-family:var(--fh);font-size:.52rem;font-weight:700;letter-spacing:3px;color:var(--lm);text-transform:uppercase;margin-bottom:8px}
+.nl-h{font-family:var(--fh);font-size:1.5rem;font-weight:900;margin-bottom:6px}
+.nl-h em{font-style:normal;color:var(--lm)}
+.nl-p{font-size:.82rem;color:rgba(255,255,255,.45);line-height:1.6}
+.nl-form{display:flex;gap:9px;align-items:center;flex-shrink:0;position:relative;z-index:2}
+.nl-in{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:var(--wh);font-family:var(--fb);font-size:.78rem;padding:12px 18px;border-radius:100px;outline:none;width:210px;transition:border-color .2s}
+.nl-in:focus{border-color:rgba(168,255,0,.4)}
+.nl-in::placeholder{color:var(--gr)}
+.nl-btn{font-family:var(--fh);font-size:.58rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:var(--lm);color:var(--bk);border:none;padding:12px 20px;border-radius:100px;cursor:pointer;white-space:nowrap;transition:background .2s}
+.nl-btn:hover{background:#c8ff2a}
+
+/* FOOTER */
+footer{border-top:1px solid rgba(255,255,255,.05);padding:32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.ftbrand{font-family:var(--fh);font-size:.52rem;font-weight:700;letter-spacing:4px;color:var(--gr)}
+.ftlinks{display:flex;gap:16px}
+.ftlnk{font-size:.6rem;color:var(--gr);text-decoration:none;letter-spacing:1px;cursor:pointer;transition:color .2s}
+.ftlnk:hover{color:var(--lm)}
+
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--lm);color:var(--bk);font-family:var(--fh);font-size:.62rem;font-weight:700;letter-spacing:2px;padding:12px 24px;border-radius:100px;opacity:0;pointer-events:none;z-index:9000;transition:opacity .25s,transform .25s;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="shortcut icon" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap">
+<style id='gc-unav-styles'>
+
+/* ═══════════════════════════════════════════════════════
+   GLITCH CODE — UNIVERSAL NAV  v1.0
+   ═══════════════════════════════════════════════════════ */
+#gc-unav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9000;
+  height: 64px;
+  background: rgba(14,14,14,0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(168,255,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  transition: border-color .3s, background .3s;
+  font-family: 'Orbitron', 'Segoe UI', sans-serif;
+}
+#gc-unav.scrolled {
+  background: rgba(14,14,14,0.99);
+  border-bottom-color: rgba(168,255,0,0.14);
+  box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+}
+body {  }
+
+/* LOGO */
+.gc-unav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.gc-unav-logo-img {
+  height: 36px;
+  width: 36px;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+.gc-unav-logo-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* NAV LINKS */
+.gc-unav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.gc-unav-link {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.44rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #5A5A5A;
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: color .2s, background .2s;
+  white-space: nowrap;
+}
+.gc-unav-link:hover {
+  color: #FFFFFF;
+  background: rgba(255,255,255,0.05);
+}
+.gc-unav-link.gc-active {
+  color: #A8FF00;
+}
+
+/* ICONS */
+.gc-unav-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.gc-unav-icon {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: none;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color .2s, background .2s;
+  color: #5A5A5A;
+}
+.gc-unav-icon:hover {
+  border-color: rgba(168,255,0,0.35);
+  color: #A8FF00;
+  background: rgba(168,255,0,0.05);
+}
+.gc-unav-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  pointer-events: none;
+}
+/* Badge */
+.gc-unav-badge {
+  position: absolute;
+  top: -1px; right: -1px;
+  min-width: 16px;
+  height: 16px;
+  background: #A8FF00;
+  color: #0E0E0E;
+  border-radius: 8px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.35rem;
+  font-weight: 900;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid #0E0E0E;
+}
+.gc-unav-badge.visible { display: flex; }
+
+/* ── SEARCH OVERLAY ── */
+#gc-search-overlay {
+  position: fixed;
+  top: 64px; left: 0; right: 0;
+  z-index: 8999;
+  background: rgba(14,14,14,0.98);
+  border-bottom: 1px solid rgba(168,255,0,0.12);
+  padding: 0 40px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s cubic-bezier(.4,0,.2,1), padding .35s;
+}
+#gc-search-overlay.open {
+  max-height: 120px;
+  padding: 20px 40px;
+}
+.gc-search-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #161616;
+  border: 1px solid rgba(168,255,0,0.2);
+  border-radius: 12px;
+  padding: 12px 18px;
+}
+.gc-search-inner svg {
+  width: 18px; height: 18px;
+  stroke: #A8FF00; fill: none; stroke-width: 2;
+  flex-shrink: 0;
+}
+#gc-search-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  color: #FFFFFF;
+}
+#gc-search-input::placeholder { color: #5A5A5A; }
+.gc-search-hint {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.35rem;
+  letter-spacing: 2px;
+  color: #3a3a3a;
+  white-space: nowrap;
+}
+/* Search results chips */
+.gc-search-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  padding: 0 40px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s;
+}
+.gc-search-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px;
+  background: rgba(168,255,0,0.08);
+  border: 1px solid rgba(168,255,0,0.2);
+  border-radius: 20px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.38rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #A8FF00;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background .2s;
+}
+.gc-search-chip:hover { background: rgba(168,255,0,0.15); }
+
+/* ── HAMBURGER (MOBILE) ── */
+.gc-unav-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.gc-unav-burger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: #5A5A5A;
+  border-radius: 2px;
+  transition: all .3s;
+}
+.gc-unav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.gc-unav-burger.open span:nth-child(2) { opacity: 0; }
+.gc-unav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── MOBILE DRAWER ── */
+#gc-mobile-menu {
+  position: fixed;
+  top: 64px; left: 0; right: 0; bottom: 0;
+  z-index: 8998;
+  background: rgba(14,14,14,0.98);
+  backdrop-filter: blur(20px);
+  transform: translateY(-100%);
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+  overflow-y: auto;
+  padding: 32px 32px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+#gc-mobile-menu.open { transform: translateY(0); }
+.gc-mobile-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: color .2s;
+}
+.gc-mobile-link:hover, .gc-mobile-link.gc-active { color: #A8FF00; }
+.gc-mobile-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.gc-mobile-icons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.gc-mobile-icon-btn {
+  flex: 1;
+  padding: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color .2s;
+}
+.gc-mobile-icon-btn:hover { border-color: rgba(168,255,0,0.3); }
+.gc-mobile-icon-btn svg { width: 18px; height: 18px; stroke: #A8FF00; fill: none; stroke-width: 1.8; }
+.gc-mobile-icon-btn span { font-family: 'Orbitron', sans-serif; font-size: 0.3rem; letter-spacing: 1px; color: #5A5A5A; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  #gc-unav { padding: 0 24px; }
+  .gc-unav-links { gap: 2px; }
+  .gc-unav-link { font-size: 0.38rem; padding: 6px 10px; }
+}
+@media (max-width: 768px) {
+  #gc-unav { padding: 0 20px; }
+  .gc-unav-links { display: none; }
+  .gc-unav-icon:not(.gc-burger-icon) { display: none; }
+  .gc-unav-burger { display: flex; }
+  #gc-search-overlay.open { max-height: 100px; padding: 16px 20px; }
+}
+
+</style>
+<style id='gc-uf-styles'>
+
+/* ═══════════════════════════════════════════════════════
+   GLITCH CODE — UNIVERSAL FOOTER v1.0
+   ═══════════════════════════════════════════════════════ */
+#gc-ufooter {
+  background: #0a0a0a;
+  border-top: 1px solid rgba(255,255,255,.06);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ── NEWSLETTER STRIP ── */
+.gc-uf-news {
+  background: linear-gradient(135deg, rgba(168,255,0,.06) 0%, rgba(0,123,255,.04) 100%);
+  border-bottom: 1px solid rgba(168,255,0,.1);
+  padding: 36px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.gc-uf-news-left { display: flex; flex-direction: column; gap: 4px; }
+.gc-uf-news-tag {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .38rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: #A8FF00; margin-bottom: 2px;
+}
+.gc-uf-news-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .85rem; font-weight: 900;
+  letter-spacing: -.5px; color: #fff;
+}
+.gc-uf-news-sub {
+  font-size: .75rem; color: rgba(255,255,255,.4); margin-top: 2px;
+}
+.gc-uf-news-form {
+  display: flex; gap: 8px; flex-shrink: 0;
+}
+.gc-uf-news-input {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  padding: 11px 18px;
+  font-family: 'Poppins', sans-serif;
+  font-size: .78rem; color: #fff;
+  outline: none; min-width: 240px;
+  transition: border-color .2s;
+}
+.gc-uf-news-input::placeholder { color: rgba(90,90,90,.8); }
+.gc-uf-news-input:focus { border-color: rgba(168,255,0,.4); }
+.gc-uf-news-btn {
+  padding: 11px 22px;
+  background: #A8FF00; color: #0E0E0E;
+  border: none; border-radius: 10px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .42rem; font-weight: 700;
+  letter-spacing: 1px; cursor: pointer;
+  transition: all .2s; white-space: nowrap;
+}
+.gc-uf-news-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(168,255,0,.3);
+}
+
+/* ── MAIN GRID ── */
+.gc-uf-main {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding: 56px 64px 48px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Brand column */
+.gc-uf-brand-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; margin-bottom: 14px;
+}
+.gc-uf-brand-logo img {
+  height: 32px; width: 32px;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+.gc-uf-brand-logo-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .56rem; font-weight: 700;
+  letter-spacing: 4px; color: #fff;
+  text-transform: uppercase;
+}
+.gc-uf-tagline {
+  font-size: .75rem; color: rgba(255,255,255,.35);
+  line-height: 1.75; max-width: 260px; margin-bottom: 24px;
+}
+.gc-uf-tagline strong { color: rgba(255,255,255,.6); font-weight: 500; }
+
+/* Social */
+.gc-uf-social { display: flex; gap: 10px; margin-bottom: 28px; }
+.gc-uf-social-btn {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none; cursor: pointer;
+  transition: all .2s;
+}
+.gc-uf-social-btn:hover {
+  border-color: rgba(168,255,0,.3);
+  background: rgba(168,255,0,.06);
+}
+.gc-uf-social-btn svg {
+  width: 16px; height: 16px;
+}
+
+/* Trust badges */
+.gc-uf-badges { display: flex; flex-direction: column; gap: 8px; }
+.gc-uf-badge {
+  display: flex; align-items: center; gap: 8px;
+  font-size: .68rem; color: rgba(255,255,255,.3);
+}
+.gc-uf-badge-icon {
+  font-size: .85rem; flex-shrink: 0;
+}
+
+/* Link columns */
+.gc-uf-col-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .42rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(90,90,90,.8); margin-bottom: 20px;
+}
+.gc-uf-links { display: flex; flex-direction: column; gap: 10px; }
+.gc-uf-links a, .gc-uf-links button {
+  font-size: .76rem; color: rgba(255,255,255,.38);
+  text-decoration: none; cursor: pointer;
+  transition: color .2s; background: none;
+  border: none; text-align: left;
+  padding: 0; font-family: 'Poppins', sans-serif;
+  display: flex; align-items: center; gap: 6px;
+}
+.gc-uf-links a:hover, .gc-uf-links button:hover { color: #fff; }
+.gc-uf-links a.gc-uf-hot {
+  color: rgba(168,255,0,.6);
+}
+.gc-uf-links a.gc-uf-hot:hover { color: #A8FF00; }
+.gc-uf-new-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  background: rgba(168,255,0,.12);
+  border: 1px solid rgba(168,255,0,.2);
+  border-radius: 4px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .3rem; font-weight: 700;
+  letter-spacing: 1px; color: #A8FF00;
+  text-transform: uppercase;
+}
+
+/* ── BOTTOM BAR ── */
+.gc-uf-bottom {
+  border-top: 1px solid rgba(255,255,255,.05);
+  padding: 20px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.gc-uf-copy {
+  font-size: .65rem; color: rgba(90,90,90,.6);
+}
+.gc-uf-bottom-links {
+  display: flex; gap: 20px; flex-wrap: wrap;
+}
+.gc-uf-bottom-links a {
+  font-size: .62rem; color: rgba(90,90,90,.6);
+  text-decoration: none; transition: color .2s;
+}
+.gc-uf-bottom-links a:hover { color: #A8FF00; }
+.gc-uf-bottom-right {
+  display: flex; align-items: center; gap: 8px;
+}
+.gc-uf-pay-badge {
+  display: flex; align-items: center; gap: 2px;
+  padding: 4px 10px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 6px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .32rem; font-weight: 700;
+  letter-spacing: 1px; color: rgba(255,255,255,.3);
+  text-transform: uppercase;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .gc-uf-main { grid-template-columns: 1fr 1fr; padding: 40px 32px 36px; gap: 32px; }
+  .gc-uf-news { padding: 28px 32px; }
+  .gc-uf-bottom { padding: 16px 32px; }
+}
+@media (max-width: 640px) {
+  .gc-uf-main { grid-template-columns: 1fr; padding: 36px 24px 32px; }
+  .gc-uf-news { flex-direction: column; padding: 24px; gap: 20px; }
+  .gc-uf-news-form { width: 100%; flex-direction: column; }
+  .gc-uf-news-input { min-width: unset; width: 100%; }
+  .gc-uf-bottom { flex-direction: column; align-items: flex-start; padding: 16px 24px; gap: 12px; }
+  .gc-uf-bottom-links { display: none; }
+  .gc-uf-bottom-right { display: none; }
+}
+
+</style>
+</head>
+<body>
+<div id="toast"></div>
+
+<div class="ann">⚡ Comunidad Glitch Code <span>·</span> +2.400 miembros activos <span>·</span> Únete gratis</div>
+
+<nav id="gc-unav">
+
+  <!-- LOGO -->
+  <a href="home-glitch-popup.html" class="gc-unav-logo" aria-label="Glitch Code - Inicio">
+    <img src="logo-glitch-code.png" alt="Glitch Code" class="gc-unav-logo-img">
+    <span class="gc-unav-logo-text">Glitch Code</span>
+  </a>
+
+  <!-- LINKS CENTRADOS -->
+  <div class="gc-unav-links">
+    <a href="plp-glitch-code.html"              class="gc-unav-link" data-gc-page="productos">Productos</a>
+    <a href="comunidad_blog_glitch_code.html"   class="gc-unav-link" data-gc-page="comunidad">Comunidad</a>
+    <a href="contacto_v2_glitch_code.html"      class="gc-unav-link" data-gc-page="contacto">Contacto</a>
+    <a href="sobre-nosotros.html"               class="gc-unav-link" data-gc-page="nosotros">Sobre nosotros</a>
+  </div>
+
+  <!-- ICONOS DERECHA -->
+  <div class="gc-unav-icons">
+
+    <!-- Lupa / Buscar -->
+    <button class="gc-unav-icon" id="gc-search-btn" aria-label="Buscar" title="Buscar">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+
+    <!-- Favoritos / Me gusta -->
+    <a href="perfil-usuario-glitch.html" class="gc-unav-icon" aria-label="Mis favoritos" title="Favoritos" id="gc-wish-icon">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span class="gc-unav-badge" id="gc-wish-badge">0</span>
+    </a>
+
+    <!-- Perfil -->
+    <a href="login.html" class="gc-unav-icon" aria-label="Mi cuenta" title="Mi cuenta">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </a>
+
+    <!-- Carrito -->
+    <a href="carrito.html" class="gc-unav-icon" aria-label="Carrito" title="Carrito" id="gc-cart-nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="gc-unav-badge" id="gc-cart-badge">0</span>
+    </a>
+
+    <!-- Hamburguesa (mobile) -->
+    <button class="gc-unav-burger" id="gc-burger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</nav>
+
+<!-- BUSCADOR OVERLAY -->
+<div id="gc-search-overlay" role="search">
+  <div class="gc-search-inner">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="gc-search-input" placeholder="Buscar productos, artículos, guías..." autocomplete="off" spellcheck="false">
+    <span class="gc-search-hint">ESC para cerrar</span>
+  </div>
+</div>
+
+<!-- MENÚ MOBILE -->
+<div id="gc-mobile-menu">
+  <a href="home-glitch-popup.html"            class="gc-mobile-link" data-gc-page="inicio">
+    Inicio <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="plp-glitch-code.html"              class="gc-mobile-link" data-gc-page="productos">
+    Productos <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="comunidad_blog_glitch_code.html"   class="gc-mobile-link" data-gc-page="comunidad">
+    Comunidad <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="contacto_v2_glitch_code.html"      class="gc-mobile-link" data-gc-page="contacto">
+    Contacto <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="sobre-nosotros.html"               class="gc-mobile-link" data-gc-page="nosotros">
+    Sobre nosotros <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="legales-glitch-code.html"          class="gc-mobile-link">
+    Legales <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <div class="gc-mobile-icons">
+    <button class="gc-mobile-icon-btn" onclick="document.getElementById('gc-mobile-menu').classList.remove('open');document.getElementById('gc-burger').classList.remove('open');document.getElementById('gc-search-btn').click()">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span>Buscar</span>
+    </button>
+    <a href="perfil-usuario-glitch.html" class="gc-mobile-icon-btn">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span>Favoritos</span>
+    </a>
+    <a href="login.html" class="gc-mobile-icon-btn">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span>Mi cuenta</span>
+    </a>
+    <a href="carrito.html" class="gc-mobile-icon-btn" id="gc-cart-mobile">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span>Carrito</span>
+    </a>
+  </div>
+</div>
+
+<!-- ════ HERO ════ -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="heye">Tu nueva era empieza aquí</div>
+    <h1 class="hh1">NO ENTRENES<br><em>SOLO</em><br><span class="acc">JAMÁS.</span></h1>
+    <p class="hp">Glitch Code no es solo una tienda. Es la comunidad para las personas que se sienten solas en su proceso de cambio físico. Aquí estamos todos en el mismo viaje.</p>
+    <div class="hero-ctas">
+      <button class="btn-prime" onclick="window.location.href='login.html?mode=register'">Unirme ahora →</button>
+      <button class="btn-ghost" onclick="GCProx.open('discord.html')">Ver el Discord</button>
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-val">2.4k<span>+</span></div><div class="hs-lbl">Miembros</div></div>
+      <div class="hs"><div class="hs-val">18</div><div class="hs-lbl">Ciudades</div></div>
+      <div class="hs"><div class="hs-val">4.7k<span>+</span></div><div class="hs-lbl">Entrenos</div></div>
+      <div class="hs"><div class="hs-val">98<span>%</span></div><div class="hs-lbl">Repetirían</div></div>
+    </div>
+  </div>
+
+  <!-- LIVE COMMUNITY FEED -->
+  <div class="hero-visual">
+    <div class="live-feed">
+      <div class="feed-hdr">
+        <div class="feed-hdr-left">
+          <div class="live-dot"></div>
+          <div class="feed-hdr-title">Canal Comunidad</div>
+        </div>
+        <div class="feed-hdr-count" id="online-count">247 activos ahora</div>
+      </div>
+      <div class="feed-msgs" id="feed-msgs">
+        <div class="fmsg">
+          <div class="fav fb2">JM</div>
+          <div class="ftext">
+            <div class="fname">Javier M. <span style="font-family:var(--fh);font-size:.44rem;color:var(--lm);letter-spacing:1px;margin-left:4px">EMBAJADOR</span></div>
+            <div class="fmsg-txt"><span class="ftag lm">Fuerza</span> Semana 8 con la Creatina Mono. Nuevo PR en press banca: <strong style="color:var(--lm)">120kg</strong>. La pureza marca diferencia 💪</div>
+            <div class="ftime">hace 2 min</div>
+          </div>
+        </div>
+        <div class="fmsg">
+          <div class="fav fd2">SR</div>
+          <div class="ftext">
+            <div class="fname">Sara R.</div>
+            <div class="fmsg-txt"><span class="ftag bl">Nutrición</span> ¿Alguien combina la Iso-Tech con avena post-entreno? Pregunto por el timing de carbos</div>
+            <div class="ftime">hace 4 min</div>
+          </div>
+        </div>
+        <div class="fmsg">
+          <div class="fav fc2">CP</div>
+          <div class="ftext">
+            <div class="fname">Carlos P.</div>
+            <div class="fmsg-txt"><span class="ftag lm">Motivación</span> 5am en el gym. Nadie más. Solo tú y el hierro. Eso es Glitch Code 🔥</div>
+            <div class="ftime">hace 7 min</div>
+          </div>
+        </div>
+        <div class="fmsg">
+          <div class="fav fb2">AM</div>
+          <div class="ftext">
+            <div class="fname">Ana M.</div>
+            <div class="fmsg-txt"><span class="ftag bl">Comunidad</span> Evento Madrid del sábado ¿quién viene? Ya somos 23 confirmados 🙌</div>
+            <div class="ftime">hace 12 min</div>
+          </div>
+        </div>
+        <div class="fmsg">
+          <div class="fav fd2">RG</div>
+          <div class="ftext">
+            <div class="fname">Rubén G.</div>
+            <div class="fmsg-txt"><span class="ftag lm">Review</span> Primera semana con el Glitch Fuel. El bombo es real, sin jitters. Muy buen producto</div>
+            <div class="ftime">hace 18 min</div>
+          </div>
+        </div>
+      </div>
+      <div class="feed-footer">
+        <input class="feed-input" id="msg-input" type="text" placeholder="Escribe en el canal..." onkeydown="if(event.key==='Enter')sendMsg()">
+        <button class="feed-send" onclick="sendMsg()"><svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq">
+  <div class="mqt">
+    <span class="mqi"><span class="d"></span>Discord activo 24/7</span>
+    <span class="mqi"><span class="d"></span>Eventos presenciales mensuales</span>
+    <span class="mqi"><span class="d"></span>Asesoría nutricional gratuita</span>
+    <span class="mqi"><span class="d"></span>Quedadas de entreno</span>
+    <span class="mqi"><span class="d"></span>Canales por ciudad</span>
+    <span class="mqi"><span class="d"></span>Retos mensuales</span>
+    <span class="mqi"><span class="d"></span>Programa embajadores</span>
+    <span class="mqi"><span class="d"></span>Discord activo 24/7</span>
+    <span class="mqi"><span class="d"></span>Eventos presenciales mensuales</span>
+    <span class="mqi"><span class="d"></span>Asesoría nutricional gratuita</span>
+    <span class="mqi"><span class="d"></span>Quedadas de entreno</span>
+    <span class="mqi"><span class="d"></span>Canales por ciudad</span>
+    <span class="mqi"><span class="d"></span>Retos mensuales</span>
+    <span class="mqi"><span class="d"></span>Programa embajadores</span>
+  </div>
+</div>
+
+<!-- ════ COMMUNITY FEATURES ════ -->
+<section class="sect">
+  <div class="sect-hdr">
+    <h2 class="sect-t">Qué te espera dentro</h2>
+    <div class="sect-line"></div>
+    <a class="sect-lnk" href="plp-glitch-code.html">Ver todo →</a>
+  </div>
+  <div class="feat-grid">
+
+    <!-- DISCORD (big) -->
+    <div class="feat-card big">
+      <div class="feat-visual">
+        <svg width="100%" height="200" viewBox="0 0 700 200" fill="none">
+          <rect width="700" height="200" fill="#080808"/>
+          <defs><radialGradient id="dg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#A8FF00" stop-opacity=".07"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></radialGradient></defs>
+          <rect width="700" height="200" fill="url(#dg)"/>
+          <!-- Channel sidebar -->
+          <rect x="0" y="0" width="180" height="200" fill="rgba(0,0,0,.3)"/>
+          <text x="16" y="30" font-family="Orbitron" font-size="7" fill="rgba(168,255,0,0.5)" letter-spacing="2" font-weight="700">GLITCH CODE</text>
+          <text x="16" y="55" font-family="Poppins" font-size="8" fill="rgba(255,255,255,.35)"># general</text>
+          <text x="16" y="73" font-family="Poppins" font-size="8" fill="rgba(168,255,0,.7)" font-weight="600"># suplementación</text>
+          <text x="16" y="91" font-family="Poppins" font-size="8" fill="rgba(255,255,255,.35)"># nutrición</text>
+          <text x="16" y="109" font-family="Poppins" font-size="8" fill="rgba(255,255,255,.35)"># madrid</text>
+          <text x="16" y="127" font-family="Poppins" font-size="8" fill="rgba(255,255,255,.35)"># barcelona</text>
+          <text x="16" y="145" font-family="Poppins" font-size="8" fill="rgba(255,255,255,.35)"># valencia</text>
+          <text x="16" y="163" font-family="Poppins" font-size="8" fill="rgba(255,255,255,.35)"># motivación</text>
+          <text x="16" y="181" font-family="Poppins" font-size="8" fill="rgba(255,255,255,.35)"># retos</text>
+          <!-- Chat messages -->
+          <rect x="195" y="20" width="200" height="28" rx="6" fill="rgba(168,255,0,.06)" stroke="rgba(168,255,0,.12)"/>
+          <text x="205" y="38" font-family="Poppins" font-size="8" fill="rgba(255,255,255,.7)">Nuevo PR hoy 💪 +5kg en squat</text>
+          <rect x="195" y="58" width="240" height="28" rx="6" fill="rgba(255,255,255,.04)" stroke="rgba(255,255,255,.07)"/>
+          <text x="205" y="76" font-family="Poppins" font-size="8" fill="rgba(255,255,255,.55)">¿Alguien viene al evento del sábado?</text>
+          <rect x="195" y="96" width="180" height="28" rx="6" fill="rgba(0,123,255,.06)" stroke="rgba(0,123,255,.12)"/>
+          <text x="205" y="114" font-family="Poppins" font-size="8" fill="rgba(255,255,255,.65)">Semana 4 con la creatina ✅</text>
+          <rect x="195" y="134" width="220" height="28" rx="6" fill="rgba(168,255,0,.04)"/>
+          <text x="205" y="152" font-family="Poppins" font-size="8" fill="rgba(255,255,255,.45)">La Iso-Tech con avena está riquísima</text>
+          <!-- Online count -->
+          <circle cx="660" cy="30" r="5" fill="var(--lm)" opacity=".8"/>
+          <text x="670" y="35" font-family="Orbitron" font-size="8" fill="rgba(168,255,0,.5)" letter-spacing="1">247 EN LÍNEA</text>
+        </svg>
+      </div>
+      <div class="feat-body">
+        <div class="feat-icon-wrap"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <div class="feat-tag">Canal principal</div>
+        <div class="feat-title">Discord Comunidad</div>
+        <div class="feat-desc">Canales por ciudad, por objetivo, por producto. Acceso directo al equipo Glitch Code. Dudas resueltas por la comunidad en minutos. Activo 24/7.</div>
+        <button class="feat-cta" onclick="GCProx.open('discord.html')">Entrar al Discord <span>→</span></button>
+      </div>
+    </div>
+
+    <!-- EVENTOS -->
+    <div class="feat-card">
+      <div class="feat-visual">
+        <svg width="100%" height="160" viewBox="0 0 340 160" fill="none">
+          <rect width="340" height="160" fill="#080808"/>
+          <defs><radialGradient id="eg2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#007BFF" stop-opacity=".07"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></radialGradient></defs>
+          <rect width="340" height="160" fill="url(#eg2)"/>
+          <!-- Calendar -->
+          <rect x="80" y="20" width="80" height="80" rx="8" fill="rgba(255,255,255,.03)" stroke="rgba(168,255,0,.15)"/>
+          <rect x="80" y="20" width="80" height="22" rx="8" fill="rgba(168,255,0,.08)"/>
+          <rect x="80" y="33" width="80" height="9" fill="rgba(168,255,0,.08)"/>
+          <text x="120" y="62" text-anchor="middle" font-family="Orbitron" font-size="22" font-weight="900" fill="white">18</text>
+          <text x="120" y="78" text-anchor="middle" font-family="Orbitron" font-size="7" fill="rgba(168,255,0,.6)" letter-spacing="2">MAYO</text>
+          <!-- Location pin -->
+          <circle cx="240" cy="70" r="28" fill="rgba(0,123,255,.06)" stroke="rgba(0,123,255,.15)"/>
+          <path d="M240 52c-8 0-14 6.3-14 14 0 10.5 14 22 14 22s14-11.5 14-22c0-7.7-6.3-14-14-14z" fill="rgba(0,123,255,.4)"/>
+          <circle cx="240" cy="66" r="4" fill="rgba(255,255,255,.8)"/>
+          <text x="240" y="110" text-anchor="middle" font-family="Orbitron" font-size="7" fill="rgba(0,123,255,.5)" letter-spacing="1">MADRID</text>
+        </svg>
+      </div>
+      <div class="feat-body">
+        <div class="feat-icon-wrap"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+        <div class="feat-tag">Presencial</div>
+        <div class="feat-title">Eventos y quedadas</div>
+        <div class="feat-desc">Entrenos grupales, workshops de nutrición y meetups mensuales en 18 ciudades. La comunidad digital, en la vida real.</div>
+        <button class="feat-cta" onclick="GCProx.open('eventos.html')">Ver próximos eventos <span>→</span></button>
+      </div>
+    </div>
+
+    <!-- RETOS -->
+    <div class="feat-card">
+      <div class="feat-visual">
+        <svg width="100%" height="160" viewBox="0 0 340 160" fill="none">
+          <rect width="340" height="160" fill="#080808"/>
+          <defs><radialGradient id="rg2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#A8FF00" stop-opacity=".07"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></radialGradient></defs>
+          <rect width="340" height="160" fill="url(#rg2)"/>
+          <!-- Trophy / podium -->
+          <rect x="110" y="90" width="40" height="50" rx="4" fill="rgba(168,255,0,.15)" stroke="rgba(168,255,0,.3)"/>
+          <rect x="80" y="105" width="32" height="35" rx="4" fill="rgba(168,255,0,.08)" stroke="rgba(168,255,0,.2)"/>
+          <rect x="148" y="115" width="32" height="25" rx="4" fill="rgba(168,255,0,.06)" stroke="rgba(168,255,0,.15)"/>
+          <text x="130" y="72" text-anchor="middle" font-family="Orbitron" font-size="22" fill="rgba(168,255,0,.6)">🏆</text>
+          <text x="96" y="100" text-anchor="middle" font-family="Orbitron" font-size="8" fill="rgba(255,255,255,.3)">2°</text>
+          <text x="130" y="80" text-anchor="middle" font-family="Orbitron" font-size="8" fill="rgba(168,255,0,.7)">1°</text>
+          <text x="164" y="110" text-anchor="middle" font-family="Orbitron" font-size="8" fill="rgba(255,255,255,.25)">3°</text>
+          <!-- Progress bar -->
+          <rect x="60" y="145" width="220" height="6" rx="3" fill="rgba(255,255,255,.06)"/>
+          <rect x="60" y="145" width="156" height="6" rx="3" fill="url(#chalFill)"/>
+          <defs><linearGradient id="chalFill" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#A8FF00"/><stop offset="100%" stop-color="#007BFF"/></linearGradient></defs>
+          <text x="170" y="158" text-anchor="middle" font-family="Orbitron" font-size="6" fill="rgba(255,255,255,.25)" letter-spacing="2">71% COMPLETADO</text>
+        </svg>
+      </div>
+      <div class="feat-body">
+        <div class="feat-icon-wrap"><svg viewBox="0 0 24 24"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"/></svg></div>
+        <div class="feat-tag">Mensual</div>
+        <div class="feat-title">Retos de comunidad</div>
+        <div class="feat-desc">Retos mensuales de fuerza, consistencia y nutrición. Ranking en tiempo real, premios en producto y reconocimiento en la comunidad.</div>
+        <button class="feat-cta" onclick="GCProx.open('retos.html')">Ver reto activo <span>→</span></button>
+      </div>
+    </div>
+
+    <!-- EMBAJADORES -->
+    <div class="feat-card">
+      <div class="feat-visual">
+        <svg width="100%" height="160" viewBox="0 0 340 160" fill="none">
+          <rect width="340" height="160" fill="#080808"/>
+          <!-- Stars pattern -->
+          <g fill="rgba(168,255,0,0.2)"><circle cx="80" cy="50" r="2.5"/><circle cx="140" cy="30" r="2"/><circle cx="200" cy="55" r="3"/><circle cx="260" cy="35" r="2"/><circle cx="300" cy="60" r="2.5"/><circle cx="60" cy="90" r="2"/><circle cx="170" cy="80" r="1.5"/></g>
+          <!-- Shield badge -->
+          <path d="M170 25L210 40L210 85Q210 115 170 125Q130 115 130 85L130 40Z" fill="rgba(168,255,0,.06)" stroke="rgba(168,255,0,.25)" stroke-width="1.5"/>
+          <text x="170" y="75" text-anchor="middle" font-family="Orbitron" font-size="10" font-weight="900" fill="rgba(168,255,0,.7)">GC</text>
+          <text x="170" y="90" text-anchor="middle" font-family="Orbitron" font-size="6" fill="rgba(168,255,0,.4)" letter-spacing="1">EMBAJADOR</text>
+          <!-- Avatar row -->
+          <circle cx="50" cy="130" r="14" fill="rgba(168,255,0,.1)" stroke="rgba(168,255,0,.2)"/>
+          <circle cx="78" cy="130" r="14" fill="rgba(0,123,255,.1)" stroke="rgba(0,123,255,.2)"/>
+          <circle cx="106" cy="130" r="14" fill="rgba(168,255,0,.1)" stroke="rgba(168,255,0,.2)"/>
+          <circle cx="134" cy="130" r="14" fill="rgba(255,255,255,.05)" stroke="rgba(255,255,255,.1)"/>
+          <text x="50" y="134" text-anchor="middle" font-family="Orbitron" font-size="6" fill="rgba(168,255,0,.7)">JM</text>
+          <text x="78" y="134" text-anchor="middle" font-family="Orbitron" font-size="6" fill="rgba(0,123,255,.7)">SR</text>
+          <text x="106" y="134" text-anchor="middle" font-family="Orbitron" font-size="6" fill="rgba(168,255,0,.7)">CP</text>
+          <text x="134" y="134" text-anchor="middle" font-family="Orbitron" font-size="6" fill="rgba(255,255,255,.35)">+</text>
+        </svg>
+      </div>
+      <div class="feat-body">
+        <div class="feat-icon-wrap"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div class="feat-tag">Programa</div>
+        <div class="feat-title">Sé embajador</div>
+        <div class="feat-desc">Comparte tu proceso, inspira a otros y obtén producto gratuito, descuentos exclusivos y visibilidad real en la comunidad Glitch Code.</div>
+        <button class="feat-cta" onclick="GCProx.open('embajadores.html')">Aplicar como embajador <span>→</span></button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════ MEMBERS WALL ════ -->
+<div class="members-section">
+  <div class="members-inner">
+    <div class="members-top">
+      <div>
+        <div class="mt-kicker">La prueba social</div>
+        <h2 class="mt-h2">PERSONAS<br><em>REALES.</em><br>RESULTADOS<br>REALES.</h2>
+        <p class="mt-p">No vendemos cuerpos de Instagram. Vendemos el proceso. Aquí están las personas que cada día eligen ser un 1% mejores.</p>
+        <button class="btn-prime" onclick="GCProx.open('comunidad-miembros.html')">Ver todos los miembros →</button>
+      </div>
+      <div class="member-grid">
+
+        <div class="mcard ambassador">
+          <div class="amb-badge">⚡ Embajador</div>
+          <div class="mcard-top"><div class="mav a">JM</div><div><div class="mcard-name">Javier M.</div><div class="mcard-sub">Madrid · 14 meses</div></div></div>
+          <div class="mcard-quote">"Glitch Code cambió mi relación con el deporte. No solo los productos, la comunidad entera."</div>
+          <div class="mcard-tags"><span class="mtag">Fuerza</span><span class="mtag">Powerlifting</span></div>
+        </div>
+
+        <div class="mcard">
+          <div class="mcard-top"><div class="mav b">SR</div><div><div class="mcard-name">Sara R.</div><div class="mcard-sub">Valencia · 6 meses</div></div></div>
+          <div class="mcard-quote">"Primera marca que me habla como si me conociera de verdad."</div>
+          <div class="mcard-tags"><span class="mtag bl">CrossFit</span><span class="mtag">Nutrición</span></div>
+        </div>
+
+        <div class="mcard">
+          <div class="mcard-top"><div class="mav a">CP</div><div><div class="mcard-name">Carlos P.</div><div class="mcard-sub">Barcelona · 1 año</div></div></div>
+          <div class="mcard-quote">"El Discord tiene más vida que cualquier gym. Y eso dice mucho."</div>
+          <div class="mcard-tags"><span class="mtag">Halterofilia</span><span class="mtag bl">Discord</span></div>
+        </div>
+
+        <div class="mcard ambassador">
+          <div class="amb-badge">⚡ Embajador</div>
+          <div class="mcard-top"><div class="mav b">AM</div><div><div class="mcard-name">Ana M.</div><div class="mcard-sub">Sevilla · 8 meses</div></div></div>
+          <div class="mcard-quote">"Soy una persona normal. Glitch Code es la primera marca que lo entiende."</div>
+          <div class="mcard-tags"><span class="mtag">Running</span><span class="mtag">Comunidad</span></div>
+        </div>
+
+        <div class="mcard">
+          <div class="mcard-top"><div class="mav a">RG</div><div><div class="mcard-name">Rubén G.</div><div class="mcard-sub">Madrid · 4 meses</div></div></div>
+          <div class="mcard-quote">"Sin Glitch Code habría tirado la toalla en semana 3. La comunidad me mantuvo."</div>
+          <div class="mcard-tags"><span class="mtag bl">Principiante</span><span class="mtag">Constancia</span></div>
+        </div>
+
+        <div class="mcard">
+          <div class="mcard-top"><div class="mav b">LF</div><div><div class="mcard-name">Laura F.</div><div class="mcard-sub">Zaragoza · 10 meses</div></div></div>
+          <div class="mcard-quote">"Los sabores son lo que dicen que son. Increíble después de tantas decepciones."</div>
+          <div class="mcard-tags"><span class="mtag">Fitness</span><span class="mtag bl">Sabores</span></div>
+        </div>
+
+        <div class="mcard">
+          <div class="mcard-top"><div class="mav a">DM</div><div><div class="mcard-name">Diego M.</div><div class="mcard-sub">Bilbao · 7 meses</div></div></div>
+          <div class="mcard-quote">"PR nuevo cada semana desde que empecé con el stack de GC."</div>
+          <div class="mcard-tags"><span class="mtag">Volumen</span><span class="mtag bl">Stack</span></div>
+        </div>
+
+        <div class="mcard" style="display:flex;align-items:center;justify-content:center;background:rgba(168,255,0,.04);border-color:rgba(168,255,0,.15)">
+          <div style="text-align:center">
+            <div style="font-family:var(--fh);font-size:1.6rem;font-weight:900;color:var(--lm);margin-bottom:4px">+2.4k</div>
+            <div style="font-size:.7rem;color:var(--gr);margin-bottom:12px;line-height:1.5">historias más esperando ser contadas</div>
+            <button class="btn-prime" style="font-size:.52rem;padding:9px 18px" onclick="window.location.href='login.html?mode=register'">Únete →</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════ EVENTS ════ -->
+<section class="sect">
+  <div class="sect-hdr">
+    <h2 class="sect-t">Próximos eventos</h2>
+    <div class="sect-line"></div>
+    <a class="sect-lnk" href="eventos.html">Ver calendario →</a>
+  </div>
+  <div class="events-grid">
+
+    <div class="ev-card">
+      <div class="ev-visual" style="background:#0a0a0a">
+        <svg width="100%" height="130" viewBox="0 0 300 130" fill="none">
+          <rect width="300" height="130" fill="#0a0a0a"/>
+          <defs><radialGradient id="eg3" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#007BFF" stop-opacity=".08"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></radialGradient></defs>
+          <rect width="300" height="130" fill="url(#eg3)"/>
+          <!-- Gym equipment silhouette -->
+          <rect x="80" y="40" width="140" height="6" rx="3" fill="#252525"/>
+          <rect x="70" y="25" width="20" height="34" rx="4" fill="#2a2a2a"/>
+          <rect x="210" y="25" width="20" height="34" rx="4" fill="#2a2a2a"/>
+          <rect x="62" y="30" width="12" height="24" rx="2" fill="#333"/>
+          <rect x="226" y="30" width="12" height="24" rx="2" fill="#333"/>
+          <rect x="54" y="35" width="10" height="14" rx="2" fill="#3a3a3a"/>
+          <rect x="236" y="35" width="10" height="14" rx="2" fill="#3a3a3a"/>
+          <!-- Floor line -->
+          <line x1="0" y1="82" x2="300" y2="82" stroke="rgba(255,255,255,.04)"/>
+          <!-- People silhouettes -->
+          <rect x="120" y="50" width="10" height="32" rx="3" fill="#1a1a1a"/>
+          <circle cx="125" cy="46" r="7" fill="#1a1a1a"/>
+          <rect x="165" y="55" width="10" height="27" rx="3" fill="#202020"/>
+          <circle cx="170" cy="51" r="7" fill="#202020"/>
+        </svg>
+        <div class="ev-date-badge"><span class="ev-day">18</span><span class="ev-mon">MAYO</span></div>
+        <div class="ev-type pres">Presencial</div>
+      </div>
+      <div class="ev-body">
+        <div class="ev-city"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Madrid</div>
+        <div class="ev-title">Entreno grupal + Q&A nutrición</div>
+        <div class="ev-desc">2h de entrenamiento funcional con los embajadores GC. Q&A en vivo sobre suplementación y nutrición.</div>
+        <div class="ev-footer"><div class="ev-spots"><strong>7 plazas</strong> disponibles</div><button class="ev-btn" onclick="GCProx.open('eventos.html')">Apuntarse</button></div>
+      </div>
+    </div>
+
+    <div class="ev-card">
+      <div class="ev-visual" style="background:#060612">
+        <svg width="100%" height="130" viewBox="0 0 300 130" fill="none">
+          <rect width="300" height="130" fill="#060612"/>
+          <defs><radialGradient id="eg4" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#A8FF00" stop-opacity=".06"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></radialGradient></defs>
+          <rect width="300" height="130" fill="url(#eg4)"/>
+          <!-- Online / laptop -->
+          <rect x="90" y="30" width="120" height="75" rx="6" fill="#1a1a1a" stroke="rgba(168,255,0,.15)"/>
+          <rect x="90" y="30" width="120" height="52" rx="6" fill="#0d0d0d"/>
+          <!-- Screen content -->
+          <text x="150" y="58" text-anchor="middle" font-family="Orbitron" font-size="8" fill="rgba(168,255,0,.5)" letter-spacing="2">LIVE</text>
+          <circle cx="150" cy="45" r="4" fill="rgba(168,255,0,.4)"/>
+          <!-- Laptop base -->
+          <rect x="75" y="105" width="150" height="6" rx="3" fill="#252525"/>
+          <!-- Viewers counter -->
+          <text x="150" y="122" text-anchor="middle" font-family="Orbitron" font-size="7" fill="rgba(255,255,255,.25)" letter-spacing="2">247 VIEWERS</text>
+        </svg>
+        <div class="ev-date-badge" style="background:var(--bl);"><span class="ev-day">25</span><span class="ev-mon">MAYO</span></div>
+        <div class="ev-type online">Online</div>
+      </div>
+      <div class="ev-body">
+        <div class="ev-city" style="color:var(--bl)"><svg viewBox="0 0 24 24" style="stroke:var(--bl)"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Discord · Online</div>
+        <div class="ev-title">Masterclass: Stack para volumen limpio</div>
+        <div class="ev-desc">Workshop en directo con nuestro nutricionista. Aprende a combinar productos para maximizar ganancias musculares.</div>
+        <div class="ev-footer"><div class="ev-spots">Acceso <strong>ilimitado</strong></div><button class="ev-btn" onclick="GCProx.open('eventos.html')">Inscribirse</button></div>
+      </div>
+    </div>
+
+    <div class="ev-card">
+      <div class="ev-visual" style="background:#0a0a0a">
+        <svg width="100%" height="130" viewBox="0 0 300 130" fill="none">
+          <rect width="300" height="130" fill="#0a0a0a"/>
+          <defs><radialGradient id="eg5" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#A8FF00" stop-opacity=".05"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></radialGradient></defs>
+          <rect width="300" height="130" fill="url(#eg5)"/>
+          <!-- Barcelona landmark silhouette -->
+          <path d="M0,80 L40,80 L40,50 L50,50 L50,40 L60,35 L70,40 L70,50 L80,50 L80,80 L120,80 L120,55 L130,45 L140,55 L140,80 L180,80 L180,60 L190,50 L200,60 L200,80 L300,80" fill="#1a1a1a"/>
+          <line x1="0" y1="80" x2="300" y2="80" stroke="rgba(168,255,0,.08)"/>
+          <!-- Stars -->
+          <g fill="rgba(168,255,0,.25)"><circle cx="60" cy="20" r="1.5"/><circle cx="150" cy="15" r="2"/><circle cx="240" cy="22" r="1.5"/><circle cx="100" cy="10" r="1"/></g>
+        </svg>
+        <div class="ev-date-badge"><span class="ev-day">01</span><span class="ev-mon">JUN</span></div>
+        <div class="ev-type pres">Presencial</div>
+      </div>
+      <div class="ev-body">
+        <div class="ev-city"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Barcelona</div>
+        <div class="ev-title">Glitch Code Run Club BCN</div>
+        <div class="ev-desc">Running matinal de 10km con la comunidad de Barcelona. Post-run shake + networking. Todos los niveles bienvenidos.</div>
+        <div class="ev-footer"><div class="ev-spots"><strong>3 plazas</strong> disponibles</div><button class="ev-btn sold">Completo</button></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════ CHALLENGES ════ -->
+<div class="challenge-sect">
+  <div class="challenge-inner">
+    <div class="sect-hdr" style="margin-bottom:28px">
+      <h2 class="sect-t">Retos activos</h2>
+      <div class="sect-line"></div>
+      <a class="sect-lnk" href="retos.html">Ver ranking →</a>
+    </div>
+    <div class="ch-grid">
+
+      <div class="ch-card">
+        <div class="ch-status active"><div class="sdot"></div>EN CURSO · MAYO 2026</div>
+        <div class="ch-title">RETO 30 DÍAS DE CONSTANCIA</div>
+        <div class="ch-desc">Entrena mínimo 4 días a la semana durante 30 días. Documenta tu proceso en el Discord con el hashtag #Constancia30. El mejor progreso gana un pack completo Glitch Code.</div>
+        <div class="ch-meta">
+          <div class="ch-m"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>347 participantes</div>
+          <div class="ch-m"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>12 días restantes</div>
+        </div>
+        <div class="ch-progress-wrap">
+          <div class="ch-progress-lbl"><span>Progreso del reto</span><span>71%</span></div>
+          <div class="ch-bar"><div class="ch-fill" style="width:71%"></div></div>
+        </div>
+        <button class="ch-cta" onclick="GCProx.open('retos.html')">Unirme al reto</button>
+      </div>
+
+      <div class="ch-card" style="border-color:rgba(0,123,255,.2)">
+        <div class="ch-status soon"><div class="sdot"></div>PRÓXIMO · JUNIO 2026</div>
+        <div class="ch-title">RETO FUERZA: NUEVO PR EN 6 SEMANAS</div>
+        <div class="ch-desc">¿Puedes superar tu 1RM en press banca, sentadilla o peso muerto en 6 semanas? Documenta tu punto de partida y el resultado final. Premio: stack de fuerza valorado en 120€.</div>
+        <div class="ch-meta">
+          <div class="ch-m"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>128 pre-inscritos</div>
+          <div class="ch-m"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Empieza el 1 jun</div>
+        </div>
+        <div class="ch-progress-wrap">
+          <div class="ch-progress-lbl"><span>Pre-inscripciones</span><span>128 / 200</span></div>
+          <div class="ch-bar"><div class="ch-fill" style="width:64%;background:linear-gradient(to right,#007BFF,#00c3ff)"></div></div>
+        </div>
+        <button class="ch-cta bl" onclick="GCProx.open('retos.html')">Pre-inscribirme</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════ BLOG ════════════════════ -->
+<div id="blog"></div>
+<div style="padding:64px 32px 0">
+  <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:0">
+    <h2 style="font-family:var(--fh);font-size:1.2rem;font-weight:700;letter-spacing:3px;text-transform:uppercase">BLOG <span style="color:var(--lm)">·</span> CONOCIMIENTO</h2>
+    <div style="flex:1;height:1px;background:rgba(255,255,255,.05)"></div>
+    <span style="font-family:var(--fh);font-size:.55rem;font-weight:700;letter-spacing:2px;color:var(--gr);text-transform:uppercase">Para rendir mejor, hay que saber más.</span>
+  </div>
+</div>
+
+<!-- Blog filter -->
+<div class="blog-filter">
+  <div class="blog-finner">
+    <div class="blog-cats">
+      <button class="bfbtn active" data-cat="all" onclick="filterBlog(this)">Todos</button>
+      <button class="bfbtn" data-cat="guia" onclick="filterBlog(this)">Guías</button>
+      <button class="bfbtn" data-cat="nutricion" onclick="filterBlog(this)">Nutrición</button>
+      <button class="bfbtn" data-cat="recuperacion" onclick="filterBlog(this)">Recuperación</button>
+      <button class="bfbtn" data-cat="motivacion" onclick="filterBlog(this)">Motivación</button>
+      <button class="bfbtn" data-cat="comunidad" onclick="filterBlog(this)">Comunidad</button>
+    </div>
+    <span class="blog-count"><strong id="blog-cnt">10</strong> artículos</span>
+  </div>
+</div>
+
+<!-- Featured article -->
+<section class="sect" style="padding-top:40px">
+  <div class="feat-art" data-cat="guia">
+    <div class="fart-vis">
+      <div class="fart-vis-in">
+        <svg width="100%" height="100%" viewBox="0 0 580 400" preserveAspectRatio="xMidYMid slice">
+          <rect width="580" height="400" fill="#060606"/>
+          <defs><radialGradient id="fag" cx="50%" cy="50%" r="55%"><stop offset="0%" stop-color="#A8FF00" stop-opacity=".08"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></radialGradient></defs>
+          <rect width="580" height="400" fill="url(#fag)"/>
+          <g stroke="rgba(168,255,0,0.08)" stroke-width="1" fill="none">
+            <polygon points="290,60 330,84 330,132 290,156 250,132 250,84"/>
+            <polygon points="370,108 410,132 410,180 370,204 330,180 330,132"/>
+            <polygon points="210,108 250,132 250,180 210,204 170,180 170,132"/>
+            <polygon points="290,156 330,180 330,228 290,252 250,228 250,180"/>
+          </g>
+          <g fill="rgba(168,255,0,0.45)"><circle cx="290" cy="60" r="3.5"/><circle cx="290" cy="156" r="4.5"/><circle cx="290" cy="252" r="3.5"/></g>
+          <text x="290" y="340" text-anchor="middle" font-family="Orbitron" font-size="11" fill="rgba(168,255,0,0.15)" letter-spacing="5">C₄H₉N₃O₂ · CREATINA MONOHIDRATO</text>
+        </svg>
+      </div>
+      <div class="fart-ov"></div>
+    </div>
+    <div class="fart-body">
+      <div class="fart-cat">Destacado · Guía</div>
+      <h2 class="fart-h2"><a href="blog-creatina.html" style="color:inherit;text-decoration:none">La guía definitiva de la creatina: ciencia, dosis y mitos</a></h2>
+      <p class="fart-p">El suplemento más estudiado de la historia del deporte. 500+ estudios, sin humo. Solo lo que la ciencia dice que funciona y por qué.</p>
+      <div class="fart-meta">
+        <div class="fmeta-chip"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>12 abr 2026</div>
+        <div class="fmeta-chip"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>8 min</div>
+        <div class="fmeta-chip"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>4.2k lecturas</div>
+      </div>
+      <button class="btn-read" onclick="window.location.href='blog-creatina.html'">Leer artículo →</button>
+    </div>
+  </div>
+
+  <!-- Article grid -->
+  <div class="art-grid" id="art-grid">
+
+    <div class="acard" onclick="window.location.href='blog-creatina.html'" style="cursor:pointer" data-cat="guia" style="order:-1">
+      <div class="avis"><div class="avis-in" style="background:linear-gradient(135deg,rgba(168,255,0,.07) 0%,rgba(0,0,0,0) 60%)">
+        <svg width="100%" height="100%" viewBox="0 0 400 225" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="200" cy="112" r="70" stroke="rgba(168,255,0,0.12)" stroke-width="1"/>
+          <circle cx="200" cy="112" r="45" stroke="rgba(168,255,0,0.18)" stroke-width="1"/>
+          <circle cx="200" cy="112" r="22" stroke="rgba(168,255,0,0.35)" stroke-width="1.5" fill="rgba(168,255,0,0.04)"/>
+          <circle cx="200" cy="112" r="6" fill="#A8FF00" opacity=".7"/>
+          <circle cx="200" cy="52"  r="8" stroke="#A8FF00" stroke-width="1" fill="rgba(168,255,0,.1)"/>
+          <circle cx="254" cy="84"  r="8" stroke="#A8FF00" stroke-width="1" fill="rgba(168,255,0,.1)"/>
+          <circle cx="254" cy="140" r="8" stroke="#A8FF00" stroke-width="1" fill="rgba(168,255,0,.1)"/>
+          <circle cx="200" cy="172" r="8" stroke="#A8FF00" stroke-width="1" fill="rgba(168,255,0,.1)"/>
+          <circle cx="146" cy="140" r="8" stroke="#A8FF00" stroke-width="1" fill="rgba(168,255,0,.1)"/>
+          <circle cx="146" cy="84"  r="8" stroke="#A8FF00" stroke-width="1" fill="rgba(168,255,0,.1)"/>
+          <line x1="200" y1="112" x2="200" y2="52"  stroke="rgba(168,255,0,.2)" stroke-width=".8" stroke-dasharray="3 3"/>
+          <line x1="200" y1="112" x2="254" y2="84"  stroke="rgba(168,255,0,.2)" stroke-width=".8" stroke-dasharray="3 3"/>
+          <line x1="200" y1="112" x2="254" y2="140" stroke="rgba(168,255,0,.2)" stroke-width=".8" stroke-dasharray="3 3"/>
+          <line x1="200" y1="112" x2="200" y2="172" stroke="rgba(168,255,0,.2)" stroke-width=".8" stroke-dasharray="3 3"/>
+          <line x1="200" y1="112" x2="146" y2="140" stroke="rgba(168,255,0,.2)" stroke-width=".8" stroke-dasharray="3 3"/>
+          <line x1="200" y1="112" x2="146" y2="84"  stroke="rgba(168,255,0,.2)" stroke-width=".8" stroke-dasharray="3 3"/>
+          <text x="56" y="30" fill="rgba(168,255,0,0.5)" font-family="Orbitron" font-size="9" letter-spacing="2">500+ ESTUDIOS</text>
+          <text x="56" y="43" fill="rgba(255,255,255,0.2)" font-family="Orbitron" font-size="7" letter-spacing="1">CIENCIA REAL</text>
+          <text x="280" y="195" fill="rgba(168,255,0,0.3)" font-family="Orbitron" font-size="7" letter-spacing="1">GUÍA DEFINITIVA</text>
+        </svg>
+      </div>
+      <div class="aov"></div>
+      <div class="acat-badge" style="background:rgba(168,255,0,.12);border:1px solid rgba(168,255,0,.25);color:#A8FF00">⚗️ Ciencia</div>
+      </div>
+      <div class="abody">
+        <h3 class="ah3">La guía definitiva de la creatina: ciencia, dosis y mitos</h3>
+        <p class="ap">El suplemento más estudiado de la historia del deporte. 500+ estudios, sin humo. Solo lo que la ciencia dice que funciona y por qué.</p>
+        <div class="afoot">
+          <div class="atime"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>12 min · Mayo 2025</div>
+          <a class="alrm" href="blog-creatina.html" style="color:#A8FF00;border-color:rgba(168,255,0,.3)">Leer →</a>
+        </div>
+      </div>
+    </div>
+    <div class="acard" data-cat="nutricion">
+      <div class="avis"><div class="avis-in"><svg width="100%" height="100%" viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice"><rect width="400" height="225" fill="#080808"/><defs><linearGradient id="pg2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#A8FF00" stop-opacity=".7"/><stop offset="100%" stop-color="#A8FF00" stop-opacity=".2"/></linearGradient><linearGradient id="cg5" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#007BFF" stop-opacity=".6"/><stop offset="100%" stop-color="#007BFF" stop-opacity=".15"/></linearGradient></defs><rect x="60" y="30" width="60" height="160" rx="5" fill="url(#pg2)"/><rect x="140" y="70" width="60" height="120" rx="5" fill="url(#cg5)"/><rect x="220" y="100" width="60" height="90" rx="5" fill="rgba(90,90,90,0.5)"/><text x="90" y="210" text-anchor="middle" font-family="Orbitron" font-size="7" fill="rgba(168,255,0,.4)" letter-spacing="1">35%</text><text x="170" y="210" text-anchor="middle" font-family="Orbitron" font-size="7" fill="rgba(0,123,255,.4)" letter-spacing="1">45%</text><text x="250" y="210" text-anchor="middle" font-family="Orbitron" font-size="7" fill="rgba(90,90,90,.5)" letter-spacing="1">20%</text></svg></div><div class="aov"></div><div class="acat-badge bn">Nutrición</div></div>
+      <div class="abody"><h3 class="ah3">Cómo calcular tus macros para ganar masa muscular</h3><p class="ap">Proteínas, carbohidratos y grasas en su justa medida. Guía con calculadora incluida.</p><div class="afoot"><div class="atime"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>10 min · 20 mar</div><a class="alrm" href="comunidad_blog_glitch_code.html">Leer →</a></div></div>
+    </div>
+
+    <div class="acard" data-cat="recuperacion">
+      <div class="avis"><div class="avis-in"><svg width="100%" height="100%" viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice"><rect width="400" height="225" fill="#050510"/><defs><radialGradient id="slg2" cx="50%" cy="60%" r="50%"><stop offset="0%" stop-color="#007BFF" stop-opacity=".1"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></radialGradient></defs><rect width="400" height="225" fill="url(#slg2)"/><path d="M0,140 L40,140 L50,80 L60,140 L100,140 L110,110 L120,140 L170,140 L175,60 L180,30 L185,60 L190,140 L240,140 L245,100 L250,140 L400,140" stroke="rgba(0,123,255,0.5)" stroke-width="1.8" fill="none"/><g fill="rgba(255,255,255,0.25)"><circle cx="80" cy="40" r="1.5"/><circle cx="150" cy="22" r="2"/><circle cx="260" cy="38" r="1.5"/><circle cx="330" cy="22" r="2.5"/></g></svg></div><div class="aov"></div><div class="acat-badge br">Recuperación</div></div>
+      <div class="abody"><h3 class="ah3">Sueño y rendimiento deportivo: la guía que nadie te da</h3><p class="ap">Dormir mal destruye tus ganancias. Cómo el sueño afecta la recuperación muscular.</p><div class="afoot"><div class="atime"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>8 min · 22 feb</div><a class="alrm" href="comunidad_blog_glitch_code.html">Leer →</a></div></div>
+    </div>
+
+    <div class="acard" data-cat="guia">
+      <div class="avis"><div class="avis-in"><svg width="100%" height="100%" viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice"><rect width="400" height="225" fill="#080808"/><defs><radialGradient id="pwg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#A8FF00" stop-opacity=".1"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="112" r="180" fill="url(#pwg)"/><path d="M215 30 L180 115 L205 115 L185 195 L230 95 L205 95 L235 30Z" fill="rgba(168,255,0,0.22)" stroke="rgba(168,255,0,0.5)" stroke-width="1.2"/><text x="105" y="65" font-family="Orbitron" font-size="7" fill="rgba(168,255,0,0.4)" letter-spacing="1">CAFEÍNA</text><text x="248" y="75" font-family="Orbitron" font-size="7" fill="rgba(0,123,255,0.4)" letter-spacing="1">CITRULINA</text></svg></div><div class="aov"></div><div class="acat-badge bg">Guía</div></div>
+      <div class="abody"><h3 class="ah3">Pre-entreno sin arruinar el sueño: la guía completa</h3><p class="ap">Cafeína, L-Citrulina, Beta-Alanina. Qué hace cada ingrediente y cómo dosificar.</p><div class="afoot"><div class="atime"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>7 min · 28 mar</div><a class="alrm" href="comunidad_blog_glitch_code.html">Leer →</a></div></div>
+    </div>
+
+    <div class="acard" data-cat="motivacion">
+      <div class="avis"><div class="avis-in"><svg width="100%" height="100%" viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice"><rect width="400" height="225" fill="#080808"/><defs><radialGradient id="mg" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#A8FF00" stop-opacity=".06"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></radialGradient></defs><rect width="400" height="225" fill="url(#mg)"/><text x="200" y="100" text-anchor="middle" font-family="Orbitron" font-size="58" font-weight="900" fill="rgba(168,255,0,0.06)">1%</text><text x="200" y="155" text-anchor="middle" font-family="Orbitron" font-size="18" font-weight="900" fill="rgba(168,255,0,0.18)">MEJOR</text><text x="200" y="175" text-anchor="middle" font-family="Orbitron" font-size="12" fill="rgba(168,255,0,0.1)" letter-spacing="3">CADA DÍA</text></svg></div><div class="aov"></div><div class="acat-badge bm">Motivación</div></div>
+      <div class="abody"><h3 class="ah3">El 1% diario: por qué la constancia gana a la intensidad</h3><p class="ap">El principio de mejora continua aplicado al deporte. Cómo construir hábitos que duran.</p><div class="afoot"><div class="atime"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>6 min · 5 abr</div><a class="alrm" href="comunidad_blog_glitch_code.html">Leer →</a></div></div>
+    </div>
+
+    <div class="acard" data-cat="nutricion">
+      <div class="avis"><div class="avis-in"><svg width="100%" height="100%" viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice"><rect width="400" height="225" fill="#080808"/><defs><radialGradient id="cg6" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#007BFF" stop-opacity=".1"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="112" r="160" fill="url(#cg6)"/><path d="M200,112 Q220,90 240,112 Q260,134 240,154 Q220,174 200,154 Q165,134 170,100 Q180,65 220,60 Q270,55 295,95 Q320,135 295,170 Q265,210 210,210 Q145,210 120,165 Q90,115 115,65 Q145,20 205,20 Q275,20 310,75" stroke="rgba(0,123,255,0.35)" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="aov"></div><div class="acat-badge bn">Nutrición</div></div>
+      <div class="abody"><h3 class="ah3">Los carbohidratos no son el enemigo: guía completa</h3><p class="ap">Índice glucémico, timing y periodización. Cómo usar los carbos para maximizar rendimiento.</p><div class="afoot"><div class="atime"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>9 min · 7 mar</div><a class="alrm" href="comunidad_blog_glitch_code.html">Leer →</a></div></div>
+    </div>
+
+    <div class="acard" data-cat="comunidad">
+      <div class="avis"><div class="avis-in"><svg width="100%" height="100%" viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice"><rect width="400" height="225" fill="#0a0a0a"/><defs><radialGradient id="cog" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#A8FF00" stop-opacity=".07"/><stop offset="100%" stop-color="transparent" stop-opacity="0"/></radialGradient></defs><rect width="400" height="225" fill="url(#cog)"/><g fill="none" stroke="rgba(168,255,0,0.15)" stroke-width="1"><circle cx="200" cy="112" r="70"/><circle cx="200" cy="112" r="50"/><circle cx="200" cy="112" r="30"/></g><g fill="rgba(168,255,0,0.35)"><circle cx="200" cy="42" r="5"/><circle cx="270" cy="155" r="5"/><circle cx="130" cy="155" r="5"/></g><line x1="200" y1="47" x2="200" y2="82" stroke="rgba(168,255,0,0.2)" stroke-width="1"/><line x1="265" y1="152" x2="245" y2="142" stroke="rgba(168,255,0,0.2)" stroke-width="1"/><line x1="135" y1="152" x2="155" y2="142" stroke="rgba(168,255,0,0.2)" stroke-width="1"/></svg></div><div class="aov"></div><div class="acat-badge bm">Comunidad</div></div>
+      <div class="abody"><h3 class="ah3">Por qué entrenar en comunidad multiplica tus resultados</h3><p class="ap">La ciencia detrás del entrenamiento social. Accountability, motivación y pertenencia.</p><div class="afoot"><div class="atime"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>5 min · 15 abr</div><a class="alrm" href="comunidad_blog_glitch_code.html">Leer →</a></div></div>
+    </div>
+
+  </div>
+
+  <div class="load-more">
+    <button class="lm-btn" onclick="GCProx.open('blog-archivo.html')">Cargar más artículos →</button>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="nl">
+  <div>
+    <div class="nl-k">Sé el primero en enterarte</div>
+    <div class="nl-h">ENTRENA CON <em>DATOS.</em></div>
+    <div class="nl-p">Artículos de ciencia aplicada, novedades de comunidad y ofertas exclusivas para suscriptores. Sin spam. Solo valor real.</div>
+  </div>
+  <div class="nl-form">
+    <input class="nl-in" type="email" placeholder="tu@email.com" id="nl-email">
+    <button class="nl-btn" onclick="subNewsletter()">Suscribirme →</button>
+  </div>
+</div>
+
+<footer id="gc-ufooter">
+
+  <!-- NEWSLETTER -->
+  <div class="gc-uf-news">
+    <div class="gc-uf-news-left">
+      <span class="gc-uf-news-tag">Comunidad Glitch Code</span>
+      <span class="gc-uf-news-title">No entrenes solo. Nunca más.</span>
+      <span class="gc-uf-news-sub">Descuentos exclusivos, lanzamientos y contenido antes que nadie.</span>
+    </div>
+    <div class="gc-uf-news-form">
+      <input type="email" class="gc-uf-news-input" id="gc-uf-email"
+        placeholder="tu@email.com" autocomplete="email">
+      <button class="gc-uf-news-btn" onclick="gcUfSubscribe()">Suscribirme</button>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="gc-uf-main">
+
+    <!-- MARCA -->
+    <div>
+      <a href="home-glitch-popup.html" class="gc-uf-brand-logo">
+        <img src="logo-glitch-code.png" alt="Glitch Code">
+        <span class="gc-uf-brand-logo-text">Glitch Code</span>
+      </a>
+      <p class="gc-uf-tagline">
+        Suplementación de alto rendimiento para una <strong>comunidad de verdad</strong>.
+        Cuerpos reales, objetivos reales, resultados reales.
+      </p>
+
+      <div class="gc-uf-social">
+        <!-- Instagram -->
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="4.5"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="rgba(255,255,255,.5)" stroke="none"/>
+          </svg>
+        </a>
+        <!-- TikTok -->
+        <a href="https://tiktok.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="TikTok">
+          <svg viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.73a8.17 8.17 0 0 0 4.78 1.54V6.82a4.85 4.85 0 0 1-1.01-.13z"/>
+          </svg>
+        </a>
+        <!-- YouTube -->
+        <a href="https://youtube.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="YouTube">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="rgba(255,255,255,.5)"/>
+          </svg>
+        </a>
+        <!-- Twitter/X -->
+        <a href="https://x.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="X / Twitter">
+          <svg viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L2.25 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="gc-uf-badges">
+        <span class="gc-uf-badge"><span class="gc-uf-badge-icon">🔒</span> Pago 100% seguro · SSL</span>
+        <span class="gc-uf-badge"><span class="gc-uf-badge-icon">🚚</span> Envío gratis desde 50€</span>
+        <span class="gc-uf-badge"><span class="gc-uf-badge-icon">↩️</span> Devolución en 14 días</span>
+      </div>
+    </div>
+
+    <!-- PRODUCTOS -->
+    <div>
+      <p class="gc-uf-col-title">Productos</p>
+      <div class="gc-uf-links">
+        <a href="plp-glitch-code.html">Proteínas</a>
+        <a href="plp-glitch-code.html">Creatinas</a>
+        <a href="plp-glitch-code.html">Pre-Workouts</a>
+        <a href="plp-glitch-code.html">Vitaminas</a>
+        <a href="plp-glitch-code.html">Complementos</a>
+        <a href="plp-glitch-code.html">Packs <span class="gc-uf-new-badge">Nuevo</span></a>
+        <a href="plp-glitch-code.html" class="gc-uf-hot">Ver todo →</a>
+      </div>
+    </div>
+
+    <!-- MARCA -->
+    <div>
+      <p class="gc-uf-col-title">Marca</p>
+      <div class="gc-uf-links">
+        <a href="sobre-nosotros.html">Sobre nosotros</a>
+        <a href="comunidad_blog_glitch_code.html">Comunidad</a>
+        <a href="comunidad_blog_glitch_code.html">Blog</a>
+        <a href="embajadores.html">Embajadores</a>
+        <a href="contacto_v2_glitch_code.html">Contacto</a>
+        <a href="rewards.html">Rewards <span class="gc-uf-new-badge">Pronto</span></a>
+      </div>
+    </div>
+
+    <!-- AYUDA -->
+    <div>
+      <p class="gc-uf-col-title">Ayuda</p>
+      <div class="gc-uf-links">
+        <a href="faq.html">Preguntas frecuentes</a>
+        <a href="legales-glitch-code.html#condiciones">Envíos y plazos</a>
+        <a href="legales-glitch-code.html#condiciones">Devoluciones</a>
+        <a href="login.html">Mi cuenta</a>
+        <a href="seguimiento.html">Seguimiento de pedido</a>
+        <a href="legales-glitch-code.html">Textos legales</a>
+      </div>
+    </div>
+
+  </div><!-- /gc-uf-main -->
+
+  <!-- BOTTOM BAR -->
+  <div class="gc-uf-bottom">
+    <span class="gc-uf-copy">© 2025 Glitch Code SA · Zaragoza, España · Todos los derechos reservados.</span>
+    <div class="gc-uf-bottom-links">
+      <a href="legales-glitch-code.html">Aviso legal</a>
+      <a href="legales-glitch-code.html#privacidad">Privacidad</a>
+      <a href="legales-glitch-code.html#cookies">Cookies</a>
+      <a href="legales-glitch-code.html#condiciones">Condiciones generales</a>
+    </div>
+    <div class="gc-uf-bottom-right">
+      <span class="gc-uf-pay-badge">Visa</span>
+      <span class="gc-uf-pay-badge">Mastercard</span>
+      <span class="gc-uf-pay-badge">PayPal</span>
+      <span class="gc-uf-pay-badge">Bizum</span>
+    </div>
+  </div>
+
+</footer>
+
+<script>
+/* Toast */
+let tt;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400);
+}
+
+/* Live feed — add messages */
+const msgs=[
+  {av:'fb2',init:'DM',name:'Diego M.',tag:'Fuerza',tagCl:'lm',text:'Nuevo máximo en peso muerto: <strong style="color:var(--lm)">180kg</strong>. La creatina + protocolo de carga. Funciona.'},
+  {av:'fc2',init:'LF',name:'Laura F.',tag:'Nutrición',tagCl:'bl',text:'Combo Iso-Tech + plátano post-entreno. Los macros cuadran perfectos 🍌'},
+  {av:'fd2',init:'MG',name:'Miguel G.',tag:'Comunidad',tagCl:'lm',text:'¿Alguien tiene canal de Valencia activo? Busco gente para entrenar'},
+  {av:'fb2',init:'NR',name:'Nuria R.',tag:'Motivación',tagCl:'lm',text:'Semana 12. No paré ni un día. Esto es Glitch Code. 🔥'},
+  {av:'fc2',init:'PH',name:'Pablo H.',tag:'Review',tagCl:'bl',text:'Glitch Fuel por primera vez. El sabor es brutal. Sin jitters a las 3h'},
+];
+let mi=0;
+setInterval(()=>{
+  const feed=document.getElementById('feed-msgs');
+  const m=msgs[mi%msgs.length];mi++;
+  const d=document.createElement('div');
+  d.className='fmsg';d.style.animationDelay='0s';
+  d.innerHTML=`<div class="fav ${m.av}">${m.init}</div><div class="ftext"><div class="fname">${m.name}</div><div class="fmsg-txt"><span class="ftag ${m.tagCl}">${m.tag}</span> ${m.text}</div><div class="ftime">ahora mismo</div></div>`;
+  feed.appendChild(d);
+  if(feed.children.length>6) feed.removeChild(feed.children[0]);
+  feed.scrollTop=feed.scrollHeight;
+  // Update online count
+  const base=247;
+  document.getElementById('online-count').textContent=(base+Math.floor(Math.random()*8-4))+' activos ahora';
+},5000);
+
+/* Send msg to feed */
+function sendMsg(){
+  const inp=document.getElementById('msg-input');
+  const txt=inp.value.trim();
+  if(!txt)return;
+  inp.value='';
+  const feed=document.getElementById('feed-msgs');
+  const d=document.createElement('div');
+  d.className='fmsg';
+  d.innerHTML=`<div class="fav" style="background:rgba(168,255,0,.1);border:1px solid rgba(168,255,0,.2);color:var(--lm);width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:.5rem;font-weight:700">TÚ</div><div class="ftext"><div class="fname">Tú</div><div class="fmsg-txt">${txt}</div><div class="ftime">ahora mismo</div></div>`;
+  feed.appendChild(d);
+  if(feed.children.length>6)feed.removeChild(feed.children[0]);
+  feed.scrollTop=feed.scrollHeight;
+  showToast('¡Mensaje enviado a la comunidad!');
+}
+
+/* Blog filter */
+const counts={all:10,guia:3,nutricion:3,recuperacion:1,motivacion:1,comunidad:1};
+function filterBlog(btn){
+  document.querySelectorAll('.bfbtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const cat=btn.dataset.cat;
+  document.querySelectorAll('.acard[data-cat]').forEach(c=>{
+    c.style.display=(cat==='all'||c.dataset.cat===cat)?'flex':'none';
+  });
+  // featured article
+  const feat=document.querySelector('.feat-art[data-cat]');
+  if(feat) feat.style.display=(cat==='all'||cat==='guia')?'grid':'none';
+  document.getElementById('blog-cnt').textContent=counts[cat]||0;
+}
+
+/* Newsletter */
+function subNewsletter(){
+  const i=document.getElementById('nl-email');
+  if(!i.value||!i.value.includes('@')){i.style.borderColor='rgba(255,80,80,.5)';return;}
+  showToast('✓ ¡Suscripción confirmada!');
+  i.value='';i.style.borderColor='';
+}
+</script>
+<script src="carrito.js"></script>
+
+<script>
+(function(){
+  // Active link detection
+  var page = window.location.pathname.split('/').pop() || 'home-glitch-popup.html';
+  var map = {
+    'plp-glitch-code.html':             'productos',
+    'pdp_proteina_iso_tech.html':       'productos',
+    'pdp_creatina_monohidrato.html':    'productos',
+    'comunidad_blog_glitch_code.html':  'comunidad',
+    'contacto_v2_glitch_code.html':     'contacto',
+    'sobre-nosotros.html':              'nosotros',
+    'home-glitch-popup.html':           'inicio',
+    'login.html':                       '',
+    'perfil-usuario-glitch.html':       '',
+    'checkout-glitch.html':             '',
+    'legales-glitch-code.html':         '',
+  };
+  var active = map[page];
+  if(active){
+    document.querySelectorAll('[data-gc-page="'+active+'"]').forEach(function(el){
+      el.classList.add('gc-active');
+    });
+  }
+
+  // Scroll effect
+  window.addEventListener('scroll', function(){
+    document.getElementById('gc-unav').classList.toggle('scrolled', window.scrollY > 40);
+  }, {passive:true});
+
+  // Search
+  var searchBtn  = document.getElementById('gc-search-btn');
+  var searchOver = document.getElementById('gc-search-overlay');
+  var searchInp  = document.getElementById('gc-search-input');
+  var searchOpen = false;
+  var PRODUCTS = [
+    {name:'Proteína Iso-Tech', url:'pdp_proteina_iso_tech.html'},
+    {name:'Creatina Monohidrato', url:'pdp_creatina_monohidrato.html'},
+    {name:'Ver todos los productos', url:'plp-glitch-code.html'},
+    {name:'Blog & Comunidad', url:'comunidad_blog_glitch_code.html'},
+    {name:'Sobre nosotros', url:'sobre-nosotros.html'},
+  ];
+
+  function openSearch(){
+    searchOpen = true;
+    searchOver.classList.add('open');
+    searchBtn.style.color = '#A8FF00';
+    setTimeout(function(){ searchInp && searchInp.focus(); }, 350);
+  }
+  function closeSearch(){
+    searchOpen = false;
+    searchOver.classList.remove('open');
+    searchBtn.style.color = '';
+    if(searchInp) searchInp.value = '';
+  }
+  if(searchBtn) searchBtn.addEventListener('click', function(){
+    searchOpen ? closeSearch() : openSearch();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeSearch();
+    if((e.ctrlKey||e.metaKey) && e.key==='k'){ e.preventDefault(); openSearch(); }
+  });
+  if(searchInp){
+    searchInp.addEventListener('input', function(){
+      var val = this.value.toLowerCase().trim();
+      // future: show result chips
+    });
+    searchInp.addEventListener('keydown', function(e){
+      if(e.key==='Enter' && this.value.trim()){
+        window.location.href = 'plp-glitch-code.html';
+      }
+    });
+  }
+
+  // Burger / Mobile menu
+  var burger = document.getElementById('gc-burger');
+  var mobileMenu = document.getElementById('gc-mobile-menu');
+  if(burger && mobileMenu){
+    burger.addEventListener('click', function(){
+      var open = mobileMenu.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+  }
+
+  // Cart badge sync (works with carrito.js)
+  function syncBadge(){
+    if(window.GCCart){
+      var count = GCCart.getCount();
+      var badge = document.getElementById('gc-cart-badge');
+      if(badge){
+        badge.textContent = count;
+        badge.classList.toggle('visible', count > 0);
+      }
+    }
+  }
+  setInterval(syncBadge, 500);
+
+  // Wishlist badge (localStorage based)
+  try{
+    var wCount = parseInt(localStorage.getItem('gc-wishlist-count')||'0');
+    var wb = document.getElementById('gc-wish-badge');
+    if(wb && wCount > 0){
+      wb.textContent = wCount;
+      wb.classList.add('visible');
+    }
+  } catch(e){}
+
+})();
+</script>
+<script src="gc-utils.js"></script>
+
+<script id="gc-uf-js">
+function gcUfSubscribe(){
+  var input = document.getElementById('gc-uf-email');
+  if(!input) return;
+  var email = input.value.trim();
+  var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if(!valid){
+    input.style.borderColor='rgba(255,79,79,.5)';
+    input.placeholder='Email no válido';
+    setTimeout(function(){ input.style.borderColor=''; input.placeholder='tu@email.com'; },2000);
+    return;
+  }
+  try{
+    var s=JSON.parse(localStorage.getItem('gc_subs')||'[]');
+    if(!s.includes(email)) s.push(email);
+    localStorage.setItem('gc_subs',JSON.stringify(s));
+  }catch(e){}
+  input.value='';
+  var btn = input.nextElementSibling;
+  if(btn){ btn.textContent='✓ Apuntado'; btn.style.background='rgba(168,255,0,.2)'; btn.style.color='#A8FF00'; btn.disabled=true; }
+  if(window.GCToast) GCToast.show('¡Bienvenido a la comunidad! 🎉','success');
+}
+</script>
+</body>
+</html>

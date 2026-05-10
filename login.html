@@ -1,0 +1,1880 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acceder — Glitch Code</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bk: #0E0E0E;
+  --wh: #FFFFFF;
+  --gr: #5A5A5A;
+  --lm: #A8FF00;
+  --bl: #007BFF;
+  --c1: #111;
+  --c2: #161616;
+  --c3: #1a1a1a;
+  --err: #ff4f4f;
+  --fh: 'Orbitron', sans-serif;
+  --fb: 'Poppins', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; height: 100%; }
+body {
+  background: var(--bk);
+  color: var(--wh);
+  font-family: var(--fb);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-thumb { background: var(--lm); border-radius: 2px; }
+
+/* ── NAV ── */
+.nav {
+  background: rgba(14,14,14,.97);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(168,255,0,.08);
+  padding: 0 40px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  flex-shrink: 0;
+}
+.nlogo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--fh); font-size: .62rem; font-weight: 700;
+  letter-spacing: 4px; cursor: pointer;
+  text-decoration: none; color: var(--wh);
+}
+.nlogo svg { width: 28px; height: 28px; }
+.nback {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--fh); font-size: .42rem; letter-spacing: 2px;
+  color: var(--gr); text-transform: uppercase;
+  text-decoration: none; transition: color .2s;
+}
+.nback:hover { color: var(--lm); }
+.nback svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+/* ── BACKGROUND FX ── */
+.bg-grid {
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(168,255,0,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168,255,0,.025) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+.bg-glow {
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 50% 60% at 15% 50%, rgba(168,255,0,.06) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 40% at 85% 50%, rgba(0,123,255,.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ── MAIN LAYOUT ── */
+.page {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── LEFT PANEL — BRAND ── */
+.brand-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 64px;
+  position: relative;
+  border-right: 1px solid rgba(255,255,255,.04);
+  overflow: hidden;
+}
+.brand-panel::before {
+  content: '';
+  position: absolute;
+  top: -100px; left: -100px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(168,255,0,.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.bp-eyebrow {
+  font-family: var(--fh);
+  font-size: .4rem;
+  letter-spacing: 4px;
+  color: var(--lm);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  display: flex; align-items: center; gap: 10px;
+}
+.bp-eyebrow::before {
+  content: '';
+  width: 20px; height: 1px;
+  background: var(--lm);
+}
+
+.bp-headline {
+  font-family: var(--fh);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 900;
+  line-height: 1.0;
+  letter-spacing: -1px;
+  margin-bottom: 24px;
+}
+.bp-headline .accent { color: var(--lm); }
+
+.bp-sub {
+  font-size: .83rem;
+  color: rgba(255,255,255,.5);
+  line-height: 1.8;
+  max-width: 380px;
+  margin-bottom: 40px;
+}
+
+.bp-perks { display: flex; flex-direction: column; gap: 14px; }
+.perk {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.05);
+  border-radius: 10px;
+  transition: border-color .3s, background .3s;
+}
+.perk:hover {
+  border-color: rgba(168,255,0,.15);
+  background: rgba(168,255,0,.03);
+}
+.perk-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: rgba(168,255,0,.1);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  font-size: 1rem;
+}
+.perk-text { display: flex; flex-direction: column; gap: 2px; }
+.perk-title {
+  font-family: var(--fh);
+  font-size: .48rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--wh);
+}
+.perk-desc {
+  font-size: .72rem;
+  color: var(--gr);
+}
+
+/* Animated hexagon deco */
+.deco-hex {
+  position: absolute;
+  bottom: 40px; right: -30px;
+  opacity: .06;
+  animation: spin 40s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── RIGHT PANEL — FORM ── */
+.form-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 64px;
+}
+
+.form-box {
+  width: 100%;
+  max-width: 420px;
+}
+
+/* Tabs */
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--c2);
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.06);
+  padding: 4px;
+  margin-bottom: 32px;
+}
+.tab-btn {
+  padding: 10px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: var(--fh);
+  font-size: .45rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gr);
+  border-radius: 7px;
+  transition: all .25s;
+}
+.tab-btn.active {
+  background: var(--lm);
+  color: #0E0E0E;
+}
+
+/* Form views */
+.form-view { display: none; animation: fadeUp .3s ease; }
+.form-view.visible { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.form-title {
+  font-family: var(--fh);
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
+.form-subtitle {
+  font-size: .78rem;
+  color: var(--gr);
+  margin-bottom: 28px;
+  line-height: 1.5;
+}
+
+/* Field */
+.field { margin-bottom: 16px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field label {
+  display: block;
+  font-family: var(--fh);
+  font-size: .38rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gr);
+  margin-bottom: 8px;
+}
+.field-wrap { position: relative; }
+.field input {
+  width: 100%;
+  background: var(--c2);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 10px;
+  padding: 13px 16px 13px 44px;
+  font-family: var(--fb);
+  font-size: .82rem;
+  color: var(--wh);
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.field input::placeholder { color: rgba(90,90,90,.8); }
+.field input:focus {
+  border-color: rgba(168,255,0,.4);
+  box-shadow: 0 0 0 3px rgba(168,255,0,.06);
+}
+.field input.error-field {
+  border-color: rgba(255,79,79,.5);
+  box-shadow: 0 0 0 3px rgba(255,79,79,.06);
+}
+.field-icon {
+  position: absolute;
+  left: 14px; top: 50%;
+  transform: translateY(-50%);
+  width: 16px; height: 16px;
+  stroke: var(--gr);
+  fill: none;
+  stroke-width: 1.8;
+  pointer-events: none;
+  transition: stroke .2s;
+}
+.field input:focus ~ .field-icon { stroke: var(--lm); }
+
+/* Toggle password */
+.toggle-pw {
+  position: absolute;
+  right: 14px; top: 50%;
+  transform: translateY(-50%);
+  background: none; border: none; cursor: pointer;
+  padding: 2px;
+  color: var(--gr);
+  transition: color .2s;
+  display: flex;
+}
+.toggle-pw:hover { color: var(--lm); }
+.toggle-pw svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+
+/* Error msg */
+.field-error {
+  display: none;
+  font-size: .65rem;
+  color: var(--err);
+  margin-top: 5px;
+  padding-left: 4px;
+}
+.field-error.show { display: block; }
+
+/* Password strength */
+.pw-strength { margin-top: 8px; }
+.pw-bars { display: flex; gap: 4px; margin-bottom: 5px; }
+.pw-bar {
+  flex: 1; height: 3px; border-radius: 2px;
+  background: rgba(255,255,255,.08);
+  transition: background .3s;
+}
+.pw-bar.weak { background: #ff4f4f; }
+.pw-bar.medium { background: #ffb400; }
+.pw-bar.strong { background: var(--lm); }
+.pw-label {
+  font-size: .6rem;
+  color: var(--gr);
+}
+
+/* Checkbox */
+.check-field {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+.check-field input[type="checkbox"] { display: none; }
+.check-box {
+  width: 18px; height: 18px;
+  border-radius: 5px;
+  border: 1.5px solid rgba(255,255,255,.15);
+  background: var(--c2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: all .2s;
+}
+.check-field input:checked ~ .check-box {
+  background: var(--lm);
+  border-color: var(--lm);
+}
+.check-mark {
+  width: 10px; height: 10px;
+  stroke: #0E0E0E; fill: none; stroke-width: 2.5;
+  opacity: 0; transform: scale(.5);
+  transition: all .2s;
+}
+.check-field input:checked ~ .check-box .check-mark {
+  opacity: 1; transform: scale(1);
+}
+.check-label {
+  font-size: .73rem;
+  color: rgba(255,255,255,.5);
+  line-height: 1.5;
+}
+.check-label a { color: var(--lm); text-decoration: none; }
+.check-label a:hover { text-decoration: underline; }
+
+/* Forgot password */
+.forgot {
+  text-align: right;
+  margin-top: -8px;
+  margin-bottom: 16px;
+}
+.forgot a {
+  font-size: .7rem;
+  color: var(--gr);
+  text-decoration: none;
+  transition: color .2s;
+}
+.forgot a:hover { color: var(--lm); }
+
+/* Submit button */
+.btn-submit {
+  width: 100%;
+  padding: 14px;
+  background: var(--lm);
+  color: #0E0E0E;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--fh);
+  font-size: .52rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.btn-submit::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,.15);
+  transform: translateX(-100%);
+  transition: transform .3s ease;
+}
+.btn-submit:hover::before { transform: translateX(0); }
+.btn-submit:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(168,255,0,.25); }
+.btn-submit:active { transform: translateY(0); }
+.btn-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* Loading state */
+.btn-submit .btn-loading {
+  display: none;
+  align-items: center; justify-content: center; gap: 8px;
+}
+.btn-submit.loading .btn-text { display: none; }
+.btn-submit.loading .btn-loading { display: flex; }
+.spinner {
+  width: 14px; height: 14px;
+  border: 2px solid rgba(0,0,0,.2);
+  border-top-color: #0E0E0E;
+  border-radius: 50%;
+  animation: spin-s .7s linear infinite;
+}
+@keyframes spin-s { to { transform: rotate(360deg); } }
+
+/* Divider or */
+.or-divider {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 18px;
+}
+.or-line { flex: 1; height: 1px; background: rgba(255,255,255,.06); }
+.or-text { font-size: .65rem; color: var(--gr); white-space: nowrap; }
+
+/* Social login */
+.social-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.btn-social {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 11px;
+  background: var(--c2);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: var(--fb); font-size: .75rem; font-weight: 500;
+  color: rgba(255,255,255,.7);
+  transition: all .2s;
+  text-decoration: none;
+}
+.btn-social:hover {
+  border-color: rgba(255,255,255,.15);
+  background: rgba(255,255,255,.05);
+  color: var(--wh);
+}
+.btn-social svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+/* Success state */
+.success-view {
+  display: none;
+  text-align: center;
+  padding: 20px 0;
+  animation: fadeUp .4s ease;
+}
+.success-view.show { display: block; }
+.success-icon {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  background: rgba(168,255,0,.1);
+  border: 2px solid rgba(168,255,0,.3);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 20px;
+}
+.success-icon svg { width: 28px; height: 28px; stroke: var(--lm); fill: none; stroke-width: 2; }
+.success-title {
+  font-family: var(--fh);
+  font-size: .9rem; font-weight: 900;
+  margin-bottom: 10px;
+}
+.success-sub { font-size: .78rem; color: var(--gr); line-height: 1.6; margin-bottom: 24px; }
+.btn-goto {
+  display: inline-block;
+  padding: 12px 28px;
+  background: var(--lm);
+  color: #0E0E0E;
+  border-radius: 8px;
+  font-family: var(--fh);
+  font-size: .45rem; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: all .2s;
+}
+.btn-goto:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(168,255,0,.25); }
+
+/* Recover view */
+.recover-link {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: .7rem;
+  color: var(--gr);
+  cursor: pointer;
+  transition: color .2s;
+  background: none; border: none; font-family: var(--fb);
+}
+.recover-link:hover { color: var(--lm); }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--c1);
+  border-top: 1px solid rgba(255,255,255,.04);
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.footer-brand { font-family: var(--fh); font-size: .42rem; letter-spacing: 3px; color: rgba(90,90,90,.6); }
+.footer-links { display: flex; gap: 20px; }
+.footer-link { font-size: .65rem; color: var(--gr); text-decoration: none; transition: color .2s; }
+.footer-link:hover { color: var(--lm); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 860px) {
+  .page { grid-template-columns: 1fr; }
+  .brand-panel { display: none; }
+  .form-panel { padding: 40px 24px; }
+  .nav { padding: 0 20px; }
+  footer { padding: 16px 20px; }
+  .footer-links { display: none; }
+}
+</style>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="shortcut icon" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap">
+<style id='gc-unav-styles'>
+
+/* ═══════════════════════════════════════════════════════
+   GLITCH CODE — UNIVERSAL NAV  v1.0
+   ═══════════════════════════════════════════════════════ */
+#gc-unav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9000;
+  height: 64px;
+  background: rgba(14,14,14,0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(168,255,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  transition: border-color .3s, background .3s;
+  font-family: 'Orbitron', 'Segoe UI', sans-serif;
+}
+#gc-unav.scrolled {
+  background: rgba(14,14,14,0.99);
+  border-bottom-color: rgba(168,255,0,0.14);
+  box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+}
+body {  }
+
+/* LOGO */
+.gc-unav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.gc-unav-logo-img {
+  height: 36px;
+  width: 36px;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+.gc-unav-logo-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* NAV LINKS */
+.gc-unav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.gc-unav-link {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.44rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #5A5A5A;
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: color .2s, background .2s;
+  white-space: nowrap;
+}
+.gc-unav-link:hover {
+  color: #FFFFFF;
+  background: rgba(255,255,255,0.05);
+}
+.gc-unav-link.gc-active {
+  color: #A8FF00;
+}
+
+/* ICONS */
+.gc-unav-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.gc-unav-icon {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: none;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color .2s, background .2s;
+  color: #5A5A5A;
+}
+.gc-unav-icon:hover {
+  border-color: rgba(168,255,0,0.35);
+  color: #A8FF00;
+  background: rgba(168,255,0,0.05);
+}
+.gc-unav-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  pointer-events: none;
+}
+/* Badge */
+.gc-unav-badge {
+  position: absolute;
+  top: -1px; right: -1px;
+  min-width: 16px;
+  height: 16px;
+  background: #A8FF00;
+  color: #0E0E0E;
+  border-radius: 8px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.35rem;
+  font-weight: 900;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid #0E0E0E;
+}
+.gc-unav-badge.visible { display: flex; }
+
+/* ── SEARCH OVERLAY ── */
+#gc-search-overlay {
+  position: fixed;
+  top: 64px; left: 0; right: 0;
+  z-index: 8999;
+  background: rgba(14,14,14,0.98);
+  border-bottom: 1px solid rgba(168,255,0,0.12);
+  padding: 0 40px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s cubic-bezier(.4,0,.2,1), padding .35s;
+}
+#gc-search-overlay.open {
+  max-height: 120px;
+  padding: 20px 40px;
+}
+.gc-search-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #161616;
+  border: 1px solid rgba(168,255,0,0.2);
+  border-radius: 12px;
+  padding: 12px 18px;
+}
+.gc-search-inner svg {
+  width: 18px; height: 18px;
+  stroke: #A8FF00; fill: none; stroke-width: 2;
+  flex-shrink: 0;
+}
+#gc-search-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  color: #FFFFFF;
+}
+#gc-search-input::placeholder { color: #5A5A5A; }
+.gc-search-hint {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.35rem;
+  letter-spacing: 2px;
+  color: #3a3a3a;
+  white-space: nowrap;
+}
+/* Search results chips */
+.gc-search-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  padding: 0 40px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s;
+}
+.gc-search-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px;
+  background: rgba(168,255,0,0.08);
+  border: 1px solid rgba(168,255,0,0.2);
+  border-radius: 20px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.38rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #A8FF00;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background .2s;
+}
+.gc-search-chip:hover { background: rgba(168,255,0,0.15); }
+
+/* ── HAMBURGER (MOBILE) ── */
+.gc-unav-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.gc-unav-burger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: #5A5A5A;
+  border-radius: 2px;
+  transition: all .3s;
+}
+.gc-unav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.gc-unav-burger.open span:nth-child(2) { opacity: 0; }
+.gc-unav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── MOBILE DRAWER ── */
+#gc-mobile-menu {
+  position: fixed;
+  top: 64px; left: 0; right: 0; bottom: 0;
+  z-index: 8998;
+  background: rgba(14,14,14,0.98);
+  backdrop-filter: blur(20px);
+  transform: translateY(-100%);
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+  overflow-y: auto;
+  padding: 32px 32px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+#gc-mobile-menu.open { transform: translateY(0); }
+.gc-mobile-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: color .2s;
+}
+.gc-mobile-link:hover, .gc-mobile-link.gc-active { color: #A8FF00; }
+.gc-mobile-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.gc-mobile-icons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.gc-mobile-icon-btn {
+  flex: 1;
+  padding: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color .2s;
+}
+.gc-mobile-icon-btn:hover { border-color: rgba(168,255,0,0.3); }
+.gc-mobile-icon-btn svg { width: 18px; height: 18px; stroke: #A8FF00; fill: none; stroke-width: 1.8; }
+.gc-mobile-icon-btn span { font-family: 'Orbitron', sans-serif; font-size: 0.3rem; letter-spacing: 1px; color: #5A5A5A; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  #gc-unav { padding: 0 24px; }
+  .gc-unav-links { gap: 2px; }
+  .gc-unav-link { font-size: 0.38rem; padding: 6px 10px; }
+}
+@media (max-width: 768px) {
+  #gc-unav { padding: 0 20px; }
+  .gc-unav-links { display: none; }
+  .gc-unav-icon:not(.gc-burger-icon) { display: none; }
+  .gc-unav-burger { display: flex; }
+  #gc-search-overlay.open { max-height: 100px; padding: 16px 20px; }
+}
+
+</style>
+<style id='gc-uf-styles'>
+
+/* ═══════════════════════════════════════════════════════
+   GLITCH CODE — UNIVERSAL FOOTER v1.0
+   ═══════════════════════════════════════════════════════ */
+#gc-ufooter {
+  background: #0a0a0a;
+  border-top: 1px solid rgba(255,255,255,.06);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ── NEWSLETTER STRIP ── */
+.gc-uf-news {
+  background: linear-gradient(135deg, rgba(168,255,0,.06) 0%, rgba(0,123,255,.04) 100%);
+  border-bottom: 1px solid rgba(168,255,0,.1);
+  padding: 36px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.gc-uf-news-left { display: flex; flex-direction: column; gap: 4px; }
+.gc-uf-news-tag {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .38rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: #A8FF00; margin-bottom: 2px;
+}
+.gc-uf-news-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .85rem; font-weight: 900;
+  letter-spacing: -.5px; color: #fff;
+}
+.gc-uf-news-sub {
+  font-size: .75rem; color: rgba(255,255,255,.4); margin-top: 2px;
+}
+.gc-uf-news-form {
+  display: flex; gap: 8px; flex-shrink: 0;
+}
+.gc-uf-news-input {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  padding: 11px 18px;
+  font-family: 'Poppins', sans-serif;
+  font-size: .78rem; color: #fff;
+  outline: none; min-width: 240px;
+  transition: border-color .2s;
+}
+.gc-uf-news-input::placeholder { color: rgba(90,90,90,.8); }
+.gc-uf-news-input:focus { border-color: rgba(168,255,0,.4); }
+.gc-uf-news-btn {
+  padding: 11px 22px;
+  background: #A8FF00; color: #0E0E0E;
+  border: none; border-radius: 10px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .42rem; font-weight: 700;
+  letter-spacing: 1px; cursor: pointer;
+  transition: all .2s; white-space: nowrap;
+}
+.gc-uf-news-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(168,255,0,.3);
+}
+
+/* ── MAIN GRID ── */
+.gc-uf-main {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding: 56px 64px 48px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Brand column */
+.gc-uf-brand-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; margin-bottom: 14px;
+}
+.gc-uf-brand-logo img {
+  height: 32px; width: 32px;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+.gc-uf-brand-logo-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .56rem; font-weight: 700;
+  letter-spacing: 4px; color: #fff;
+  text-transform: uppercase;
+}
+.gc-uf-tagline {
+  font-size: .75rem; color: rgba(255,255,255,.35);
+  line-height: 1.75; max-width: 260px; margin-bottom: 24px;
+}
+.gc-uf-tagline strong { color: rgba(255,255,255,.6); font-weight: 500; }
+
+/* Social */
+.gc-uf-social { display: flex; gap: 10px; margin-bottom: 28px; }
+.gc-uf-social-btn {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none; cursor: pointer;
+  transition: all .2s;
+}
+.gc-uf-social-btn:hover {
+  border-color: rgba(168,255,0,.3);
+  background: rgba(168,255,0,.06);
+}
+.gc-uf-social-btn svg {
+  width: 16px; height: 16px;
+}
+
+/* Trust badges */
+.gc-uf-badges { display: flex; flex-direction: column; gap: 8px; }
+.gc-uf-badge {
+  display: flex; align-items: center; gap: 8px;
+  font-size: .68rem; color: rgba(255,255,255,.3);
+}
+.gc-uf-badge-icon {
+  font-size: .85rem; flex-shrink: 0;
+}
+
+/* Link columns */
+.gc-uf-col-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .42rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(90,90,90,.8); margin-bottom: 20px;
+}
+.gc-uf-links { display: flex; flex-direction: column; gap: 10px; }
+.gc-uf-links a, .gc-uf-links button {
+  font-size: .76rem; color: rgba(255,255,255,.38);
+  text-decoration: none; cursor: pointer;
+  transition: color .2s; background: none;
+  border: none; text-align: left;
+  padding: 0; font-family: 'Poppins', sans-serif;
+  display: flex; align-items: center; gap: 6px;
+}
+.gc-uf-links a:hover, .gc-uf-links button:hover { color: #fff; }
+.gc-uf-links a.gc-uf-hot {
+  color: rgba(168,255,0,.6);
+}
+.gc-uf-links a.gc-uf-hot:hover { color: #A8FF00; }
+.gc-uf-new-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  background: rgba(168,255,0,.12);
+  border: 1px solid rgba(168,255,0,.2);
+  border-radius: 4px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .3rem; font-weight: 700;
+  letter-spacing: 1px; color: #A8FF00;
+  text-transform: uppercase;
+}
+
+/* ── BOTTOM BAR ── */
+.gc-uf-bottom {
+  border-top: 1px solid rgba(255,255,255,.05);
+  padding: 20px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.gc-uf-copy {
+  font-size: .65rem; color: rgba(90,90,90,.6);
+}
+.gc-uf-bottom-links {
+  display: flex; gap: 20px; flex-wrap: wrap;
+}
+.gc-uf-bottom-links a {
+  font-size: .62rem; color: rgba(90,90,90,.6);
+  text-decoration: none; transition: color .2s;
+}
+.gc-uf-bottom-links a:hover { color: #A8FF00; }
+.gc-uf-bottom-right {
+  display: flex; align-items: center; gap: 8px;
+}
+.gc-uf-pay-badge {
+  display: flex; align-items: center; gap: 2px;
+  padding: 4px 10px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 6px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .32rem; font-weight: 700;
+  letter-spacing: 1px; color: rgba(255,255,255,.3);
+  text-transform: uppercase;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .gc-uf-main { grid-template-columns: 1fr 1fr; padding: 40px 32px 36px; gap: 32px; }
+  .gc-uf-news { padding: 28px 32px; }
+  .gc-uf-bottom { padding: 16px 32px; }
+}
+@media (max-width: 640px) {
+  .gc-uf-main { grid-template-columns: 1fr; padding: 36px 24px 32px; }
+  .gc-uf-news { flex-direction: column; padding: 24px; gap: 20px; }
+  .gc-uf-news-form { width: 100%; flex-direction: column; }
+  .gc-uf-news-input { min-width: unset; width: 100%; }
+  .gc-uf-bottom { flex-direction: column; align-items: flex-start; padding: 16px 24px; gap: 12px; }
+  .gc-uf-bottom-links { display: none; }
+  .gc-uf-bottom-right { display: none; }
+}
+
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow"></div>
+
+<!-- ── NAV ── -->
+<nav id="gc-unav">
+
+  <!-- LOGO -->
+  <a href="home-glitch-popup.html" class="gc-unav-logo" aria-label="Glitch Code - Inicio">
+    <img src="logo-glitch-code.png" alt="Glitch Code" class="gc-unav-logo-img">
+    <span class="gc-unav-logo-text">Glitch Code</span>
+  </a>
+
+  <!-- LINKS CENTRADOS -->
+  <div class="gc-unav-links">
+    <a href="plp-glitch-code.html"              class="gc-unav-link" data-gc-page="productos">Productos</a>
+    <a href="comunidad_blog_glitch_code.html"   class="gc-unav-link" data-gc-page="comunidad">Comunidad</a>
+    <a href="contacto_v2_glitch_code.html"      class="gc-unav-link" data-gc-page="contacto">Contacto</a>
+    <a href="sobre-nosotros.html"               class="gc-unav-link" data-gc-page="nosotros">Sobre nosotros</a>
+  </div>
+
+  <!-- ICONOS DERECHA -->
+  <div class="gc-unav-icons">
+
+    <!-- Lupa / Buscar -->
+    <button class="gc-unav-icon" id="gc-search-btn" aria-label="Buscar" title="Buscar">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+
+    <!-- Favoritos / Me gusta -->
+    <a href="perfil-usuario-glitch.html" class="gc-unav-icon" aria-label="Mis favoritos" title="Favoritos" id="gc-wish-icon">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span class="gc-unav-badge" id="gc-wish-badge">0</span>
+    </a>
+
+    <!-- Perfil -->
+    <a href="login.html" class="gc-unav-icon" aria-label="Mi cuenta" title="Mi cuenta">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </a>
+
+    <!-- Carrito -->
+    <a href="carrito.html" class="gc-unav-icon" aria-label="Carrito" title="Carrito" id="gc-cart-nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="gc-unav-badge" id="gc-cart-badge">0</span>
+    </a>
+
+    <!-- Hamburguesa (mobile) -->
+    <button class="gc-unav-burger" id="gc-burger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</nav>
+
+<!-- BUSCADOR OVERLAY -->
+<div id="gc-search-overlay" role="search">
+  <div class="gc-search-inner">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="gc-search-input" placeholder="Buscar productos, artículos, guías..." autocomplete="off" spellcheck="false">
+    <span class="gc-search-hint">ESC para cerrar</span>
+  </div>
+</div>
+
+<!-- MENÚ MOBILE -->
+<div id="gc-mobile-menu">
+  <a href="home-glitch-popup.html"            class="gc-mobile-link" data-gc-page="inicio">
+    Inicio <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="plp-glitch-code.html"              class="gc-mobile-link" data-gc-page="productos">
+    Productos <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="comunidad_blog_glitch_code.html"   class="gc-mobile-link" data-gc-page="comunidad">
+    Comunidad <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="contacto_v2_glitch_code.html"      class="gc-mobile-link" data-gc-page="contacto">
+    Contacto <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="sobre-nosotros.html"               class="gc-mobile-link" data-gc-page="nosotros">
+    Sobre nosotros <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="legales-glitch-code.html"          class="gc-mobile-link">
+    Legales <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <div class="gc-mobile-icons">
+    <button class="gc-mobile-icon-btn" onclick="document.getElementById('gc-mobile-menu').classList.remove('open');document.getElementById('gc-burger').classList.remove('open');document.getElementById('gc-search-btn').click()">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span>Buscar</span>
+    </button>
+    <a href="perfil-usuario-glitch.html" class="gc-mobile-icon-btn">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span>Favoritos</span>
+    </a>
+    <a href="login.html" class="gc-mobile-icon-btn">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span>Mi cuenta</span>
+    </a>
+    <a href="carrito.html" class="gc-mobile-icon-btn" id="gc-cart-mobile">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span>Carrito</span>
+    </a>
+  </div>
+</div>
+
+<!-- ── PAGE ── -->
+<main class="page">
+
+  <!-- LEFT: BRAND -->
+  <div class="brand-panel">
+    <p class="bp-eyebrow">Tu nueva era empieza aquí</p>
+    <h1 class="bp-headline">
+      FORMA PARTE<br>DE <span class="accent">ALGO</span><br>MÁS GRANDE.
+    </h1>
+    <p class="bp-sub">Accede a tu cuenta Glitch Code y únete a la comunidad fitness que no te deja entrenar solo.</p>
+
+    <div class="bp-perks">
+      <div class="perk">
+        <div class="perk-icon">⚡</div>
+        <div class="perk-text">
+          <span class="perk-title">Pedidos más rápidos</span>
+          <span class="perk-desc">Tus datos guardados, checkout en segundos.</span>
+        </div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">🎯</div>
+        <div class="perk-text">
+          <span class="perk-title">Historial de pedidos</span>
+          <span class="perk-desc">Consulta, repite o gestiona cualquier pedido.</span>
+        </div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">🏷️</div>
+        <div class="perk-text">
+          <span class="perk-title">Ofertas exclusivas</span>
+          <span class="perk-desc">Descuentos y novedades antes que nadie.</span>
+        </div>
+      </div>
+      <div class="perk">
+        <div class="perk-icon">🤝</div>
+        <div class="perk-text">
+          <span class="perk-title">Acceso a la comunidad</span>
+          <span class="perk-desc">Foros, retos y eventos solo para miembros.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Deco hex -->
+    <svg class="deco-hex" width="300" height="300" viewBox="0 0 300 300">
+      <polygon points="150,10 280,80 280,220 150,290 20,220 20,80" fill="none" stroke="#A8FF00" stroke-width="1"/>
+      <polygon points="150,40 255,98 255,202 150,260 45,202 45,98" fill="none" stroke="#A8FF00" stroke-width=".5"/>
+      <polygon points="150,70 230,116 230,184 150,230 70,184 70,116" fill="none" stroke="#A8FF00" stroke-width=".3"/>
+    </svg>
+  </div>
+
+  <!-- RIGHT: FORM -->
+  <div class="form-panel">
+    <div class="form-box">
+
+      <!-- TABS -->
+      <div class="tabs">
+        <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Iniciar sesión</button>
+        <button class="tab-btn" id="tab-register" onclick="switchTab('register')">Crear cuenta</button>
+      </div>
+
+      <!-- ─── LOGIN VIEW ─── -->
+      <div class="form-view visible" id="view-login">
+        <h2 class="form-title">Bienvenido de nuevo.</h2>
+        <p class="form-subtitle">Introduce tus datos para acceder a tu cuenta.</p>
+
+        <div class="field">
+          <label>Correo electrónico</label>
+          <div class="field-wrap">
+            <input type="email" id="l-email" placeholder="tu@email.com" autocomplete="email">
+            <svg class="field-icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+          </div>
+          <span class="field-error" id="l-email-err">Introduce un email válido.</span>
+        </div>
+
+        <div class="field">
+          <label>Contraseña</label>
+          <div class="field-wrap">
+            <input type="password" id="l-pass" placeholder="Tu contraseña" autocomplete="current-password">
+            <svg class="field-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <button class="toggle-pw" type="button" onclick="togglePw('l-pass', this)">
+              <svg viewBox="0 0 24 24" class="eye-icon"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <span class="field-error" id="l-pass-err">Contraseña incorrecta.</span>
+        </div>
+
+        <div class="forgot"><a href="#" onclick="switchToRecover(event)">¿Olvidaste tu contraseña?</a></div>
+
+        <button class="btn-submit" id="btn-login" onclick="handleLogin()">
+          <span class="btn-text">Entrar</span>
+          <span class="btn-loading"><span class="spinner"></span> Verificando...</span>
+        </button>
+
+        <div class="or-divider">
+          <div class="or-line"></div>
+          <span class="or-text">o continúa con</span>
+          <div class="or-line"></div>
+        </div>
+
+        <div class="social-btns">
+          <a href="#" class="btn-social">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+            Google
+          </a>
+          <a href="#" class="btn-social">
+            <svg viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Facebook
+          </a>
+        </div>
+      </div>
+
+      <!-- ─── REGISTER VIEW ─── -->
+      <div class="form-view" id="view-register">
+        <h2 class="form-title">Únete a Glitch Code.</h2>
+        <p class="form-subtitle">Crea tu cuenta y empieza tu nueva era.</p>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Nombre</label>
+            <div class="field-wrap">
+              <input type="text" id="r-name" placeholder="Alex" autocomplete="given-name">
+              <svg class="field-icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            </div>
+            <span class="field-error" id="r-name-err">Introduce tu nombre.</span>
+          </div>
+          <div class="field">
+            <label>Apellido</label>
+            <div class="field-wrap">
+              <input type="text" id="r-surname" placeholder="García" autocomplete="family-name">
+              <svg class="field-icon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Correo electrónico</label>
+          <div class="field-wrap">
+            <input type="email" id="r-email" placeholder="tu@email.com" autocomplete="email">
+            <svg class="field-icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+          </div>
+          <span class="field-error" id="r-email-err">Introduce un email válido.</span>
+        </div>
+
+        <div class="field">
+          <label>Contraseña</label>
+          <div class="field-wrap">
+            <input type="password" id="r-pass" placeholder="Mínimo 8 caracteres" autocomplete="new-password" oninput="checkStrength(this.value)">
+            <svg class="field-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <button class="toggle-pw" type="button" onclick="togglePw('r-pass', this)">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="pw-strength" id="pw-strength" style="display:none">
+            <div class="pw-bars">
+              <div class="pw-bar" id="bar1"></div>
+              <div class="pw-bar" id="bar2"></div>
+              <div class="pw-bar" id="bar3"></div>
+              <div class="pw-bar" id="bar4"></div>
+            </div>
+            <span class="pw-label" id="pw-label">Contraseña débil</span>
+          </div>
+          <span class="field-error" id="r-pass-err">Mínimo 8 caracteres.</span>
+        </div>
+
+        <div class="field">
+          <label>Confirmar contraseña</label>
+          <div class="field-wrap">
+            <input type="password" id="r-pass2" placeholder="Repite tu contraseña" autocomplete="new-password">
+            <svg class="field-icon" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+          </div>
+          <span class="field-error" id="r-pass2-err">Las contraseñas no coinciden.</span>
+        </div>
+
+        <label class="check-field">
+          <input type="checkbox" id="r-terms">
+          <div class="check-box">
+            <svg class="check-mark" viewBox="0 0 12 10"><polyline points="1,5 4,8 11,1"/></svg>
+          </div>
+          <span class="check-label">
+            Acepto los <a href="legales-glitch-code.html#condiciones">Términos y Condiciones</a> y la <a href="legales-glitch-code.html#privacidad">Política de Privacidad</a>.
+          </span>
+        </label>
+
+        <label class="check-field">
+          <input type="checkbox" id="r-news">
+          <div class="check-box">
+            <svg class="check-mark" viewBox="0 0 12 10"><polyline points="1,5 4,8 11,1"/></svg>
+          </div>
+          <span class="check-label">Quiero recibir ofertas exclusivas y novedades por email. (Opcional)</span>
+        </label>
+
+        <button class="btn-submit" id="btn-register" onclick="handleRegister()">
+          <span class="btn-text">Crear cuenta</span>
+          <span class="btn-loading"><span class="spinner"></span> Creando cuenta...</span>
+        </button>
+
+        <div class="or-divider">
+          <div class="or-line"></div>
+          <span class="or-text">o regístrate con</span>
+          <div class="or-line"></div>
+        </div>
+
+        <div class="social-btns">
+          <a href="#" class="btn-social">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+            Google
+          </a>
+          <a href="#" class="btn-social">
+            <svg viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Facebook
+          </a>
+        </div>
+      </div>
+
+      <!-- ─── RECOVER VIEW ─── -->
+      <div class="form-view" id="view-recover">
+        <h2 class="form-title">Recuperar acceso.</h2>
+        <p class="form-subtitle">Introduce tu email y te enviaremos un enlace para restablecer tu contraseña.</p>
+
+        <div class="field">
+          <label>Correo electrónico</label>
+          <div class="field-wrap">
+            <input type="email" id="rec-email" placeholder="tu@email.com">
+            <svg class="field-icon" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+          </div>
+          <span class="field-error" id="rec-email-err">Introduce un email válido.</span>
+        </div>
+
+        <button class="btn-submit" id="btn-recover" onclick="handleRecover()">
+          <span class="btn-text">Enviar enlace</span>
+          <span class="btn-loading"><span class="spinner"></span> Enviando...</span>
+        </button>
+
+        <div style="text-align:center;">
+          <button class="recover-link" onclick="switchTab('login')">← Volver a iniciar sesión</button>
+        </div>
+      </div>
+
+      <!-- ─── SUCCESS VIEW (login) ─── -->
+      <div class="success-view" id="success-login">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3 class="success-title">¡Bienvenido de vuelta!</h3>
+        <p class="success-sub">Has iniciado sesión correctamente. Redirigiendo a tu perfil...</p>
+        <a href="perfil-usuario-glitch.html" class="btn-goto">Ir a mi perfil →</a>
+      </div>
+
+      <!-- ─── SUCCESS VIEW (register) ─── -->
+      <div class="success-view" id="success-register">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3 class="success-title">¡Cuenta creada!</h3>
+        <p class="success-sub">Ya eres parte de Glitch Code. Hemos enviado un email de confirmación a tu dirección de correo.</p>
+        <a href="perfil-usuario-glitch.html" class="btn-goto">Ir a mi perfil →</a>
+      </div>
+
+      <!-- ─── SUCCESS VIEW (recover) ─── -->
+      <div class="success-view" id="success-recover">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <h3 class="success-title">Email enviado.</h3>
+        <p class="success-sub">Revisa tu bandeja de entrada y sigue las instrucciones para restablecer tu contraseña.</p>
+        <button class="recover-link" style="margin-top:8px;" onclick="switchTab('login')">← Volver a iniciar sesión</button>
+      </div>
+
+    </div><!-- /form-box -->
+  </div><!-- /form-panel -->
+</main>
+
+<!-- ── FOOTER ── -->
+<footer id="gc-ufooter">
+
+  <!-- NEWSLETTER -->
+  <div class="gc-uf-news">
+    <div class="gc-uf-news-left">
+      <span class="gc-uf-news-tag">Comunidad Glitch Code</span>
+      <span class="gc-uf-news-title">No entrenes solo. Nunca más.</span>
+      <span class="gc-uf-news-sub">Descuentos exclusivos, lanzamientos y contenido antes que nadie.</span>
+    </div>
+    <div class="gc-uf-news-form">
+      <input type="email" class="gc-uf-news-input" id="gc-uf-email"
+        placeholder="tu@email.com" autocomplete="email">
+      <button class="gc-uf-news-btn" onclick="gcUfSubscribe()">Suscribirme</button>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="gc-uf-main">
+
+    <!-- MARCA -->
+    <div>
+      <a href="home-glitch-popup.html" class="gc-uf-brand-logo">
+        <img src="logo-glitch-code.png" alt="Glitch Code">
+        <span class="gc-uf-brand-logo-text">Glitch Code</span>
+      </a>
+      <p class="gc-uf-tagline">
+        Suplementación de alto rendimiento para una <strong>comunidad de verdad</strong>.
+        Cuerpos reales, objetivos reales, resultados reales.
+      </p>
+
+      <div class="gc-uf-social">
+        <!-- Instagram -->
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="4.5"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="rgba(255,255,255,.5)" stroke="none"/>
+          </svg>
+        </a>
+        <!-- TikTok -->
+        <a href="https://tiktok.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="TikTok">
+          <svg viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.73a8.17 8.17 0 0 0 4.78 1.54V6.82a4.85 4.85 0 0 1-1.01-.13z"/>
+          </svg>
+        </a>
+        <!-- YouTube -->
+        <a href="https://youtube.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="YouTube">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="rgba(255,255,255,.5)"/>
+          </svg>
+        </a>
+        <!-- Twitter/X -->
+        <a href="https://x.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="X / Twitter">
+          <svg viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L2.25 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="gc-uf-badges">
+        <span class="gc-uf-badge"><span class="gc-uf-badge-icon">🔒</span> Pago 100% seguro · SSL</span>
+        <span class="gc-uf-badge"><span class="gc-uf-badge-icon">🚚</span> Envío gratis desde 50€</span>
+        <span class="gc-uf-badge"><span class="gc-uf-badge-icon">↩️</span> Devolución en 14 días</span>
+      </div>
+    </div>
+
+    <!-- PRODUCTOS -->
+    <div>
+      <p class="gc-uf-col-title">Productos</p>
+      <div class="gc-uf-links">
+        <a href="plp-glitch-code.html">Proteínas</a>
+        <a href="plp-glitch-code.html">Creatinas</a>
+        <a href="plp-glitch-code.html">Pre-Workouts</a>
+        <a href="plp-glitch-code.html">Vitaminas</a>
+        <a href="plp-glitch-code.html">Complementos</a>
+        <a href="plp-glitch-code.html">Packs <span class="gc-uf-new-badge">Nuevo</span></a>
+        <a href="plp-glitch-code.html" class="gc-uf-hot">Ver todo →</a>
+      </div>
+    </div>
+
+    <!-- MARCA -->
+    <div>
+      <p class="gc-uf-col-title">Marca</p>
+      <div class="gc-uf-links">
+        <a href="sobre-nosotros.html">Sobre nosotros</a>
+        <a href="comunidad_blog_glitch_code.html">Comunidad</a>
+        <a href="comunidad_blog_glitch_code.html">Blog</a>
+        <a href="embajadores.html">Embajadores</a>
+        <a href="contacto_v2_glitch_code.html">Contacto</a>
+        <a href="rewards.html">Rewards <span class="gc-uf-new-badge">Pronto</span></a>
+      </div>
+    </div>
+
+    <!-- AYUDA -->
+    <div>
+      <p class="gc-uf-col-title">Ayuda</p>
+      <div class="gc-uf-links">
+        <a href="faq.html">Preguntas frecuentes</a>
+        <a href="legales-glitch-code.html#condiciones">Envíos y plazos</a>
+        <a href="legales-glitch-code.html#condiciones">Devoluciones</a>
+        <a href="login.html">Mi cuenta</a>
+        <a href="seguimiento.html">Seguimiento de pedido</a>
+        <a href="legales-glitch-code.html">Textos legales</a>
+      </div>
+    </div>
+
+  </div><!-- /gc-uf-main -->
+
+  <!-- BOTTOM BAR -->
+  <div class="gc-uf-bottom">
+    <span class="gc-uf-copy">© 2025 Glitch Code SA · Zaragoza, España · Todos los derechos reservados.</span>
+    <div class="gc-uf-bottom-links">
+      <a href="legales-glitch-code.html">Aviso legal</a>
+      <a href="legales-glitch-code.html#privacidad">Privacidad</a>
+      <a href="legales-glitch-code.html#cookies">Cookies</a>
+      <a href="legales-glitch-code.html#condiciones">Condiciones generales</a>
+    </div>
+    <div class="gc-uf-bottom-right">
+      <span class="gc-uf-pay-badge">Visa</span>
+      <span class="gc-uf-pay-badge">Mastercard</span>
+      <span class="gc-uf-pay-badge">PayPal</span>
+      <span class="gc-uf-pay-badge">Bizum</span>
+    </div>
+  </div>
+
+</footer>
+
+<script>
+// ── TAB SWITCHING ──
+let currentTab = 'login';
+
+function switchTab(tab) {
+  currentTab = tab;
+  // hide all views
+  document.querySelectorAll('.form-view, .success-view').forEach(v => {
+    v.classList.remove('visible');
+    if (v.classList.contains('success-view')) v.classList.remove('show');
+  });
+
+  // activate tab btn
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+  if (tab === 'login') {
+    document.getElementById('tab-login').classList.add('active');
+    document.getElementById('view-login').classList.add('visible');
+  } else if (tab === 'register') {
+    document.getElementById('tab-register').classList.add('active');
+    document.getElementById('view-register').classList.add('visible');
+  } else if (tab === 'recover') {
+    document.getElementById('view-recover').classList.add('visible');
+  }
+}
+
+function switchToRecover(e) {
+  e.preventDefault();
+  document.querySelectorAll('.form-view').forEach(v => v.classList.remove('visible'));
+  document.getElementById('view-recover').classList.add('visible');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+}
+
+// ── TOGGLE PASSWORD ──
+function togglePw(id, btn) {
+  const input = document.getElementById(id);
+  const isPass = input.type === 'password';
+  input.type = isPass ? 'text' : 'password';
+  btn.querySelector('svg').innerHTML = isPass
+    ? '<line x1="1" y1="1" x2="23" y2="23"/><path d="M10.7 10.7a3 3 0 004.6 4.6M6.5 6.5A10 10 0 001 12s4 8 11 8a10 10 0 005.5-1.5"/><path d="M17.5 17.5A10 10 0 0023 12s-4-8-11-8a10 10 0 00-3.5.5"/>'
+    : '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+}
+
+// ── PASSWORD STRENGTH ──
+function checkStrength(val) {
+  const el = document.getElementById('pw-strength');
+  if (!val) { el.style.display = 'none'; return; }
+  el.style.display = 'block';
+
+  let score = 0;
+  if (val.length >= 8) score++;
+  if (val.length >= 12) score++;
+  if (/[A-Z]/.test(val) && /[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+
+  const bars = [1,2,3,4].map(n => document.getElementById('bar'+n));
+  const label = document.getElementById('pw-label');
+  const cls = score <= 1 ? 'weak' : score <= 2 ? 'medium' : 'strong';
+  const labels = ['', 'Contraseña débil', 'Contraseña regular', 'Contraseña fuerte', '¡Contraseña muy fuerte!'];
+
+  bars.forEach((b, i) => {
+    b.className = 'pw-bar';
+    if (i < score) b.classList.add(cls);
+  });
+  label.textContent = labels[score] || 'Contraseña débil';
+  label.style.color = cls === 'weak' ? '#ff4f4f' : cls === 'medium' ? '#ffb400' : 'var(--lm)';
+}
+
+// ── VALIDATE ──
+function isEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+function showErr(id, msg) {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.classList.add('show');
+}
+function hideErr(id) {
+  document.getElementById(id)?.classList.remove('show');
+}
+function setFieldErr(inputId) {
+  document.getElementById(inputId)?.classList.add('error-field');
+}
+function clearFieldErr(inputId) {
+  document.getElementById(inputId)?.classList.remove('error-field');
+}
+
+// ── LOGIN ──
+function handleLogin() {
+  const email = document.getElementById('l-email').value.trim();
+  const pass  = document.getElementById('l-pass').value;
+  let ok = true;
+
+  hideErr('l-email-err'); clearFieldErr('l-email');
+  hideErr('l-pass-err');  clearFieldErr('l-pass');
+
+  if (!isEmail(email)) { showErr('l-email-err', 'Introduce un email válido.'); setFieldErr('l-email'); ok = false; }
+  if (!pass) { showErr('l-pass-err', 'Introduce tu contraseña.'); setFieldErr('l-pass'); ok = false; }
+  if (!ok) return;
+
+  const btn = document.getElementById('btn-login');
+  btn.classList.add('loading'); btn.disabled = true;
+
+  setTimeout(() => {
+    btn.classList.remove('loading'); btn.disabled = false;
+    document.getElementById('view-login').classList.remove('visible');
+    document.getElementById('success-login').classList.add('show');
+    setTimeout(() => { window.location.href = 'perfil-usuario-glitch.html'; }, 2500);
+  }, 1600);
+}
+
+// ── REGISTER ──
+function handleRegister() {
+  const name  = document.getElementById('r-name').value.trim();
+  const email = document.getElementById('r-email').value.trim();
+  const pass  = document.getElementById('r-pass').value;
+  const pass2 = document.getElementById('r-pass2').value;
+  const terms = document.getElementById('r-terms').checked;
+  let ok = true;
+
+  ['r-name-err','r-email-err','r-pass-err','r-pass2-err'].forEach(hideErr);
+  ['r-name','r-email','r-pass','r-pass2'].forEach(clearFieldErr);
+
+  if (!name) { showErr('r-name-err', 'Introduce tu nombre.'); setFieldErr('r-name'); ok = false; }
+  if (!isEmail(email)) { showErr('r-email-err', 'Introduce un email válido.'); setFieldErr('r-email'); ok = false; }
+  if (pass.length < 8) { showErr('r-pass-err', 'Mínimo 8 caracteres.'); setFieldErr('r-pass'); ok = false; }
+  if (pass !== pass2) { showErr('r-pass2-err', 'Las contraseñas no coinciden.'); setFieldErr('r-pass2'); ok = false; }
+  if (!terms) { alert('Debes aceptar los Términos y Condiciones para continuar.'); ok = false; }
+  if (!ok) return;
+
+  const btn = document.getElementById('btn-register');
+  btn.classList.add('loading'); btn.disabled = true;
+
+  setTimeout(() => {
+    btn.classList.remove('loading'); btn.disabled = false;
+    document.getElementById('view-register').classList.remove('visible');
+    document.getElementById('success-register').classList.add('show');
+  }, 1800);
+}
+
+// ── RECOVER ──
+function handleRecover() {
+  const email = document.getElementById('rec-email').value.trim();
+  hideErr('rec-email-err'); clearFieldErr('rec-email');
+
+  if (!isEmail(email)) { showErr('rec-email-err', 'Introduce un email válido.'); setFieldErr('rec-email'); return; }
+
+  const btn = document.getElementById('btn-recover');
+  btn.classList.add('loading'); btn.disabled = true;
+
+  setTimeout(() => {
+    btn.classList.remove('loading'); btn.disabled = false;
+    document.getElementById('view-recover').classList.remove('visible');
+    document.getElementById('success-recover').classList.add('show');
+  }, 1500);
+}
+
+// ── CHECK URL PARAM ──
+window.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('mode') === 'register') switchTab('register');
+});
+</script>
+
+<script>
+(function(){
+  // Active link detection
+  var page = window.location.pathname.split('/').pop() || 'home-glitch-popup.html';
+  var map = {
+    'plp-glitch-code.html':             'productos',
+    'pdp_proteina_iso_tech.html':       'productos',
+    'pdp_creatina_monohidrato.html':    'productos',
+    'comunidad_blog_glitch_code.html':  'comunidad',
+    'contacto_v2_glitch_code.html':     'contacto',
+    'sobre-nosotros.html':              'nosotros',
+    'home-glitch-popup.html':           'inicio',
+    'login.html':                       '',
+    'perfil-usuario-glitch.html':       '',
+    'checkout-glitch.html':             '',
+    'legales-glitch-code.html':         '',
+  };
+  var active = map[page];
+  if(active){
+    document.querySelectorAll('[data-gc-page="'+active+'"]').forEach(function(el){
+      el.classList.add('gc-active');
+    });
+  }
+
+  // Scroll effect
+  window.addEventListener('scroll', function(){
+    document.getElementById('gc-unav').classList.toggle('scrolled', window.scrollY > 40);
+  }, {passive:true});
+
+  // Search
+  var searchBtn  = document.getElementById('gc-search-btn');
+  var searchOver = document.getElementById('gc-search-overlay');
+  var searchInp  = document.getElementById('gc-search-input');
+  var searchOpen = false;
+  var PRODUCTS = [
+    {name:'Proteína Iso-Tech', url:'pdp_proteina_iso_tech.html'},
+    {name:'Creatina Monohidrato', url:'pdp_creatina_monohidrato.html'},
+    {name:'Ver todos los productos', url:'plp-glitch-code.html'},
+    {name:'Blog & Comunidad', url:'comunidad_blog_glitch_code.html'},
+    {name:'Sobre nosotros', url:'sobre-nosotros.html'},
+  ];
+
+  function openSearch(){
+    searchOpen = true;
+    searchOver.classList.add('open');
+    searchBtn.style.color = '#A8FF00';
+    setTimeout(function(){ searchInp && searchInp.focus(); }, 350);
+  }
+  function closeSearch(){
+    searchOpen = false;
+    searchOver.classList.remove('open');
+    searchBtn.style.color = '';
+    if(searchInp) searchInp.value = '';
+  }
+  if(searchBtn) searchBtn.addEventListener('click', function(){
+    searchOpen ? closeSearch() : openSearch();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeSearch();
+    if((e.ctrlKey||e.metaKey) && e.key==='k'){ e.preventDefault(); openSearch(); }
+  });
+  if(searchInp){
+    searchInp.addEventListener('input', function(){
+      var val = this.value.toLowerCase().trim();
+      // future: show result chips
+    });
+    searchInp.addEventListener('keydown', function(e){
+      if(e.key==='Enter' && this.value.trim()){
+        window.location.href = 'plp-glitch-code.html';
+      }
+    });
+  }
+
+  // Burger / Mobile menu
+  var burger = document.getElementById('gc-burger');
+  var mobileMenu = document.getElementById('gc-mobile-menu');
+  if(burger && mobileMenu){
+    burger.addEventListener('click', function(){
+      var open = mobileMenu.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+  }
+
+  // Cart badge sync (works with carrito.js)
+  function syncBadge(){
+    if(window.GCCart){
+      var count = GCCart.getCount();
+      var badge = document.getElementById('gc-cart-badge');
+      if(badge){
+        badge.textContent = count;
+        badge.classList.toggle('visible', count > 0);
+      }
+    }
+  }
+  setInterval(syncBadge, 500);
+
+  // Wishlist badge (localStorage based)
+  try{
+    var wCount = parseInt(localStorage.getItem('gc-wishlist-count')||'0');
+    var wb = document.getElementById('gc-wish-badge');
+    if(wb && wCount > 0){
+      wb.textContent = wCount;
+      wb.classList.add('visible');
+    }
+  } catch(e){}
+
+})();
+</script>
+<script src="gc-utils.js"></script>
+
+<script id="gc-uf-js">
+function gcUfSubscribe(){
+  var input = document.getElementById('gc-uf-email');
+  if(!input) return;
+  var email = input.value.trim();
+  var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if(!valid){
+    input.style.borderColor='rgba(255,79,79,.5)';
+    input.placeholder='Email no válido';
+    setTimeout(function(){ input.style.borderColor=''; input.placeholder='tu@email.com'; },2000);
+    return;
+  }
+  try{
+    var s=JSON.parse(localStorage.getItem('gc_subs')||'[]');
+    if(!s.includes(email)) s.push(email);
+    localStorage.setItem('gc_subs',JSON.stringify(s));
+  }catch(e){}
+  input.value='';
+  var btn = input.nextElementSibling;
+  if(btn){ btn.textContent='✓ Apuntado'; btn.style.background='rgba(168,255,0,.2)'; btn.style.color='#A8FF00'; btn.disabled=true; }
+  if(window.GCToast) GCToast.show('¡Bienvenido a la comunidad! 🎉','success');
+}
+</script>
+</body>
+</html>

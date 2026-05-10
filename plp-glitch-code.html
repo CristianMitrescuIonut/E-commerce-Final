@@ -1,0 +1,2173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos — Glitch Code</title>
+  <link rel="icon" type="image/svg+xml" href="home-glitch-popup.html">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ─── TOKENS ─────────────────────────────────────────────── */
+    :root {
+      --black:   #0E0E0E;
+      --white:   #FFFFFF;
+      --gray:    #5A5A5A;
+      --lime:    #A8FF00;
+      --blue:    #007BFF;
+      --card-bg: #111111;
+      --border:  rgba(168,255,0,.12);
+      --font-h:  'Orbitron', sans-serif;
+      --font-b:  'Poppins', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-b);
+      font-weight: 400;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ─── CUSTOM CURSOR ──────────────────────────────────────── */
+    #cursor-dot {
+      width: 8px; height: 8px;
+      background: var(--lime);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: transform .08s, background .2s;
+    }
+    #cursor-ring {
+      width: 36px; height: 36px;
+      border: 1.5px solid rgba(168,255,0,.5);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: transform .18s ease, width .2s, height .2s, opacity .2s;
+    }
+    body.cursor-hover #cursor-dot { background: var(--blue); transform: translate(-50%,-50%) scale(2.5); }
+    body.cursor-hover #cursor-ring { width: 56px; height: 56px; border-color: rgba(0,123,255,.4); }
+
+    /* ─── GRAIN OVERLAY ──────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 9990;
+      pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      opacity: .35;
+    }
+
+    /* ─── NAVBAR ─────────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
+      background: rgba(14,14,14,.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(168,255,0,.08);
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 12px;
+      font-family: var(--font-h);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .nav-logo svg { width: 34px; height: 34px; }
+    .nav-right { display: flex; align-items: center; gap: 28px; }
+    .nav-link {
+      font-size: .72rem; font-weight: 500; letter-spacing: 2px;
+      color: var(--gray); text-decoration: none; text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-link:hover { color: var(--lime); }
+    .nav-link.active { color: var(--white); }
+    .nav-cart {
+      display: flex; align-items: center; justify-content: center;
+      width: 42px; height: 42px;
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      transition: border-color .2s, background .2s;
+      position: relative;
+    }
+    .nav-cart:hover { border-color: var(--lime); background: rgba(168,255,0,.06); }
+    .cart-count {
+      position: absolute; top: -4px; right: -4px;
+      width: 18px; height: 18px;
+      background: var(--lime); color: var(--black);
+      border-radius: 50%;
+      font-size: .6rem; font-weight: 700; font-family: var(--font-h);
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ─── PAGE HERO ──────────────────────────────────────────── */
+    .page-hero {
+      padding: 140px 48px 72px;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero::after {
+      content: '';
+      position: absolute; top: 0; right: 0;
+      width: 55%; height: 100%;
+      background: radial-gradient(ellipse at 80% 40%, rgba(168,255,0,.06) 0%, transparent 65%),
+                  radial-gradient(ellipse at 60% 80%, rgba(0,123,255,.04) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-h); font-size: .6rem; font-weight: 700;
+      letter-spacing: 4px; color: var(--lime); text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block; width: 32px; height: 1px;
+      background: var(--lime);
+    }
+    .hero-title {
+      font-family: var(--font-h);
+      font-size: clamp(2.8rem, 7vw, 6rem);
+      font-weight: 900;
+      line-height: .9;
+      letter-spacing: -1px;
+      margin-bottom: 28px;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: transparent;
+      -webkit-text-stroke: 1.5px rgba(255,255,255,.25);
+    }
+    .hero-title .accent { color: var(--lime); }
+    .hero-desc {
+      max-width: 420px;
+      font-size: .9rem; line-height: 1.7; color: var(--gray);
+      margin-bottom: 48px;
+    }
+    .hero-stats {
+      display: flex; gap: 48px;
+    }
+    .stat-item {}
+    .stat-num {
+      font-family: var(--font-h); font-size: 1.6rem; font-weight: 900;
+      color: var(--white); line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-num span { color: var(--lime); }
+    .stat-label {
+      font-size: .68rem; letter-spacing: 2px; color: var(--gray); text-transform: uppercase;
+    }
+
+    /* ─── HORIZONTAL MARQUEE ─────────────────────────────────── */
+    .marquee-wrap {
+      overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,.04);
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      padding: 14px 0;
+      margin-bottom: 0;
+    }
+    .marquee-track {
+      display: flex;
+      gap: 0;
+      animation: marquee 22s linear infinite;
+      white-space: nowrap;
+    }
+    .marquee-item {
+      display: inline-flex; align-items: center; gap: 20px;
+      font-family: var(--font-h); font-size: .6rem; font-weight: 700;
+      letter-spacing: 3px; color: var(--gray); text-transform: uppercase;
+      padding: 0 32px;
+      flex-shrink: 0;
+    }
+    .marquee-item .dot {
+      width: 4px; height: 4px; background: var(--lime); border-radius: 50%; flex-shrink: 0;
+    }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ─── FILTER BAR ─────────────────────────────────────────── */
+    .filter-bar {
+      position: sticky; top: 68px; z-index: 100;
+      background: rgba(14,14,14,.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,.05);
+      padding: 0 48px;
+    }
+    .filter-inner {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      gap: 24px;
+    }
+    .filter-cats {
+      display: flex; gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .filter-cats::-webkit-scrollbar { display: none; }
+    .filter-btn {
+      white-space: nowrap;
+      padding: 8px 18px;
+      border-radius: 100px;
+      font-family: var(--font-b); font-size: .72rem; font-weight: 600;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,.1);
+      background: transparent; color: var(--gray);
+      cursor: none;
+      transition: all .22s ease;
+    }
+    .filter-btn:hover {
+      border-color: rgba(168,255,0,.4);
+      color: var(--lime);
+      background: rgba(168,255,0,.04);
+    }
+    .filter-btn.active {
+      background: var(--lime);
+      color: var(--black);
+      border-color: var(--lime);
+      font-weight: 700;
+    }
+    .filter-right { display: flex; align-items: center; gap: 16px; flex-shrink: 0; }
+    .product-count {
+      font-size: .72rem; color: var(--gray); letter-spacing: 1px; white-space: nowrap;
+    }
+    .product-count strong { color: var(--white); font-weight: 600; }
+    .sort-select {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.1);
+      color: var(--gray);
+      font-family: var(--font-b); font-size: .72rem;
+      padding: 7px 14px;
+      border-radius: 8px;
+      outline: none;
+      cursor: none;
+      transition: border-color .2s;
+    }
+    .sort-select:hover { border-color: rgba(168,255,0,.4); color: var(--white); }
+    .sort-select option { background: #1a1a1a; color: var(--white); }
+
+    /* ─── PRODUCT GRID ───────────────────────────────────────── */
+    .products-section {
+      padding: 56px 48px 96px;
+    }
+    .grid-header {
+      display: flex; align-items: baseline; gap: 16px;
+      margin-bottom: 36px;
+    }
+    .grid-cat-title {
+      font-family: var(--font-h); font-size: 1.1rem; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+    }
+    .grid-cat-line {
+      flex: 1; height: 1px; background: rgba(255,255,255,.06);
+    }
+    .grid-cat-count {
+      font-size: .7rem; color: var(--gray); letter-spacing: 2px;
+      font-family: var(--font-h);
+    }
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 80px;
+    }
+    .product-grid.grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .product-grid.grid-featured {
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: auto;
+    }
+    .product-grid.grid-featured .card-featured {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    /* ─── PRODUCT CARD ───────────────────────────────────────── */
+    .card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.05);
+      overflow: hidden;
+      position: relative;
+      cursor: none;
+      transition: transform .3s cubic-bezier(.25,.8,.25,1),
+                  border-color .3s, box-shadow .3s;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(168,255,0,.2);
+      box-shadow: 0 24px 60px rgba(0,0,0,.5), 0 0 0 1px rgba(168,255,0,.1);
+    }
+    .card-img-wrap {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      background: #0a0a0a;
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .card-featured .card-img-wrap {
+      aspect-ratio: unset;
+      height: 100%;
+      min-height: 340px;
+    }
+    .card-img-wrap::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(168,255,0,.04) 0%, transparent 70%);
+      pointer-events: none;
+      transition: opacity .3s;
+    }
+    .card:hover .card-img-wrap::before { opacity: 3; }
+    .card-product-svg {
+      width: 75%; max-width: 160px;
+      transition: transform .4s cubic-bezier(.34,1.56,.64,1);
+    }
+    .card:hover .card-product-svg { transform: scale(1.08) translateY(-4px); }
+    .card-featured .card-product-svg { max-width: 220px; }
+
+    /* Badge */
+    .card-badge {
+      position: absolute; top: 14px; left: 14px;
+      font-family: var(--font-h); font-size: .55rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 5px 10px; border-radius: 6px;
+      z-index: 2;
+    }
+    .badge-best { background: var(--lime); color: var(--black); }
+    .badge-new  { background: var(--blue); color: var(--white); }
+    .badge-stack{ background: rgba(255,255,255,.08); color: var(--white); border: 1px solid rgba(255,255,255,.12); }
+
+    /* Wishlist */
+    .card-wish {
+      position: absolute; top: 12px; right: 12px;
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(0,0,0,.5);
+      border: 1px solid rgba(255,255,255,.1);
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color .2s, background .2s, transform .2s;
+      z-index: 2;
+    }
+    .card-wish svg { width: 15px; height: 15px; stroke: var(--gray); fill: none; stroke-width: 1.8; transition: stroke .2s; }
+    .card-wish:hover { border-color: var(--lime); background: rgba(168,255,0,.08); transform: scale(1.1); }
+    .card-wish:hover svg { stroke: var(--lime); }
+    .card-wish.active svg { stroke: var(--lime); fill: var(--lime); }
+
+    /* Quick add overlay */
+    .card-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,.6);
+      display: flex; align-items: flex-end; justify-content: center;
+      padding-bottom: 20px;
+      opacity: 0;
+      transition: opacity .25s;
+      z-index: 3;
+    }
+    .card:hover .card-overlay { opacity: 1; }
+    .btn-quickadd {
+      font-family: var(--font-h); font-size: .62rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      background: var(--lime); color: var(--black);
+      border: none; border-radius: 100px;
+      padding: 11px 24px;
+      cursor: none;
+      transform: translateY(10px);
+      transition: transform .25s cubic-bezier(.34,1.56,.64,1), background .2s;
+    }
+    .card:hover .btn-quickadd { transform: translateY(0); }
+    .btn-quickadd:hover { background: #c8ff2a; }
+
+    /* Card body */
+    .card-body { padding: 18px 18px 20px; }
+    .card-category {
+      font-size: .62rem; letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--gray); font-weight: 500; margin-bottom: 6px;
+    }
+    .card-name {
+      font-family: var(--font-h); font-size: .82rem; font-weight: 700;
+      letter-spacing: 1px; color: var(--white); line-height: 1.3;
+      margin-bottom: 6px;
+    }
+    .card-featured .card-name { font-size: 1.1rem; }
+    .card-desc {
+      font-size: .76rem; color: var(--gray); line-height: 1.5;
+      margin-bottom: 14px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .card-price {
+      font-family: var(--font-h); font-size: 1rem; font-weight: 700;
+      color: var(--lime);
+    }
+    .card-price-old {
+      font-size: .72rem; color: var(--gray); text-decoration: line-through; margin-left: 6px;
+    }
+    .card-rating {
+      display: flex; align-items: center; gap: 5px;
+    }
+    .stars { color: var(--lime); font-size: .7rem; letter-spacing: 1px; }
+    .rating-num { font-size: .68rem; color: var(--gray); }
+
+    /* ─── SECTION DIVIDER BANNER ─────────────────────────────── */
+    .section-banner {
+      margin: 0 48px 56px;
+      padding: 40px 48px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(168,255,0,.06) 0%, rgba(0,123,255,.04) 100%);
+      border: 1px solid rgba(168,255,0,.12);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 32px;
+    }
+    .banner-text {}
+    .banner-kicker {
+      font-size: .62rem; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--lime); font-family: var(--font-h); font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .banner-title {
+      font-family: var(--font-h); font-size: 1.5rem; font-weight: 900;
+      color: var(--white); letter-spacing: 1px;
+    }
+    .banner-title em { font-style: normal; color: var(--lime); }
+    .banner-desc { font-size: .82rem; color: var(--gray); margin-top: 6px; }
+    .btn-banner {
+      white-space: nowrap;
+      font-family: var(--font-h); font-size: .65rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 14px 28px;
+      border-radius: 100px;
+      border: 1.5px solid var(--lime);
+      color: var(--lime); background: transparent;
+      cursor: none;
+      transition: background .2s, color .2s;
+    }
+    .btn-banner:hover { background: var(--lime); color: var(--black); }
+
+    /* ─── SCROLL REVEAL ──────────────────────────────────────── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: .08s; }
+    .reveal-delay-2 { transition-delay: .16s; }
+    .reveal-delay-3 { transition-delay: .24s; }
+    .reveal-delay-4 { transition-delay: .32s; }
+
+    /* ─── TOAST ──────────────────────────────────────────────── */
+    #toast {
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: var(--lime); color: var(--black);
+      font-family: var(--font-h); font-size: .68rem; font-weight: 700; letter-spacing: 2px;
+      padding: 14px 28px; border-radius: 100px;
+      opacity: 0; pointer-events: none; z-index: 9000;
+      transition: opacity .25s, transform .25s;
+      white-space: nowrap;
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ─── CATEGORY LABELS ────────────────────────────────────── */
+    .cat-section { margin-bottom: 0; }
+
+    /* ─── RESPONSIVE ─────────────────────────────────────────── */
+    @media (max-width: 1100px) {
+      .product-grid { grid-template-columns: repeat(3,1fr); }
+      .product-grid.grid-featured { grid-template-columns: repeat(3,1fr); }
+      .product-grid.grid-featured .card-featured { grid-column: span 1; grid-row: span 1; }
+      .card-featured .card-img-wrap { min-height: auto; aspect-ratio: 1/1; }
+    }
+    @media (max-width: 768px) {
+      nav, .filter-bar, .products-section, .page-hero { padding-left: 20px; padding-right: 20px; }
+      .product-grid, .product-grid.grid-featured, .product-grid.grid-3 { grid-template-columns: repeat(2,1fr); }
+      .hero-stats { gap: 28px; }
+      .section-banner { flex-direction: column; margin: 0 20px 40px; }
+    }
+    @media (max-width: 480px) {
+      .product-grid, .product-grid.grid-featured { grid-template-columns: 1fr; }
+      .hero-title { font-size: 2.4rem; }
+    }
+  </style>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="shortcut icon" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600;700&display=swap">
+<style id='gc-unav-styles'>
+
+/* ═══════════════════════════════════════════════════════
+   GLITCH CODE — UNIVERSAL NAV  v1.0
+   ═══════════════════════════════════════════════════════ */
+#gc-unav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 9000;
+  height: 64px;
+  background: rgba(14,14,14,0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(168,255,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  transition: border-color .3s, background .3s;
+  font-family: 'Orbitron', 'Segoe UI', sans-serif;
+}
+#gc-unav.scrolled {
+  background: rgba(14,14,14,0.99);
+  border-bottom-color: rgba(168,255,0,0.14);
+  box-shadow: 0 4px 32px rgba(0,0,0,0.5);
+}
+body {  }
+
+/* LOGO */
+.gc-unav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+.gc-unav-logo-img {
+  height: 36px;
+  width: 36px;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+.gc-unav-logo-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* NAV LINKS */
+.gc-unav-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.gc-unav-link {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.44rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #5A5A5A;
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  transition: color .2s, background .2s;
+  white-space: nowrap;
+}
+.gc-unav-link:hover {
+  color: #FFFFFF;
+  background: rgba(255,255,255,0.05);
+}
+.gc-unav-link.gc-active {
+  color: #A8FF00;
+}
+
+/* ICONS */
+.gc-unav-icons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.gc-unav-icon {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: none;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color .2s, background .2s;
+  color: #5A5A5A;
+}
+.gc-unav-icon:hover {
+  border-color: rgba(168,255,0,0.35);
+  color: #A8FF00;
+  background: rgba(168,255,0,0.05);
+}
+.gc-unav-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  pointer-events: none;
+}
+/* Badge */
+.gc-unav-badge {
+  position: absolute;
+  top: -1px; right: -1px;
+  min-width: 16px;
+  height: 16px;
+  background: #A8FF00;
+  color: #0E0E0E;
+  border-radius: 8px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.35rem;
+  font-weight: 900;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  border: 2px solid #0E0E0E;
+}
+.gc-unav-badge.visible { display: flex; }
+
+/* ── SEARCH OVERLAY ── */
+#gc-search-overlay {
+  position: fixed;
+  top: 64px; left: 0; right: 0;
+  z-index: 8999;
+  background: rgba(14,14,14,0.98);
+  border-bottom: 1px solid rgba(168,255,0,0.12);
+  padding: 0 40px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .35s cubic-bezier(.4,0,.2,1), padding .35s;
+}
+#gc-search-overlay.open {
+  max-height: 120px;
+  padding: 20px 40px;
+}
+.gc-search-inner {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: #161616;
+  border: 1px solid rgba(168,255,0,0.2);
+  border-radius: 12px;
+  padding: 12px 18px;
+}
+.gc-search-inner svg {
+  width: 18px; height: 18px;
+  stroke: #A8FF00; fill: none; stroke-width: 2;
+  flex-shrink: 0;
+}
+#gc-search-input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.9rem;
+  color: #FFFFFF;
+}
+#gc-search-input::placeholder { color: #5A5A5A; }
+.gc-search-hint {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.35rem;
+  letter-spacing: 2px;
+  color: #3a3a3a;
+  white-space: nowrap;
+}
+/* Search results chips */
+.gc-search-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  padding: 0 40px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s;
+}
+.gc-search-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px;
+  background: rgba(168,255,0,0.08);
+  border: 1px solid rgba(168,255,0,0.2);
+  border-radius: 20px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.38rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: #A8FF00;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background .2s;
+}
+.gc-search-chip:hover { background: rgba(168,255,0,0.15); }
+
+/* ── HAMBURGER (MOBILE) ── */
+.gc-unav-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.gc-unav-burger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: #5A5A5A;
+  border-radius: 2px;
+  transition: all .3s;
+}
+.gc-unav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.gc-unav-burger.open span:nth-child(2) { opacity: 0; }
+.gc-unav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ── MOBILE DRAWER ── */
+#gc-mobile-menu {
+  position: fixed;
+  top: 64px; left: 0; right: 0; bottom: 0;
+  z-index: 8998;
+  background: rgba(14,14,14,0.98);
+  backdrop-filter: blur(20px);
+  transform: translateY(-100%);
+  transition: transform .35s cubic-bezier(.4,0,.2,1);
+  overflow-y: auto;
+  padding: 32px 32px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+#gc-mobile-menu.open { transform: translateY(0); }
+.gc-mobile-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: color .2s;
+}
+.gc-mobile-link:hover, .gc-mobile-link.gc-active { color: #A8FF00; }
+.gc-mobile-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+.gc-mobile-icons {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+.gc-mobile-icon-btn {
+  flex: 1;
+  padding: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color .2s;
+}
+.gc-mobile-icon-btn:hover { border-color: rgba(168,255,0,0.3); }
+.gc-mobile-icon-btn svg { width: 18px; height: 18px; stroke: #A8FF00; fill: none; stroke-width: 1.8; }
+.gc-mobile-icon-btn span { font-family: 'Orbitron', sans-serif; font-size: 0.3rem; letter-spacing: 1px; color: #5A5A5A; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  #gc-unav { padding: 0 24px; }
+  .gc-unav-links { gap: 2px; }
+  .gc-unav-link { font-size: 0.38rem; padding: 6px 10px; }
+}
+@media (max-width: 768px) {
+  #gc-unav { padding: 0 20px; }
+  .gc-unav-links { display: none; }
+  .gc-unav-icon:not(.gc-burger-icon) { display: none; }
+  .gc-unav-burger { display: flex; }
+  #gc-search-overlay.open { max-height: 100px; padding: 16px 20px; }
+}
+
+</style>
+<style id='gc-uf-styles'>
+
+/* ═══════════════════════════════════════════════════════
+   GLITCH CODE — UNIVERSAL FOOTER v1.0
+   ═══════════════════════════════════════════════════════ */
+#gc-ufooter {
+  background: #0a0a0a;
+  border-top: 1px solid rgba(255,255,255,.06);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ── NEWSLETTER STRIP ── */
+.gc-uf-news {
+  background: linear-gradient(135deg, rgba(168,255,0,.06) 0%, rgba(0,123,255,.04) 100%);
+  border-bottom: 1px solid rgba(168,255,0,.1);
+  padding: 36px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.gc-uf-news-left { display: flex; flex-direction: column; gap: 4px; }
+.gc-uf-news-tag {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .38rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: #A8FF00; margin-bottom: 2px;
+}
+.gc-uf-news-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .85rem; font-weight: 900;
+  letter-spacing: -.5px; color: #fff;
+}
+.gc-uf-news-sub {
+  font-size: .75rem; color: rgba(255,255,255,.4); margin-top: 2px;
+}
+.gc-uf-news-form {
+  display: flex; gap: 8px; flex-shrink: 0;
+}
+.gc-uf-news-input {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 10px;
+  padding: 11px 18px;
+  font-family: 'Poppins', sans-serif;
+  font-size: .78rem; color: #fff;
+  outline: none; min-width: 240px;
+  transition: border-color .2s;
+}
+.gc-uf-news-input::placeholder { color: rgba(90,90,90,.8); }
+.gc-uf-news-input:focus { border-color: rgba(168,255,0,.4); }
+.gc-uf-news-btn {
+  padding: 11px 22px;
+  background: #A8FF00; color: #0E0E0E;
+  border: none; border-radius: 10px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .42rem; font-weight: 700;
+  letter-spacing: 1px; cursor: pointer;
+  transition: all .2s; white-space: nowrap;
+}
+.gc-uf-news-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(168,255,0,.3);
+}
+
+/* ── MAIN GRID ── */
+.gc-uf-main {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding: 56px 64px 48px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Brand column */
+.gc-uf-brand-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; margin-bottom: 14px;
+}
+.gc-uf-brand-logo img {
+  height: 32px; width: 32px;
+  object-fit: contain;
+  mix-blend-mode: screen;
+}
+.gc-uf-brand-logo-text {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .56rem; font-weight: 700;
+  letter-spacing: 4px; color: #fff;
+  text-transform: uppercase;
+}
+.gc-uf-tagline {
+  font-size: .75rem; color: rgba(255,255,255,.35);
+  line-height: 1.75; max-width: 260px; margin-bottom: 24px;
+}
+.gc-uf-tagline strong { color: rgba(255,255,255,.6); font-weight: 500; }
+
+/* Social */
+.gc-uf-social { display: flex; gap: 10px; margin-bottom: 28px; }
+.gc-uf-social-btn {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  display: flex; align-items: center; justify-content: center;
+  text-decoration: none; cursor: pointer;
+  transition: all .2s;
+}
+.gc-uf-social-btn:hover {
+  border-color: rgba(168,255,0,.3);
+  background: rgba(168,255,0,.06);
+}
+.gc-uf-social-btn svg {
+  width: 16px; height: 16px;
+}
+
+/* Trust badges */
+.gc-uf-badges { display: flex; flex-direction: column; gap: 8px; }
+.gc-uf-badge {
+  display: flex; align-items: center; gap: 8px;
+  font-size: .68rem; color: rgba(255,255,255,.3);
+}
+.gc-uf-badge-icon {
+  font-size: .85rem; flex-shrink: 0;
+}
+
+/* Link columns */
+.gc-uf-col-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: .42rem; font-weight: 700;
+  letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(90,90,90,.8); margin-bottom: 20px;
+}
+.gc-uf-links { display: flex; flex-direction: column; gap: 10px; }
+.gc-uf-links a, .gc-uf-links button {
+  font-size: .76rem; color: rgba(255,255,255,.38);
+  text-decoration: none; cursor: pointer;
+  transition: color .2s; background: none;
+  border: none; text-align: left;
+  padding: 0; font-family: 'Poppins', sans-serif;
+  display: flex; align-items: center; gap: 6px;
+}
+.gc-uf-links a:hover, .gc-uf-links button:hover { color: #fff; }
+.gc-uf-links a.gc-uf-hot {
+  color: rgba(168,255,0,.6);
+}
+.gc-uf-links a.gc-uf-hot:hover { color: #A8FF00; }
+.gc-uf-new-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  background: rgba(168,255,0,.12);
+  border: 1px solid rgba(168,255,0,.2);
+  border-radius: 4px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .3rem; font-weight: 700;
+  letter-spacing: 1px; color: #A8FF00;
+  text-transform: uppercase;
+}
+
+/* ── BOTTOM BAR ── */
+.gc-uf-bottom {
+  border-top: 1px solid rgba(255,255,255,.05);
+  padding: 20px 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.gc-uf-copy {
+  font-size: .65rem; color: rgba(90,90,90,.6);
+}
+.gc-uf-bottom-links {
+  display: flex; gap: 20px; flex-wrap: wrap;
+}
+.gc-uf-bottom-links a {
+  font-size: .62rem; color: rgba(90,90,90,.6);
+  text-decoration: none; transition: color .2s;
+}
+.gc-uf-bottom-links a:hover { color: #A8FF00; }
+.gc-uf-bottom-right {
+  display: flex; align-items: center; gap: 8px;
+}
+.gc-uf-pay-badge {
+  display: flex; align-items: center; gap: 2px;
+  padding: 4px 10px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.07);
+  border-radius: 6px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: .32rem; font-weight: 700;
+  letter-spacing: 1px; color: rgba(255,255,255,.3);
+  text-transform: uppercase;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .gc-uf-main { grid-template-columns: 1fr 1fr; padding: 40px 32px 36px; gap: 32px; }
+  .gc-uf-news { padding: 28px 32px; }
+  .gc-uf-bottom { padding: 16px 32px; }
+}
+@media (max-width: 640px) {
+  .gc-uf-main { grid-template-columns: 1fr; padding: 36px 24px 32px; }
+  .gc-uf-news { flex-direction: column; padding: 24px; gap: 20px; }
+  .gc-uf-news-form { width: 100%; flex-direction: column; }
+  .gc-uf-news-input { min-width: unset; width: 100%; }
+  .gc-uf-bottom { flex-direction: column; align-items: flex-start; padding: 16px 24px; gap: 12px; }
+  .gc-uf-bottom-links { display: none; }
+  .gc-uf-bottom-right { display: none; }
+}
+
+</style>
+<style>
+/* ═══ PRODUCT IMAGES — real alpha channel, no bg removal needed ═══ */
+.gc-prod-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 12px 28px rgba(0,0,0,0.45));
+  transition: transform .4s cubic-bezier(.4,0,.2,1), filter .35s ease;
+}
+.card:hover .gc-prod-img,
+.pcard:hover .gc-prod-img {
+  transform: scale(1.07) translateY(-4px);
+  filter: drop-shadow(0 20px 40px rgba(0,0,0,0.6)) drop-shadow(0 0 18px rgba(168,255,0,0.07));
+}
+.gc-pdp-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 48px rgba(0,0,0,0.5));
+  transition: transform .5s cubic-bezier(.4,0,.2,1), filter .4s ease;
+}
+.gc-pdp-img:hover {
+  transform: scale(1.04) translateY(-6px);
+  filter: drop-shadow(0 28px 56px rgba(0,0,0,0.65)) drop-shadow(0 0 28px rgba(168,255,0,0.09));
+}</style>
+</head>
+
+<body>
+
+<!-- Custom cursor -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+
+<!-- Toast notification -->
+<div id="toast">✓ AÑADIDO AL CARRITO</div>
+
+<!-- ───────────────────────── NAVBAR ─────────────────────────── -->
+<nav id="gc-unav">
+
+  <!-- LOGO -->
+  <a href="home-glitch-popup.html" class="gc-unav-logo" aria-label="Glitch Code - Inicio">
+    <img src="logo-glitch-code.png" alt="Glitch Code" class="gc-unav-logo-img">
+    <span class="gc-unav-logo-text">Glitch Code</span>
+  </a>
+
+  <!-- LINKS CENTRADOS -->
+  <div class="gc-unav-links">
+    <a href="plp-glitch-code.html"              class="gc-unav-link" data-gc-page="productos">Productos</a>
+    <a href="comunidad_blog_glitch_code.html"   class="gc-unav-link" data-gc-page="comunidad">Comunidad</a>
+    <a href="contacto_v2_glitch_code.html"      class="gc-unav-link" data-gc-page="contacto">Contacto</a>
+    <a href="sobre-nosotros.html"               class="gc-unav-link" data-gc-page="nosotros">Sobre nosotros</a>
+  </div>
+
+  <!-- ICONOS DERECHA -->
+  <div class="gc-unav-icons">
+
+    <!-- Lupa / Buscar -->
+    <button class="gc-unav-icon" id="gc-search-btn" aria-label="Buscar" title="Buscar">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </button>
+
+    <!-- Favoritos / Me gusta -->
+    <a href="perfil-usuario-glitch.html" class="gc-unav-icon" aria-label="Mis favoritos" title="Favoritos" id="gc-wish-icon">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span class="gc-unav-badge" id="gc-wish-badge">0</span>
+    </a>
+
+    <!-- Perfil -->
+    <a href="login.html" class="gc-unav-icon" aria-label="Mi cuenta" title="Mi cuenta">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    </a>
+
+    <!-- Carrito -->
+    <a href="carrito.html" class="gc-unav-icon" aria-label="Carrito" title="Carrito" id="gc-cart-nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="gc-unav-badge" id="gc-cart-badge">0</span>
+    </a>
+
+    <!-- Hamburguesa (mobile) -->
+    <button class="gc-unav-burger" id="gc-burger" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
+</nav>
+
+<!-- BUSCADOR OVERLAY -->
+<div id="gc-search-overlay" role="search">
+  <div class="gc-search-inner">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="text" id="gc-search-input" placeholder="Buscar productos, artículos, guías..." autocomplete="off" spellcheck="false">
+    <span class="gc-search-hint">ESC para cerrar</span>
+  </div>
+</div>
+
+<!-- MENÚ MOBILE -->
+<div id="gc-mobile-menu">
+  <a href="home-glitch-popup.html"            class="gc-mobile-link" data-gc-page="inicio">
+    Inicio <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="plp-glitch-code.html"              class="gc-mobile-link" data-gc-page="productos">
+    Productos <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="comunidad_blog_glitch_code.html"   class="gc-mobile-link" data-gc-page="comunidad">
+    Comunidad <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="contacto_v2_glitch_code.html"      class="gc-mobile-link" data-gc-page="contacto">
+    Contacto <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="sobre-nosotros.html"               class="gc-mobile-link" data-gc-page="nosotros">
+    Sobre nosotros <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <a href="legales-glitch-code.html"          class="gc-mobile-link">
+    Legales <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+  </a>
+  <div class="gc-mobile-icons">
+    <button class="gc-mobile-icon-btn" onclick="document.getElementById('gc-mobile-menu').classList.remove('open');document.getElementById('gc-burger').classList.remove('open');document.getElementById('gc-search-btn').click()">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span>Buscar</span>
+    </button>
+    <a href="perfil-usuario-glitch.html" class="gc-mobile-icon-btn">
+      <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      <span>Favoritos</span>
+    </a>
+    <a href="login.html" class="gc-mobile-icon-btn">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span>Mi cuenta</span>
+    </a>
+    <a href="carrito.html" class="gc-mobile-icon-btn" id="gc-cart-mobile">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span>Carrito</span>
+    </a>
+  </div>
+</div>
+
+<!-- ─────────────────────── PAGE HERO ────────────────────────── -->
+<section class="page-hero">
+  <div class="hero-eyebrow">Arsenal completo</div>
+  <h1 class="hero-title">
+    RINDE<br>
+    <em>SIN</em><br>
+    <span class="accent">LÍMITES.</span>
+  </h1>
+  <p class="hero-desc">
+    Suplementación de precisión formulada para atletas que no negocian con su rendimiento. Cada producto, cada dosis, cada resultado.
+  </p>
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">17<span>+</span></div>
+      <div class="stat-label">Productos</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">6</div>
+      <div class="stat-label">Categorías</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">98<span>%</span></div>
+      <div class="stat-label">Satisfacción</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100<span>%</span></div>
+      <div class="stat-label">Pureza</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────── MARQUEE ──────────────────────────── -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <!-- duplicated for seamless loop -->
+    <span class="marquee-item"><span class="dot"></span>Proteína</span>
+    <span class="marquee-item"><span class="dot"></span>Creatina</span>
+    <span class="marquee-item"><span class="dot"></span>Pre-Workout</span>
+    <span class="marquee-item"><span class="dot"></span>Vitaminas</span>
+    <span class="marquee-item"><span class="dot"></span>Omega 3</span>
+    <span class="marquee-item"><span class="dot"></span>Pre-Entrenos</span>
+    <span class="marquee-item"><span class="dot"></span>Colágeno</span>
+    <span class="marquee-item"><span class="dot"></span>Snacks</span>
+    <span class="marquee-item"><span class="dot"></span>Probióticos</span>
+    <span class="marquee-item"><span class="dot"></span>Proteína</span>
+    <span class="marquee-item"><span class="dot"></span>Creatina</span>
+    <span class="marquee-item"><span class="dot"></span>Pre-Workout</span>
+    <span class="marquee-item"><span class="dot"></span>Vitaminas</span>
+    <span class="marquee-item"><span class="dot"></span>Omega 3</span>
+    <span class="marquee-item"><span class="dot"></span>Pre-Entrenos</span>
+    <span class="marquee-item"><span class="dot"></span>Colágeno</span>
+    <span class="marquee-item"><span class="dot"></span>Snacks</span>
+    <span class="marquee-item"><span class="dot"></span>Probióticos</span>
+  </div>
+</div>
+
+<!-- ─────────────────────── FILTER BAR ───────────────────────── -->
+<div class="filter-bar">
+  <div class="filter-inner">
+    <div class="filter-cats">
+      <button class="filter-btn active" data-cat="all">Todo</button>
+      <button class="filter-btn" data-cat="proteinas">Proteínas</button>
+      <button class="filter-btn" data-cat="creatinas">Creatinas</button>
+      <button class="filter-btn" data-cat="suplementos">Pre-Entrenos</button>
+      <button class="filter-btn" data-cat="vitaminas">Vitaminas</button>
+      <button class="filter-btn" data-cat="complementos">Complementos</button>
+      <button class="filter-btn" data-cat="snacks">Snacks</button>
+    </div>
+    <div class="filter-right">
+      <span class="product-count"><strong id="visible-count">17</strong> productos</span>
+      <select class="sort-select" id="sort-select">
+        <option value="default">Destacados</option>
+        <option value="price-asc">Precio: menor</option>
+        <option value="price-desc">Precio: mayor</option>
+        <option value="name">Nombre A-Z</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- ─────────────────────── PRODUCTS ─────────────────────────── -->
+<main class="products-section">
+
+  <!-- ═══ PROTEÍNAS ════════════════════════════════════════════ -->
+  <div class="cat-section" data-category="proteinas">
+    <div class="grid-header reveal">
+      <h2 class="grid-cat-title">Proteínas</h2>
+      <div class="grid-cat-line"></div>
+      <span class="grid-cat-count">02</span>
+    </div>
+    <div class="product-grid grid-featured">
+
+      <!-- Proteína Iso-Tech — FEATURED -->
+      <div class="card card-featured reveal reveal-delay-1"
+           data-cat="proteinas" data-price="45.99" data-name="Proteína Iso-Tech" onclick="window.location.href='pdp_proteina_iso_tech.html'" style="cursor:pointer">
+        <div class="card-img-wrap">
+          <span class="card-badge badge-best">Bestseller</span>
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <!-- Product illustration: protein tub -->
+          <img src="img/producto-proteina-iso-tech.png" alt="Proteína Iso-Tech" class="gc-prod-img" loading="lazy">
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick="event.stopPropagation();GCCart&&GCCart.addItem({id:'proteina-iso-tech',name:'Proteína Iso-Tech',variant:'Vainilla · 2kg',price:45.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Proteínas</div>
+          <div class="card-name">Proteína Iso-Tech</div>
+          <div class="card-desc">Aislado de suero ultrapuro. 28g de proteína por servicio, sin azúcares añadidos. Para el atleta que no acepta compromisos.</div>
+          <div class="card-footer">
+            <div>
+              <span class="card-price">45.99€</span>
+              <span class="card-price-old">52.99€</span>
+            </div>
+            <div class="card-rating">
+              <span class="stars">★★★★★</span>
+              <span class="rating-num">(127)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Proteína Vegana Blend -->
+      <div class="card reveal reveal-delay-2"
+           data-cat="proteinas" data-price="39.99" data-name="Proteína Vegana Blend">
+        <div class="card-img-wrap">
+          <span class="card-badge badge-new">Nuevo</span>
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()">
+            <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+          <svg class="card-product-svg" viewBox="0 0 180 200" fill="none">
+            <rect x="35" y="55" width="110" height="120" rx="12" fill="#1a1a1a" stroke="rgba(0,123,255,0.3)" stroke-width="1.5"/>
+            <rect x="35" y="55" width="110" height="38" rx="12" fill="rgba(0,123,255,0.1)" stroke="rgba(0,123,255,0.3)"/>
+            <rect x="35" y="80" width="110" height="13" fill="#1a1a1a"/>
+            <ellipse cx="90" cy="55" rx="55" ry="9" fill="#222" stroke="rgba(0,123,255,0.2)"/>
+            <text x="90" y="106" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="9" font-weight="900" fill="#007BFF" letter-spacing="1.5">VEGANA</text>
+            <text x="90" y="120" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="7" fill="rgba(255,255,255,0.4)" letter-spacing="2">BLEND</text>
+            <rect x="52" y="130" width="76" height="1" fill="rgba(0,123,255,0.2)"/>
+            <text x="90" y="145" text-anchor="middle" font-family="'Poppins',sans-serif" font-size="7" fill="rgba(255,255,255,0.3)">GUISANTE · ARROZ</text>
+            <circle cx="68" cy="162" r="5" fill="rgba(0,123,255,0.08)" stroke="rgba(0,123,255,0.2)" stroke-width="1"/>
+            <circle cx="90" cy="162" r="5" fill="rgba(0,123,255,0.08)" stroke="rgba(0,123,255,0.2)" stroke-width="1"/>
+            <circle cx="112" cy="162" r="5" fill="rgba(0,123,255,0.08)" stroke="rgba(0,123,255,0.2)" stroke-width="1"/>
+          </svg>
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick="event.stopPropagation();GCCart&&GCCart.addItem({id:'proteina-vegana',name:'Proteína Vegana Blend',variant:'Chocolate · 1kg',price:39.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Proteínas</div>
+          <div class="card-name">Proteína Vegana Blend</div>
+          <div class="card-desc">Mezcla de guisante y arroz. Perfil de aminoácidos completo. Sin comprometer el rendimiento.</div>
+          <div class="card-footer">
+            <span class="card-price">39.99€</span>
+            <div class="card-rating">
+              <span class="stars">★★★★☆</span>
+              <span class="rating-num">(84)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /grid -->
+  </div><!-- /cat proteinas -->
+
+  <!-- ═══ CREATINAS ════════════════════════════════════════════ -->
+  <div class="cat-section" data-category="creatinas">
+    <div class="grid-header reveal">
+      <h2 class="grid-cat-title">Creatinas</h2>
+      <div class="grid-cat-line"></div>
+      <span class="grid-cat-count">03</span>
+    </div>
+    <div class="product-grid">
+
+      <div class="card reveal reveal-delay-1"
+           data-cat="creatinas" data-price="24.99" data-name="Creatina Monohidrato 500g" onclick="window.location.href='pdp_creatina_monohidrato.html'" style="cursor:pointer">
+        <div class="card-img-wrap">
+          <span class="card-badge badge-best">Bestseller</span>
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <img src="img/producto-creatina-monohidrato.png" alt="Creatina Monohidrato 500g" class="gc-prod-img" loading="lazy">
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick=" event.stopPropagation();GCCart&&GCCart.addItem({id:'creatina-mono',name:'Creatina Monohidrato',variant:'Sin sabor · 500g',price:24.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Creatinas</div>
+          <div class="card-name">Creatina Monohidrato 500g</div>
+          <div class="card-desc">Pureza superior al 99.9%. El protocolo más estudiado para fuerza y potencia explosiva.</div>
+          <div class="card-footer">
+            <span class="card-price">24.99€</span>
+            <div class="card-rating"><span class="stars">★★★★★</span><span class="rating-num">(203)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-2"
+           data-cat="creatinas" data-price="29.99" data-name="Creatina HCL Pro">
+        <div class="card-img-wrap">
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <img src="img/producto-creatina-hcl.png" alt="Creatina HCL Pro" class="gc-prod-img" loading="lazy">
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick="event.stopPropagation();GCCart&&GCCart.addItem({id:'creatina-hcl',name:'Creatina HCL Pro',variant:'Sin sabor · 120 caps',price:29.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Creatinas</div>
+          <div class="card-name">Creatina HCL Pro</div>
+          <div class="card-desc">Máxima solubilidad. Sin fases de carga. Absorción superior en dosis reducidas.</div>
+          <div class="card-footer">
+            <span class="card-price">29.99€</span>
+            <div class="card-rating"><span class="stars">★★★★☆</span><span class="rating-num">(91)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-3"
+           data-cat="creatinas" data-price="39.99" data-name="Stack Creatina + Beta-Alanina">
+        <div class="card-img-wrap">
+          <span class="card-badge badge-stack">Stack</span>
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <img src="img/producto-extra-1.png" alt="Stack Creatina + Beta-Alanina" class="gc-prod-img" loading="lazy">
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick=" event.stopPropagation();GCCart&&GCCart.addItem({id:'stack-creatina-beta',name:'Stack Creatina + Beta-Alanina',variant:'Pack ahorro',price:39.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Creatinas · Stack</div>
+          <div class="card-name">Stack Creatina + Beta-Alanina</div>
+          <div class="card-desc">Sinergia máxima. Más fuerza, más resistencia. El combo del atleta serio.</div>
+          <div class="card-footer">
+            <div>
+              <span class="card-price">39.99€</span>
+              <span class="card-price-old">48.00€</span>
+            </div>
+            <div class="card-rating"><span class="stars">★★★★★</span><span class="rating-num">(56)</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /grid -->
+  </div><!-- /cat creatinas -->
+
+  <!-- ═══ BANNER ══════════════════════════════════════════════ -->
+  <div class="section-banner reveal" data-category="all">
+    <div class="banner-text">
+      <div class="banner-kicker">Protocolo recomendado</div>
+      <div class="banner-title">TU STACK <em>GANADOR</em></div>
+      <div class="banner-desc">Iso-Tech + Creatina Monohidrato + Glitch Fuel. El trío que usan los que van en serio.</div>
+    </div>
+    <button class="btn-banner">Armar mi stack →</button>
+  </div>
+
+  <!-- ═══ SUPLEMENTOS ══════════════════════════════════════════ -->
+  <div class="cat-section" data-category="suplementos">
+    <div class="grid-header reveal">
+      <h2 class="grid-cat-title">Pre-Entrenos</h2>
+      <div class="grid-cat-line"></div>
+      <span class="grid-cat-count">01</span>
+    </div>
+    <div class="product-grid">
+
+      <div class="card reveal reveal-delay-1"
+           data-cat="suplementos" data-price="29.99" data-name="Glitch Fuel Pre-Workout">
+        <div class="card-img-wrap">
+          <span class="card-badge badge-best">Bestseller</span>
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <img src="img/producto-preworkout.png" alt="Glitch Fuel Pre-Workout" class="gc-prod-img" loading="lazy">
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick="event.stopPropagation();GCCart&&GCCart.addItem({id:'glitch-fuel',name:'Glitch Fuel Pre-Workout',variant:'Sandía · 300g',price:29.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Pre-Entrenos</div>
+          <div class="card-name">Glitch Fuel Pre-Workout</div>
+          <div class="card-desc">300mg de cafeína + Beta-Alanina + L-Citrulina. Actívate en 20 minutos. Sin techo.</div>
+          <div class="card-footer">
+            <span class="card-price">29.99€</span>
+            <div class="card-rating"><span class="stars">★★★★★</span><span class="rating-num">(178)</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /cat suplementos -->
+
+  <!-- ═══ VITAMINAS ════════════════════════════════════════════ -->
+  <div class="cat-section" data-category="vitaminas">
+    <div class="grid-header reveal">
+      <h2 class="grid-cat-title">Vitaminas</h2>
+      <div class="grid-cat-line"></div>
+      <span class="grid-cat-count">04</span>
+    </div>
+    <div class="product-grid">
+
+      <div class="card reveal reveal-delay-1" data-cat="vitaminas" data-price="12.99" data-name="Vitamina D3 + K2">
+        <div class="card-img-wrap">
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <img src="img/producto-vitamina-d3-k2.png" alt="Vitamina D3 + K2" class="gc-prod-img" loading="lazy">
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick="event.stopPropagation();GCCart&&GCCart.addItem({id:'vitamina-d3-k2',name:'Vitamina D3 + K2',variant:'90 cápsulas',price:12.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Vitaminas</div>
+          <div class="card-name">Vitamina D3 + K2</div>
+          <div class="card-desc">Huesos, inmunidad y hormonas. El dúo que no puede faltar en ningún protocolo.</div>
+          <div class="card-footer">
+            <span class="card-price">12.99€</span>
+            <div class="card-rating"><span class="stars">★★★★☆</span><span class="rating-num">(67)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-2" data-cat="vitaminas" data-price="9.99" data-name="Complejo B6 & B12">
+        <div class="card-img-wrap">
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <img src="img/producto-complejo-b.png" alt="Complejo B6 & B12" class="gc-prod-img" loading="lazy">
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick="event.stopPropagation();GCCart&&GCCart.addItem({id:'complejo-b',name:'Complejo B6 & B12',variant:'60 cápsulas',price:9.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Vitaminas</div>
+          <div class="card-name">Complejo B6 & B12</div>
+          <div class="card-desc">Energía celular real. Función neurológica y formación de glóbulos rojos optimizada.</div>
+          <div class="card-footer">
+            <span class="card-price">9.99€</span>
+            <div class="card-rating"><span class="stars">★★★★☆</span><span class="rating-num">(55)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-3" data-cat="vitaminas" data-price="14.99" data-name="Zinc & Magnesio ZMA">
+        <div class="card-img-wrap">
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <img src="img/producto-zma.png" alt="Zinc & Magnesio ZMA" class="gc-prod-img" loading="lazy">
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick="event.stopPropagation();GCCart&&GCCart.addItem({id:'zma',name:'Zinc & Magnesio ZMA',variant:'90 cápsulas',price:14.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Vitaminas</div>
+          <div class="card-name">Zinc & Magnesio ZMA</div>
+          <div class="card-desc">Recuperación nocturna. Regula testosterona y calidad del sueño. Repara mientras descansas.</div>
+          <div class="card-footer">
+            <span class="card-price">14.99€</span>
+            <div class="card-rating"><span class="stars">★★★★★</span><span class="rating-num">(89)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-4" data-cat="vitaminas" data-price="19.99" data-name="Multivitamínico Sport">
+        <div class="card-img-wrap">
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <img src="img/producto-multivitaminico.png" alt="Multivitamínico Sport" class="gc-prod-img" loading="lazy">
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick="event.stopPropagation();GCCart&&GCCart.addItem({id:'multivitaminico',name:'Multivitamínico Sport',variant:'60 cápsulas',price:19.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Vitaminas</div>
+          <div class="card-name">Multivitamínico Sport</div>
+          <div class="card-desc">30 micronutrientes calibrados para el atleta. Un comprimido. Todo cubierto.</div>
+          <div class="card-footer">
+            <span class="card-price">19.99€</span>
+            <div class="card-rating"><span class="stars">★★★★☆</span><span class="rating-num">(73)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-5" data-cat="vitaminas" data-price="14.99" data-name="Omega 3 2000mg">
+        <div class="card-img-wrap">
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <img src="img/producto-omega3.png" alt="Omega 3 2000mg" class="gc-prod-img" loading="lazy">
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick="event.stopPropagation();GCCart&&GCCart.addItem({id:'omega3',name:'Omega 3 2000mg',variant:'90 perlas',price:14.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Vitaminas</div>
+          <div class="card-name">Omega 3 2000mg</div>
+          <div class="card-desc">EPA + DHA de alta concentración. Inflamación bajo control. Corazón y cerebro a pleno rendimiento.</div>
+          <div class="card-footer">
+            <span class="card-price">14.99€</span>
+            <div class="card-rating"><span class="stars">★★★★☆</span><span class="rating-num">(61)</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /cat vitaminas -->
+
+  <!-- ═══ COMPLEMENTOS ══════════════════════════════════════════ -->
+  <div class="cat-section" data-category="complementos">
+    <div class="grid-header reveal">
+      <h2 class="grid-cat-title">Complementos</h2>
+      <div class="grid-cat-line"></div>
+      <span class="grid-cat-count">04</span>
+    </div>
+    <div class="product-grid grid-3">
+
+      <div class="card reveal reveal-delay-1" data-cat="complementos" data-price="22.99" data-name="Muñequeras Glitch Code">
+        <div class="card-img-wrap">
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <img src="img/producto-extra-4.png" alt="Muñequeras Glitch Code" class="gc-prod-img" loading="lazy">
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick="event.stopPropagation();GCCart&&GCCart.addItem({id:'munequeras-glitch',name:'Muñequeras Glitch Code',variant:'Talla única',price:22.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Complementos</div>
+          <div class="card-name">Muñequeras Glitch Code</div>
+          <div class="card-desc">Soporte y estilo en cada sesión. Muñequeras premium con el sello Glitch Code.</div>
+          <div class="card-footer">
+            <span class="card-price">22.99€</span>
+            <div class="card-rating"><span class="stars">★★★★★</span><span class="rating-num">(34)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-2" data-cat="complementos" data-price="24.99" data-name="Straps Glitch Code">
+        <div class="card-img-wrap">
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <img src="img/producto-extra-5.png" alt="Straps Glitch Code" class="gc-prod-img" loading="lazy">
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick="event.stopPropagation();GCCart&&GCCart.addItem({id:'straps-glitch',name:'Straps Glitch Code',variant:'Talla única',price:24.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Complementos</div>
+          <div class="card-name">Straps Glitch Code</div>
+          <div class="card-desc">Agarre máximo. Straps de alta resistencia para entrenamientos de fuerza sin límites.</div>
+          <div class="card-footer">
+            <span class="card-price">24.99€</span>
+            <div class="card-rating"><span class="stars">★★★★★</span><span class="rating-num">(28)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-3" data-cat="complementos" data-price="22.99" data-name="Colágeno Marino + Vitamina C">
+        <div class="card-img-wrap">
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <svg class="card-product-svg" viewBox="0 0 160 180" fill="none">
+            <rect x="28" y="35" width="104" height="118" rx="12" fill="#161616" stroke="rgba(168,255,0,0.2)" stroke-width="1.5"/>
+            <path d="M60 55 Q70 65 60 75 Q70 85 60 95 Q70 105 60 115" stroke="rgba(168,255,0,0.4)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <path d="M100 55 Q90 65 100 75 Q90 85 100 95 Q90 105 100 115" stroke="rgba(168,255,0,0.4)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <line x1="61" y1="62" x2="99" y2="68" stroke="rgba(168,255,0,0.2)" stroke-width="1"/>
+            <line x1="61" y1="78" x2="99" y2="72" stroke="rgba(168,255,0,0.2)" stroke-width="1"/>
+            <line x1="61" y1="88" x2="99" y2="94" stroke="rgba(168,255,0,0.2)" stroke-width="1"/>
+            <line x1="61" y1="104" x2="99" y2="98" stroke="rgba(168,255,0,0.2)" stroke-width="1"/>
+            <text x="80" y="132" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="8" font-weight="900" fill="#A8FF00" letter-spacing="1">COLÁGENO</text>
+            <text x="80" y="145" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="6.5" fill="rgba(255,255,255,0.3)">MARINO + C</text>
+          </svg>
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick="event.stopPropagation();GCCart&&GCCart.addItem({id:'colageno',name:'Colágeno Marino + Vitamina C',variant:'350g',price:22.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Complementos</div>
+          <div class="card-name">Colágeno Marino + Vitamina C</div>
+          <div class="card-desc">Tejido conectivo y articulaciones reforzadas. Entrena más duro, dura más tiempo.</div>
+          <div class="card-footer">
+            <span class="card-price">22.99€</span>
+            <div class="card-rating"><span class="stars">★★★★★</span><span class="rating-num">(48)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-4" data-cat="complementos" data-price="18.99" data-name="Probióticos Sport 10B">
+        <div class="card-img-wrap">
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <svg class="card-product-svg" viewBox="0 0 160 180" fill="none">
+            <path d="M80 22 L118 36 L118 90 Q118 130 80 146 Q42 130 42 90 L42 36 Z" fill="#161616" stroke="rgba(168,255,0,0.25)" stroke-width="1.5"/>
+            <path d="M80 32 L110 44 L110 90 Q110 122 80 136 Q50 122 50 90 L50 44 Z" fill="rgba(168,255,0,0.03)" stroke="rgba(168,255,0,0.08)"/>
+            <line x1="80" y1="70" x2="80" y2="100" stroke="rgba(168,255,0,0.5)" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="65" y1="85" x2="95" y2="85" stroke="rgba(168,255,0,0.5)" stroke-width="2.5" stroke-linecap="round"/>
+            <text x="80" y="115" text-anchor="middle" font-family="'Orbitron',sans-serif" font-size="7.5" font-weight="900" fill="#A8FF00" letter-spacing="1.5">PROBIÓTICOS</text>
+            <circle cx="60" cy="157" r="4" fill="rgba(168,255,0,0.1)" stroke="rgba(168,255,0,0.3)" stroke-width="1"/>
+            <circle cx="72" cy="162" r="3" fill="rgba(168,255,0,0.08)" stroke="rgba(168,255,0,0.25)" stroke-width="1"/>
+            <circle cx="83" cy="158" r="5" fill="rgba(168,255,0,0.12)" stroke="rgba(168,255,0,0.35)" stroke-width="1"/>
+            <circle cx="96" cy="162" r="3" fill="rgba(168,255,0,0.08)" stroke="rgba(168,255,0,0.2)" stroke-width="1"/>
+            <circle cx="106" cy="157" r="4" fill="rgba(168,255,0,0.1)" stroke="rgba(168,255,0,0.3)" stroke-width="1"/>
+          </svg>
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick="event.stopPropagation();GCCart&&GCCart.addItem({id:'probioticos',name:'Probióticos Sport 10B',variant:'30 cápsulas',price:18.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Complementos</div>
+          <div class="card-name">Probióticos Sport 10B</div>
+          <div class="card-desc">10 billones de UFC. Flora intestinal del deportista de alto rendimiento. Absorción y salud máximas.</div>
+          <div class="card-footer">
+            <span class="card-price">18.99€</span>
+            <div class="card-rating"><span class="stars">★★★★☆</span><span class="rating-num">(37)</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /cat complementos -->
+
+  <!-- ═══ SNACKS ════════════════════════════════════════════════ -->
+  <div class="cat-section" data-category="snacks">
+    <div class="grid-header reveal">
+      <h2 class="grid-cat-title">Snacks Proteicos</h2>
+      <div class="grid-cat-line"></div>
+      <span class="grid-cat-count">04</span>
+    </div>
+    <div class="product-grid">
+
+      <div class="card reveal reveal-delay-1" data-cat="snacks" data-price="2.99" data-name="Barrita Glitch Crunch">
+        <div class="card-img-wrap">
+          <span class="card-badge badge-best">Top ventas</span>
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <img src="img/producto-barrita-crunch.png" alt="Barrita Glitch Crunch" class="gc-prod-img" loading="lazy">
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick="event.stopPropagation();GCCart&&GCCart.addItem({id:'barrita-crunch',name:'Barrita Glitch Crunch',variant:'Chocolate',price:2.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Snacks</div>
+          <div class="card-name">Barrita Glitch Crunch</div>
+          <div class="card-desc">20g de proteína. Crujiente. Sin culpa. El snack que trabaja tan duro como tú.</div>
+          <div class="card-footer">
+            <span class="card-price">2.99€</span>
+            <div class="card-rating"><span class="stars">★★★★★</span><span class="rating-num">(312)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-2" data-cat="snacks" data-price="8.99" data-name="Galletas Protein Cookie">
+        <div class="card-img-wrap">
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <img src="img/producto-galletas-cookie.png" alt="Galletas Protein Cookie" class="gc-prod-img" loading="lazy">
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick="event.stopPropagation();GCCart&&GCCart.addItem({id:'protein-cookie',name:'Galletas Protein Cookie',variant:'Pepitas chocolate · 6 ud',price:8.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Snacks</div>
+          <div class="card-name">Galletas Protein Cookie</div>
+          <div class="card-desc">Sabor real, macro limpio. 15g de proteína por cookie. Rendimiento sin sacrificios.</div>
+          <div class="card-footer">
+            <span class="card-price">8.99€</span>
+            <div class="card-rating"><span class="stars">★★★★☆</span><span class="rating-num">(145)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-3" data-cat="snacks" data-price="1.99" data-name="Protein Chips BBQ">
+        <div class="card-img-wrap">
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <img src="img/producto-extra-2.png" alt="Protein Chips BBQ" class="gc-prod-img" loading="lazy">
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick="event.stopPropagation();GCCart&&GCCart.addItem({id:'protein-chips',name:'Protein Chips BBQ',variant:'30g',price:1.99,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Snacks</div>
+          <div class="card-name">Protein Chips BBQ</div>
+          <div class="card-desc">10g de proteína por bolsa. Crujientes. Intensas. El antojo que no arruina el macro.</div>
+          <div class="card-footer">
+            <span class="card-price">1.99€</span>
+            <div class="card-rating"><span class="stars">★★★★★</span><span class="rating-num">(228)</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal reveal-delay-4" data-cat="snacks" data-price="3.49" data-name="Glitch Shake RTD">
+        <div class="card-img-wrap">
+          <span class="card-badge badge-new">Nuevo</span>
+          <button class="card-wish" aria-label="Favorito" onclick="event.stopPropagation()"><svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          <img src="img/producto-extra-3.png" alt="Glitch Shake RTD" class="gc-prod-img" loading="lazy">
+          <div class="card-overlay">
+            <button class="btn-quickadd" onclick="event.stopPropagation();GCCart&&GCCart.addItem({id:'glitch-shake',name:'Glitch Shake RTD',variant:'Vainilla · 330ml',price:3.49,img:null})">+ Añadir al carrito</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">Snacks</div>
+          <div class="card-name">Glitch Shake RTD</div>
+          <div class="card-desc">25g de proteína. Listo para beber. Sin mezclas, sin esperas. Proteína instantánea donde estés.</div>
+          <div class="card-footer">
+            <span class="card-price">3.49€</span>
+            <div class="card-rating"><span class="stars">★★★★☆</span><span class="rating-num">(97)</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /cat snacks -->
+
+</main>
+
+<!-- ─────────────────────── FOOTER ────────────────────────────── -->
+<footer id="gc-ufooter">
+
+  <!-- NEWSLETTER -->
+  <div class="gc-uf-news">
+    <div class="gc-uf-news-left">
+      <span class="gc-uf-news-tag">Comunidad Glitch Code</span>
+      <span class="gc-uf-news-title">No entrenes solo. Nunca más.</span>
+      <span class="gc-uf-news-sub">Descuentos exclusivos, lanzamientos y contenido antes que nadie.</span>
+    </div>
+    <div class="gc-uf-news-form">
+      <input type="email" class="gc-uf-news-input" id="gc-uf-email"
+        placeholder="tu@email.com" autocomplete="email">
+      <button class="gc-uf-news-btn" onclick="gcUfSubscribe()">Suscribirme</button>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="gc-uf-main">
+
+    <!-- MARCA -->
+    <div>
+      <a href="home-glitch-popup.html" class="gc-uf-brand-logo">
+        <img src="logo-glitch-code.png" alt="Glitch Code">
+        <span class="gc-uf-brand-logo-text">Glitch Code</span>
+      </a>
+      <p class="gc-uf-tagline">
+        Suplementación de alto rendimiento para una <strong>comunidad de verdad</strong>.
+        Cuerpos reales, objetivos reales, resultados reales.
+      </p>
+
+      <div class="gc-uf-social">
+        <!-- Instagram -->
+        <a href="https://instagram.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="Instagram">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5">
+            <rect x="2" y="2" width="20" height="20" rx="5"/>
+            <circle cx="12" cy="12" r="4.5"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="rgba(255,255,255,.5)" stroke="none"/>
+          </svg>
+        </a>
+        <!-- TikTok -->
+        <a href="https://tiktok.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="TikTok">
+          <svg viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.28 6.28 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.73a8.17 8.17 0 0 0 4.78 1.54V6.82a4.85 4.85 0 0 1-1.01-.13z"/>
+          </svg>
+        </a>
+        <!-- YouTube -->
+        <a href="https://youtube.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="YouTube">
+          <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="1.5">
+            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/>
+            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="rgba(255,255,255,.5)"/>
+          </svg>
+        </a>
+        <!-- Twitter/X -->
+        <a href="https://x.com" target="_blank" rel="noopener" class="gc-uf-social-btn" title="X / Twitter">
+          <svg viewBox="0 0 24 24" fill="rgba(255,255,255,.5)">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L2.25 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="gc-uf-badges">
+        <span class="gc-uf-badge"><span class="gc-uf-badge-icon">🔒</span> Pago 100% seguro · SSL</span>
+        <span class="gc-uf-badge"><span class="gc-uf-badge-icon">🚚</span> Envío gratis desde 50€</span>
+        <span class="gc-uf-badge"><span class="gc-uf-badge-icon">↩️</span> Devolución en 14 días</span>
+      </div>
+    </div>
+
+    <!-- PRODUCTOS -->
+    <div>
+      <p class="gc-uf-col-title">Productos</p>
+      <div class="gc-uf-links">
+        <a href="plp-glitch-code.html">Proteínas</a>
+        <a href="plp-glitch-code.html">Creatinas</a>
+        <a href="plp-glitch-code.html">Pre-Workouts</a>
+        <a href="plp-glitch-code.html">Vitaminas</a>
+        <a href="plp-glitch-code.html">Complementos</a>
+        <a href="plp-glitch-code.html">Packs <span class="gc-uf-new-badge">Nuevo</span></a>
+        <a href="plp-glitch-code.html" class="gc-uf-hot">Ver todo →</a>
+      </div>
+    </div>
+
+    <!-- MARCA -->
+    <div>
+      <p class="gc-uf-col-title">Marca</p>
+      <div class="gc-uf-links">
+        <a href="sobre-nosotros.html">Sobre nosotros</a>
+        <a href="comunidad_blog_glitch_code.html">Comunidad</a>
+        <a href="comunidad_blog_glitch_code.html">Blog</a>
+        <a href="embajadores.html">Embajadores</a>
+        <a href="contacto_v2_glitch_code.html">Contacto</a>
+        <a href="rewards.html">Rewards <span class="gc-uf-new-badge">Pronto</span></a>
+      </div>
+    </div>
+
+    <!-- AYUDA -->
+    <div>
+      <p class="gc-uf-col-title">Ayuda</p>
+      <div class="gc-uf-links">
+        <a href="faq.html">Preguntas frecuentes</a>
+        <a href="legales-glitch-code.html#condiciones">Envíos y plazos</a>
+        <a href="legales-glitch-code.html#condiciones">Devoluciones</a>
+        <a href="login.html">Mi cuenta</a>
+        <a href="seguimiento.html">Seguimiento de pedido</a>
+        <a href="legales-glitch-code.html">Textos legales</a>
+      </div>
+    </div>
+
+  </div><!-- /gc-uf-main -->
+
+  <!-- BOTTOM BAR -->
+  <div class="gc-uf-bottom">
+    <span class="gc-uf-copy">© 2025 Glitch Code SA · Zaragoza, España · Todos los derechos reservados.</span>
+    <div class="gc-uf-bottom-links">
+      <a href="legales-glitch-code.html">Aviso legal</a>
+      <a href="legales-glitch-code.html#privacidad">Privacidad</a>
+      <a href="legales-glitch-code.html#cookies">Cookies</a>
+      <a href="legales-glitch-code.html#condiciones">Condiciones generales</a>
+    </div>
+    <div class="gc-uf-bottom-right">
+      <span class="gc-uf-pay-badge">Visa</span>
+      <span class="gc-uf-pay-badge">Mastercard</span>
+      <span class="gc-uf-pay-badge">PayPal</span>
+      <span class="gc-uf-pay-badge">Bizum</span>
+    </div>
+  </div>
+
+</footer>
+
+<!-- ───────────────────────── JS ──────────────────────────────── -->
+<script>
+  // ── Custom cursor ──────────────────────────────────────────
+  const dot  = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.left  = mx + 'px';
+    dot.style.top   = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * .12;
+    ry += (my - ry) * .12;
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a,button,.card,.filter-btn,.sort-select').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  });
+
+  // ── Cart logic ─────────────────────────────────────────────
+  let cartCount = 0;
+  const cartEl  = document.getElementById('cart-count');
+  const toast   = document.getElementById('toast');
+  let toastTimer;
+
+  function addToCart(btn, name, price) { /* replaced by GCCart */ }
+
+  // ── Wishlist toggle ────────────────────────────────────────
+  document.querySelectorAll('.card-wish').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      btn.classList.toggle('active');
+    });
+  });
+
+  // ── Filter ─────────────────────────────────────────────────
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const catSections = document.querySelectorAll('.cat-section');
+  const allCards    = document.querySelectorAll('.card');
+  const countEl    = document.getElementById('visible-count');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cat = btn.dataset.cat;
+
+      let visible = 0;
+
+      catSections.forEach(sec => {
+        const secCat = sec.dataset.category;
+        const show   = cat === 'all' || cat === secCat;
+        sec.style.display = show ? '' : 'none';
+        if (show) {
+          const cards = sec.querySelectorAll('.card');
+          visible += cards.length;
+        }
+      });
+
+      // Banner (data-category="all")
+      document.querySelectorAll('[data-category="all"]').forEach(el => {
+        el.style.display = cat === 'all' ? '' : 'none';
+      });
+
+      if (cat === 'all') visible = 17;
+      countEl.textContent = visible;
+    });
+  });
+
+  // ── Sort ───────────────────────────────────────────────────
+  document.getElementById('sort-select').addEventListener('change', function() {
+    document.querySelectorAll('.product-grid').forEach(grid => {
+      const cards = Array.from(grid.querySelectorAll('.card'));
+      cards.sort((a, b) => {
+        const pa = parseFloat(a.dataset.price);
+        const pb = parseFloat(b.dataset.price);
+        const na = a.dataset.name;
+        const nb = b.dataset.name;
+        if (this.value === 'price-asc')  return pa - pb;
+        if (this.value === 'price-desc') return pb - pa;
+        if (this.value === 'name')       return na.localeCompare(nb);
+        return 0;
+      });
+      cards.forEach(c => grid.appendChild(c));
+    });
+  });
+
+  // ── Scroll reveal ──────────────────────────────────────────
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer  = new IntersectionObserver(entries => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  revealEls.forEach(el => observer.observe(el));
+</script>
+<script src="carrito.js"></script>
+
+<script>
+(function(){
+  // Active link detection
+  var page = window.location.pathname.split('/').pop() || 'home-glitch-popup.html';
+  var map = {
+    'plp-glitch-code.html':             'productos',
+    'pdp_proteina_iso_tech.html':       'productos',
+    'pdp_creatina_monohidrato.html':    'productos',
+    'comunidad_blog_glitch_code.html':  'comunidad',
+    'contacto_v2_glitch_code.html':     'contacto',
+    'sobre-nosotros.html':              'nosotros',
+    'home-glitch-popup.html':           'inicio',
+    'login.html':                       '',
+    'perfil-usuario-glitch.html':       '',
+    'checkout-glitch.html':             '',
+    'legales-glitch-code.html':         '',
+  };
+  var active = map[page];
+  if(active){
+    document.querySelectorAll('[data-gc-page="'+active+'"]').forEach(function(el){
+      el.classList.add('gc-active');
+    });
+  }
+
+  // Scroll effect
+  window.addEventListener('scroll', function(){
+    document.getElementById('gc-unav').classList.toggle('scrolled', window.scrollY > 40);
+  }, {passive:true});
+
+  // Search
+  var searchBtn  = document.getElementById('gc-search-btn');
+  var searchOver = document.getElementById('gc-search-overlay');
+  var searchInp  = document.getElementById('gc-search-input');
+  var searchOpen = false;
+  var PRODUCTS = [
+    {name:'Proteína Iso-Tech', url:'pdp_proteina_iso_tech.html'},
+    {name:'Creatina Monohidrato', url:'pdp_creatina_monohidrato.html'},
+    {name:'Ver todos los productos', url:'plp-glitch-code.html'},
+    {name:'Blog & Comunidad', url:'comunidad_blog_glitch_code.html'},
+    {name:'Sobre nosotros', url:'sobre-nosotros.html'},
+  ];
+
+  function openSearch(){
+    searchOpen = true;
+    searchOver.classList.add('open');
+    searchBtn.style.color = '#A8FF00';
+    setTimeout(function(){ searchInp && searchInp.focus(); }, 350);
+  }
+  function closeSearch(){
+    searchOpen = false;
+    searchOver.classList.remove('open');
+    searchBtn.style.color = '';
+    if(searchInp) searchInp.value = '';
+  }
+  if(searchBtn) searchBtn.addEventListener('click', function(){
+    searchOpen ? closeSearch() : openSearch();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeSearch();
+    if((e.ctrlKey||e.metaKey) && e.key==='k'){ e.preventDefault(); openSearch(); }
+  });
+  if(searchInp){
+    searchInp.addEventListener('input', function(){
+      var val = this.value.toLowerCase().trim();
+      // future: show result chips
+    });
+    searchInp.addEventListener('keydown', function(e){
+      if(e.key==='Enter' && this.value.trim()){
+        window.location.href = 'plp-glitch-code.html';
+      }
+    });
+  }
+
+  // Burger / Mobile menu
+  var burger = document.getElementById('gc-burger');
+  var mobileMenu = document.getElementById('gc-mobile-menu');
+  if(burger && mobileMenu){
+    burger.addEventListener('click', function(){
+      var open = mobileMenu.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+  }
+
+  // Cart badge sync (works with carrito.js)
+  function syncBadge(){
+    if(window.GCCart){
+      var count = GCCart.getCount();
+      var badge = document.getElementById('gc-cart-badge');
+      if(badge){
+        badge.textContent = count;
+        badge.classList.toggle('visible', count > 0);
+      }
+    }
+  }
+  setInterval(syncBadge, 500);
+
+  // Wishlist badge (localStorage based)
+  try{
+    var wCount = parseInt(localStorage.getItem('gc-wishlist-count')||'0');
+    var wb = document.getElementById('gc-wish-badge');
+    if(wb && wCount > 0){
+      wb.textContent = wCount;
+      wb.classList.add('visible');
+    }
+  } catch(e){}
+
+})();
+</script>
+<script src="gc-utils.js"></script>
+<script id="gc-plp-links">
+(function(){
+  var map = {
+    'proteína iso-tech':'pdp_proteina_iso_tech.html',
+    'iso-tech':'pdp_proteina_iso_tech.html',
+    'creatina monohidrato':'pdp_creatina_monohidrato.html',
+    'monohidrato':'pdp_creatina_monohidrato.html'
+  };
+  document.querySelectorAll('.product-card,.prod-card,.pcard,[class*="product-item"],[class*="item-card"]').forEach(function(card){
+    var text = (card.textContent||'').toLowerCase();
+    var target = 'plp-glitch-code.html';
+    Object.keys(map).forEach(function(k){ if(text.indexOf(k)>-1) target=map[k]; });
+    // Make image/name clickable
+    ['img','.product-img','.prod-img','.card-img','.pcard-vis','h2','h3','h4','.product-name','.prod-name'].forEach(function(sel){
+      card.querySelectorAll(sel).forEach(function(el){
+        el.style.cursor='pointer';
+        el.addEventListener('click',function(){ window.location.href=target; });
+      });
+    });
+    // Wrap "Ver producto" / "Ver más" buttons
+    card.querySelectorAll('a,button').forEach(function(btn){
+      var t=(btn.textContent||'').toLowerCase();
+      if(t.includes('ver')||t.includes('detalle')||t.includes('producto')){
+        if(btn.tagName==='A') btn.href=target;
+        else btn.addEventListener('click',function(){ window.location.href=target; });
+      }
+    });
+  });
+})();
+</script>
+
+<script id="gc-uf-js">
+function gcUfSubscribe(){
+  var input = document.getElementById('gc-uf-email');
+  if(!input) return;
+  var email = input.value.trim();
+  var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  if(!valid){
+    input.style.borderColor='rgba(255,79,79,.5)';
+    input.placeholder='Email no válido';
+    setTimeout(function(){ input.style.borderColor=''; input.placeholder='tu@email.com'; },2000);
+    return;
+  }
+  try{
+    var s=JSON.parse(localStorage.getItem('gc_subs')||'[]');
+    if(!s.includes(email)) s.push(email);
+    localStorage.setItem('gc_subs',JSON.stringify(s));
+  }catch(e){}
+  input.value='';
+  var btn = input.nextElementSibling;
+  if(btn){ btn.textContent='✓ Apuntado'; btn.style.background='rgba(168,255,0,.2)'; btn.style.color='#A8FF00'; btn.disabled=true; }
+  if(window.GCToast) GCToast.show('¡Bienvenido a la comunidad! 🎉','success');
+}
+</script>
+</body>
+</html>
