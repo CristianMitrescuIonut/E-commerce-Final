@@ -1322,23 +1322,28 @@ function chQ(d){qty=Math.max(1,qty+d);document.getElementById('qn').textContent=
 let cn=0,tt;
 function addCart(){cn++;document.getElementById('cn').textContent=cn;const t=document.getElementById('toast');t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400);}
 function toggleW(){document.getElementById('wbtn').classList.toggle('on');}
-// REEMPLAZO 2: FUNCIÓN DE PRECIO CON CÁLCULO DE DESCUENTO
+// REEMPLAZO: Función de precio exacta para Proteína
 function setS(el, p){
-  // Quitar clase active de los demás botones y ponérsela al seleccionado
   document.querySelectorAll('.sb').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
   
   // Actualizar el precio principal
   document.getElementById('pd').textContent = p;
   
-  // Calcular y actualizar el precio antiguo (tachado) sumando 7€
-  const numericPrice = parseFloat(p.replace('€', ''));
-  const oldPrice = (numericPrice + 7).toFixed(2) + '€';
+  // Base de datos de tus precios para Proteína
+  const pricing = {
+    '26.99€': { old: '31.99€', save: 'AHORRAS 5€' },
+    '45.99€': { old: '52.99€', save: 'AHORRAS 7€' },
+    '79.99€': { old: '91.99€', save: 'AHORRAS 12€' },
+    '139.99€': { old: '159.99€', save: 'AHORRAS 20€' }
+  };
   
-  // Seleccionar el elemento del precio antiguo y cambiar su texto
-  const oldPriceEl = document.querySelector('.pold');
-  if(oldPriceEl) {
-    oldPriceEl.textContent = oldPrice;
+  // Aplicar el precio tachado y la etiqueta de ahorro si existen en la tabla
+  if (pricing[p]) {
+    const oldPriceEl = document.querySelector('.pold');
+    const saveEl = document.querySelector('.psave');
+    if(oldPriceEl) oldPriceEl.textContent = pricing[p].old;
+    if(saveEl) saveEl.textContent = pricing[p].save;
   }
 }
 function oT(btn,id){document.querySelectorAll('.tabn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tabp').forEach(p=>p.classList.remove('active'));btn.classList.add('active');document.getElementById(id).classList.add('active');}

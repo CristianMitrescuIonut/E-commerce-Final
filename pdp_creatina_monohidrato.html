@@ -1435,15 +1435,36 @@ function addCart(){cn++;document.getElementById('cn').textContent=cn;const t=doc
 let q=1;
 function chQ(d){q=Math.max(1,q+d);document.getElementById('qn').textContent=q;}
 /* Size */
-function setSize(el,price,label,tagText){
-  document.querySelectorAll('.sb,.ftb').forEach(b=>b.classList.remove('active'));
-  // activate matching buttons
-  document.querySelectorAll('.sb,.ftb').forEach(b=>{
-    const t=b.querySelector('.sb-top,.ftb-top');
-    if(t&&t.textContent.trim()===label.trim()) b.classList.add('active');
+// REEMPLAZO: Función de precio exacta para Creatina
+function setSize(el, price, label, tagText){
+  document.querySelectorAll('.sb,.ftb').forEach(b => b.classList.remove('active'));
+  
+  // Activar botones coincidentes
+  document.querySelectorAll('.sb,.ftb').forEach(b => {
+    const t = b.querySelector('.sb-top,.ftb-top');
+    if (t && t.textContent.trim() === label.trim()) b.classList.add('active');
   });
-  document.getElementById('pd').textContent=price;
-  document.getElementById('size-tag').textContent=tagText+' · GLITCH CODE';
+  
+  // Actualizar precio principal y etiqueta de tamaño
+  document.getElementById('pd').textContent = price;
+  if(document.getElementById('size-tag')) {
+    document.getElementById('size-tag').textContent = tagText + ' · GLITCH CODE';
+  }
+
+  // Base de datos de tus precios para Creatina
+  const pricing = {
+    '24.99€': { old: '29.99€', save: 'AHORRAS 5€' },
+    '44.99€': { old: '52.99€', save: 'AHORRAS 8€' },
+    '79.99€': { old: '94.99€', save: 'AHORRAS 15€' }
+  };
+
+  // Aplicar el precio tachado y la etiqueta de ahorro
+  if (pricing[price]) {
+    const oldPriceEl = document.querySelector('.pold');
+    const saveEl = document.querySelector('.psave');
+    if(oldPriceEl) oldPriceEl.textContent = pricing[price].old;
+    if(saveEl) saveEl.textContent = pricing[price].save;
+  }
 }
 /* Protocol */
 const protos={
