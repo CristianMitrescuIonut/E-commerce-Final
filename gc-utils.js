@@ -663,13 +663,7 @@
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
-  const searchBtn = document.getElementById('gc-search-btn');
-  const searchPanel = document.getElementById('gc-search-panel');
-  const searchOverlay = document.getElementById('gc-search-overlay');
-  const searchClose = document.getElementById('gc-search-close');
-  const searchInput = document.getElementById('gc-search-live-input');
-  const searchResults = document.getElementById('gc-search-results');
-
+  /* ---------------- CONFIGURACIÓN BASE ---------------- */
     // Base de datos completa generada a partir de tu tienda
   const dbProductos = [
     {
@@ -786,53 +780,171 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   ];
 
-  // Función para abrir/cerrar el panel
-  const toggleSearchPanel = (e) => {
-    if(e) e.preventDefault();
-    searchPanel.classList.toggle('active');
-    searchOverlay.classList.toggle('active');
+  /* ---------------- GESTOR DE FAVORITOS ---------------- */
+  window.Wishlist = {
+    get: () => JSON.parse(localStorage.getItem('gc_wishlist') || '[]'),
+    save: (list) => localStorage.setItem('gc_wishlist', JSON.stringify(list)),
     
-    // Si se abre, enfocar el input y mostrar todos por defecto
-    if(searchPanel.classList.contains('active')) {
-      searchInput.value = '';
-      renderResults(dbProductos);
-      searchInput.focus();
+    toggle: function(id) {
+      let list = this.get();
+      const index = list.findIndex(p => p.id === id);
+      if (index > -1) {
+        list.splice(index, 1); // Quitar si ya está
+      } else {
+        const prod = dbProductos.find(p => p.id === id);
+        if(prod) list.push(prod); // Añadir
+      }
+      this.save(list);
+      this.updateUI();
+    },
+
+    updateUI: function() {
+      const list = this.get();
+      
+      // 1. Actualizar el contador (badge) del header
+      const badge = document.getElementById('gc-wish-badge');
+      if(badge) badge.textContent = list.length;
+
+      // 2. Pintar corazones del panel de búsqueda y favoritos
+      document.querySelectorAll('.gc-wish-btn').forEach(btn => {
+        const id = btn.getAttribute('data-id');
+        if(list.some(p => p.id === id)) btn.classList.add('active');
+        else btn.classList.remove('active');
+      });
+
+      // 3. Pintar corazones de las tarjetas de la tienda (Catálogo PLP)
+      document.querySelectorAll('.card-wish').forEach(btn => {
+        const card = btn.closest('.card');
+        if(card) {
+          const nombre = card.getAttribute('data-name');
+          const prod = dbProductos.find(p => p.nombre === nombre);
+          if(prod && list.some(p => p.id === prod.id)) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      });
+
+      this.renderPanel();
+    },
+
+    renderPanel: function() {
+      const box = document.getElementById('gc-wish-results');
+      if(!box) return;
+      const list = this.get();
+      box.innerHTML = '';
+      if(list.length === 0) {
+        box.innerHTML = '<p class="gc-search-empty">No tienes favoritos guardados.</p>';
+        return;
+      }
+      
+      list.forEach(prod => {
+        const urlDestino = prod.url === '#' ? 'plp-glitch-code.html' : prod.url;
+        const item = document.createElement('div');
+        item.className = 'gc-search-item';
+        item.innerHTML = `
+          <a href="${urlDestino}" style="display:flex; align-items:center; gap:15px; text-decoration:none; flex-grow:1;">
+            <img src="${prod.img}" alt="${prod.nombre}">
+            <div><h4>${prod.nombre}</h4><p>${prod.precio}</p></div>
+          </a>
+          <button class="gc-wish-btn active" data-id="${prod.id}" onclick="event.preventDefault(); Wishlist.toggle('${prod.id}')">
+            <svg viewBox="0 0 24 24" width="24" height="24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          </button>
+        `;
+        box.appendChild(item);
+      });
     }
   };
 
-  // Eventos de abrir y cerrar
-  if(searchBtn) searchBtn.addEventListener('click', toggleSearchPanel);
-  if(searchClose) searchClose.addEventListener('click', toggleSearchPanel);
-  if(searchOverlay) searchOverlay.addEventListener('click', toggleSearchPanel);
+  /* ---------------- PANELES LATERALES ---------------- */
+  const searchBtn = document.getElementById('gc-search-btn');
+  const searchPanel = document.getElementById('gc-search-panel');
+  const searchClose = document.getElementById('gc-search-close');
+  const searchInput = document.getElementById('gc-search-live-input');
+  const searchResults = document.getElementById('gc-search-results');
+  const searchOverlay = document.getElementById('gc-search-overlay');
 
-  // Función que dibuja los productos en el panel
-  const renderResults = (productos) => {
+  const wishIconHeader = document.getElementById('gc-wish-icon');
+  const wishPanel = document.getElementById('gc-wish-panel');
+  const wishClose = document.getElementById('gc-wish-close');
+
+  const closePanels = () => {
+    if(searchPanel) searchPanel.classList.remove('active');
+    if(wishPanel) wishPanel.classList.remove('active');
+    if(searchOverlay) searchOverlay.classList.remove('active');
+  };
+
+  if(searchOverlay) searchOverlay.addEventListener('click', closePanels);
+  if(searchClose) searchClose.addEventListener('click', closePanels);
+  if(wishClose) wishClose.addEventListener('click', closePanels);
+
+  // Abrir Búsqueda
+  if(searchBtn) searchBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    closePanels();
+    searchPanel.classList.add('active');
+    searchOverlay.classList.add('active');
+    searchInput.value = '';
+    renderSearch(dbProductos);
+    searchInput.focus();
+  });
+
+  // Abrir Favoritos (sobreescribimos el enlace original del perfil)
+  if(wishIconHeader) wishIconHeader.addEventListener('click', (e) => {
+    e.preventDefault();
+    closePanels();
+    wishPanel.classList.add('active');
+    searchOverlay.classList.add('active');
+  });
+
+  /* ---------------- BUSCADOR ---------------- */
+  const renderSearch = (productos) => {
     searchResults.innerHTML = '';
     if(productos.length === 0) {
       searchResults.innerHTML = '<p class="gc-search-empty">No hemos encontrado ningún suplemento.</p>';
       return;
     }
     productos.forEach(prod => {
-      const item = document.createElement('a');
-      item.href = prod.url;
+      // AQUÍ REDIRIGIMOS A LA TIENDA SI EL LINK ES '#'
+      const urlDestino = prod.url === '#' ? 'plp-glitch-code.html' : prod.url;
+      const isFav = Wishlist.get().some(p => p.id === prod.id) ? 'active' : '';
+
+      const item = document.createElement('div');
       item.className = 'gc-search-item';
       item.innerHTML = `
-        <img src="${prod.img}" alt="${prod.nombre}">
-        <div>
-          <h4>${prod.nombre}</h4>
-          <p>${prod.precio}</p>
-        </div>
+        <a href="${urlDestino}" style="display:flex; align-items:center; gap:15px; text-decoration:none; flex-grow:1;">
+          <img src="${prod.img}" alt="${prod.nombre}">
+          <div><h4>${prod.nombre}</h4><p>${prod.precio}</p></div>
+        </a>
+        <button class="gc-wish-btn ${isFav}" data-id="${prod.id}" onclick="event.preventDefault(); Wishlist.toggle('${prod.id}')">
+          <svg viewBox="0 0 24 24" width="24" height="24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        </button>
       `;
       searchResults.appendChild(item);
     });
   };
 
-  // Evento que se dispara cada vez que tecleas
   if(searchInput) {
     searchInput.addEventListener('input', (e) => {
       const termino = e.target.value.toLowerCase().trim();
-      const filtrados = dbProductos.filter(p => p.nombre.toLowerCase().includes(termino));
-      renderResults(filtrados);
+      renderSearch(dbProductos.filter(p => p.nombre.toLowerCase().includes(termino)));
     });
   }
+
+  /* ---------------- ACTIVAR BOTONES DE FAVORITOS EN LA TIENDA (PLP) ---------------- */
+  document.querySelectorAll('.card-wish').forEach(btn => {
+    // Quita el onclick inline que trae tu HTML y usa este listener limpio
+    btn.removeAttribute('onclick'); 
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const card = e.target.closest('.card');
+      if(card) {
+        const nombre = card.getAttribute('data-name');
+        const prod = dbProductos.find(p => p.nombre === nombre);
+        if(prod) Wishlist.toggle(prod.id);
+      }
+    });
+  });
+
+  // Inicializar Interfaz al cargar la página
+  Wishlist.updateUI();
 });

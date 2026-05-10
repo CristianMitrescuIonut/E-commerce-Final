@@ -869,6 +869,24 @@ body {  }
 .gc-search-item p { color: var(--lm); font-size: 14px; margin: 0; font-weight: bold; }
 .gc-search-empty { color: var(--gr); font-size: 14px; text-align: center; margin-top: 20px; }
 
+/* Botones de Favoritos en buscador y panel */
+.gc-wish-btn {
+  background: none; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.gc-wish-btn svg path {
+  fill: transparent;
+  stroke: var(--wh, #FFF);
+  stroke-width: 2;
+  transition: fill 0.3s, stroke 0.3s;
+}
+/* Corazón activo (Rojo) */
+.gc-wish-btn.active svg path,
+.card-wish.active svg path {
+  fill: #FF004D !important;
+  stroke: #FF004D !important;
+}
+
 </style>
 <style>
 /* ═══ HOME PRODUCT IMAGES ═══ */
@@ -2141,6 +2159,17 @@ function gcUfSubscribe(){
   
   <div id="gc-search-results" class="gc-search-results">
     <!-- Los productos aparecerán aquí dinámicamente -->
+  </div>
+</div>
+
+<!-- Panel Lateral de Favoritos -->
+<div id="gc-wish-panel" class="gc-search-panel">
+  <div class="gc-search-header">
+    <h3>Mis Favoritos</h3>
+    <button id="gc-wish-close" class="gc-search-close-btn">&times;</button>
+  </div>
+  <div id="gc-wish-results" class="gc-search-results">
+    <!-- Los productos favoritos aparecerán aquí -->
   </div>
 </div>
 
