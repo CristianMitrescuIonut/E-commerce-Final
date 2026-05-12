@@ -955,9 +955,9 @@ body{padding-top:64px;}
 .gc-search-overlay {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
   background: rgba(0, 0, 0, 0.7); z-index: 999;
-  opacity: 0; visibility: hidden; transition: 0.3s ease;
+  opacity: 0; pointer-events: none; transition: 0.3s ease;
 }
-.gc-search-overlay.active { opacity: 1; visibility: visible; }
+.gc-search-overlay.active { opacity: 1; pointer-events: all; }
 
 /* Panel Lateral */
 .gc-search-panel {
@@ -1067,13 +1067,6 @@ body{padding-top:64px;}
   </div>
 </nav>
 
-<div id="gc-search-overlay">
-  <div class="gc-search-inner">
-    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <input type="text" id="gc-search-input" placeholder="Buscar productos, artículos..." autocomplete="off">
-    <span class="gc-search-hint">ESC para cerrar</span>
-  </div>
-</div>
 <div id="gc-mobile-menu">
   <a href="index.html"           class="gc-mobile-link">Inicio <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>
   <a href="plp-glitch-code.html"             class="gc-mobile-link">Productos <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></a>

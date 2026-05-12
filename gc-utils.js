@@ -872,9 +872,41 @@ document.addEventListener('DOMContentLoaded', () => {
     if(searchOverlay) searchOverlay.classList.remove('active');
   };
 
-  if(searchOverlay) searchOverlay.addEventListener('click', closePanels);
-  if(searchClose) searchClose.addEventListener('click', closePanels);
-  if(wishClose) wishClose.addEventListener('click', closePanels);
+  // Click en documento para cerrar paneles (click afuera)
+  document.addEventListener('click', (e) => {
+    const isClickOnPanel = searchPanel && searchPanel.contains(e.target);
+    const isClickOnWishPanel = wishPanel && wishPanel.contains(e.target);
+    const isClickOnOverlay = searchOverlay && searchOverlay.contains(e.target);
+    const isClickOnBtn = searchBtn && searchBtn.contains(e.target);
+    const isClickOnWishBtn = wishIconHeader && wishIconHeader.contains(e.target);
+    
+    // Si hace click en el overlay o fuera de los paneles, cerrar
+    if(isClickOnOverlay || (!isClickOnPanel && !isClickOnWishPanel && !isClickOnBtn && !isClickOnWishBtn)) {
+      // Verificar si algún panel está abierto
+      if(searchPanel && searchPanel.classList.contains('active')) {
+        closePanels();
+      } else if(wishPanel && wishPanel.classList.contains('active')) {
+        closePanels();
+      }
+    }
+  });
+  
+  // Botones de cierre
+  if(searchClose) searchClose.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closePanels();
+  });
+  if(wishClose) wishClose.addEventListener('click', (e) => {
+    e.stopPropagation();
+    closePanels();
+  });
+  
+  // Tecla Escape para cerrar
+  document.addEventListener('keydown', (e) => {
+    if(e.key === 'Escape') {
+      closePanels();
+    }
+  });
 
   // Abrir Búsqueda
   if(searchBtn) searchBtn.addEventListener('click', (e) => {
